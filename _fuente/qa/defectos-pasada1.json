@@ -1,0 +1,388 @@
+{
+ "index.html": [
+  {
+   "gravedad": "grave",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "En móvil los dos botones fijos «SONIDO: NO» y «BAJO CONSUMO: NO» (abajo a la derecha, x≈248-376, y≈771-830) se quedan encima del texto en TODAS las pantallas: tapan «reales.» del pie Fig. 0 (02), «no funciona» y «Se repite» (03), «única fuente» (04), la foto Fig. 1 (05), los textos de las cifras (06), la descripción de Fundamentos «y qué significa» (07), «ya con la» de Aplicaciones (08), «magnético que / involuntaria» (09), la nota roja (10), el pie del footer «cursos y» (11) y «sin vínculo oficial con la UTP» (12). Son semitransparentes, así que se lee texto mezclado con texto."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "En la portada móvil la regla de temperaturas (300 K … 10 mK, a la derecha, y≈450-575) cae encima del lema «TODO ES VERDAD HASTA QUE LO MIRAS»: «100 mK» se monta sobre «MIRAS» y los números se pegan al titular «Coherencia»."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "Durante el descenso en móvil el titular se ve cortado («Cohere» y el resto recortado en seco a x≈165) mientras el pie Fig. 0 ya aparece encima, a medio fundido, sobre la regla de temperaturas y sobre los botones fijos. Se leen tres capas de texto a la vez sobre la foto; el pie ocupa media pantalla porque a 390 px da cinco líneas."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "2000x1030",
+   "tipo": "imagen",
+   "descripcion": "Relacionado con la queja de «casi no veo imágenes»: en toda la portada solo hay UNA fotografía fija (Fig. 1, img/descenso-final.webp), y es prácticamente el mismo fotograma con que termina el vídeo de la cabecera (comparar con 03.png): el lector ve el mismo chip con destello turquesa dos veces seguidas. El índice «Seis capítulos y cuatro aparatos que se pueden tocar» (06-07) es solo texto, y la sección «El antagonista» tampoco lleva ninguna figura. Las otras 13 imágenes generadas (criostato, iones, fotónica, chip, ingeniera, bell-optica, etc.) solo existen en las páginas interiores. Igual en 1"
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "movil",
+   "descripcion": "En móvil, «Tres cifras para situarse» apila las tres cifras sin aire: «veces más caliente.» queda pegado al «1946» siguiente (06) y «ocultas locales.» pegado al «3» (07). Además cada texto se queda en una columna estrecha de ~170 px, así que la mitad derecha de la banda se ve vacía durante toda la sección."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "1440x900",
+   "tipo": "otro",
+   "descripcion": "El contador animado de las cifras se ve a medio camino al entrar en pantalla: «9 mK» y el año del Nobel como «1910» (a 1440) o «1946» (en móvil, portada-movil/06.png). Un año que sube desde 0 dice fechas falsas mientras corre; en 2000 x 1030 (06.png) acaba en 10 / 2022 / 3, así que el valor final sí es correcto."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "En el footer apilado de móvil los bloques van pegados: los iconos de GitHub/LinkedIn/Instagram tocan la etiqueta «CAPÍTULOS» (casi sin separación) y el último enlace «Contacto» queda pegado a «PARA SEGUIR LEYENDO». Se ve también en 12.png."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "ritmo",
+   "descripcion": "La entradilla grande («Dentro de ese cilindro dorado…») acaba y, apenas ~10 px después, empieza el primer párrafo con la capitular «L». La capitular queda casi tocando la última línea de la entradilla. Mismo caso en 1440/04.png."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "desalineado",
+   "descripcion": "Hay dos márgenes izquierdos distintos: el artículo, «En este número» con su titular y «El antagonista» empiezan en x≈476, pero las cifras, las tarjetas de capítulo y el footer empiezan en x≈368. Por eso el titular «Seis capítulos y cuatro aparatos…» queda sangrado respecto a su propia rejilla de tarjetas justo debajo. Pasa igual en 1440 (182 frente a 72, 07.png)."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "hueco-vacio",
+   "descripcion": "En la banda de cifras a 2000 px cada texto se corta a ~170 px de ancho dentro de columnas de ~430 px, y el tercio derecho (x≈1400-1630) queda vacío. Los textos se ven como tiras estrechas y la banda parece a medio llenar."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "1440x900",
+   "tipo": "otro",
+   "descripcion": "Al final del descenso la regla de temperaturas (300 K, 50 K) cae encima del anillo dorado brillante de la derecha y se lee mal: texto gris claro sobre dorado. En escritorio los conmutadores SONIDO/BAJO CONSUMO se ven sobre el vídeo como rectángulos grises macizos que parecen marcadores de posición (2000/00-03)."
+  }
+ ],
+ "html/fundamentos.html": [
+  {
+   "gravedad": "media",
+   "tamano": "1440x900",
+   "tipo": "hueco-vacio",
+   "descripcion": "Toda la sección «Tres · El instrumento» (section#esfera-de-bloch, fondo vitela) va solo con texto: dice «La esfera de Bloch no es un dibujo bonito» pero no hay esfera. Al final queda el dl.lectura («Estado |+⟩ frente a |−⟩ · Ángulo θ 90° · … · Radio 1,00»), que se lee como la lectura de un instrumento que no está en la página. En 1440 (capturas 07 y 08) la columna de notas se queda vacía unos 700 px por debajo de «El vector se acorta», y la lectura, en mono de 13 px, queda sola a la izquierda con media pantalla vacía a su derecha. En 2000 (fundamentos-2000/06 y 07) pasa lo mismo. Es la única s"
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "texto-cortado",
+   "descripcion": "En móvil la tabla de tiempos de coherencia mide 597 px dentro de un contenedor de 350 px con overflow-x:auto. El caption vive dentro de ese scroll y sale cortado («TIEMPOS DE COHERENCIA PUBLICADOS, CON SU» y se acaba en el borde). Las columnas COMPUERTA y FECHA DEL DATO quedan fuera sin ninguna pista de que se puede desplazar («COMPU», «CZ, 6», «no se midio» cortados). La primera columna se parte en cinco líneas («Transmón / en / producción / · IBM / Heron r2,»). Además, el caption va pegado sin aire a la nota «Declare la secuencia» que tiene justo encima. Sigue igual en fundamentos-movil/25.p"
+  },
+  {
+   "gravedad": "media",
+   "tamano": "1440x900",
+   "tipo": "ritmo",
+   "descripcion": "Alrededor de la tabla el ritmo se rompe. (1) El caption «TIEMPOS DE COHERENCIA PUBLICADOS, CON SU FECHA Y SU ORIGEN» va pegado, a unos 8 px, al párrafo que termina en «la fuente está mal.», sin la pausa que tienen las figuras. (2) Debajo de la tabla, el párrafo gris «Fuentes, por filas: …sin normalizar.» y el siguiente, «Lo que importa no es ninguna de esas cifras…», no tienen separación: parecen el mismo párrafo con dos colores. Se repite en fundamentos-2000/14.png y en fundamentos-movil/25.png."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "1440x900",
+   "tipo": "desalineado",
+   "descripcion": "En la separata oscura, el titular «Lo que destruye el estado.», su rótulo y el párrafo arrancan en x=182 (la columna de texto), pero las dos tarjetas «Capítulo II · Dónde vive un cúbit» y «Capítulo III · Vea girar el vector» (.mitad) arrancan en x=72, 110 px más a la izquierda. Quedan colgando fuera de la columna, con la raya superior más ancha que el texto de arriba. En 2000 ocurre igual (fundamentos-2000/16 y 17)."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "movil",
+   "descripcion": "En el pie de página, en móvil, las columnas se apilan sin separación. La fila de iconos (GitHub, LinkedIn, Instagram, .redes) toca el rótulo «CAPÍTULOS»: el borde inferior de los iconos está a 1 px del texto. El último enlace, «Contacto», va pegado a «PARA SEGUIR LEYENDO». Parece un solo bloque apelmazado. También se ve en fundamentos-movil/30.png."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "En móvil, los dos interruptores fijos «SONIDO: NO» y «BAJO CONSUMO: NO» flotan abajo a la derecha, semitransparentes, encima del texto corrido en todas las pantallas. En 01 tapan «problema de diseño de un algoritmo cuántico». En 09 tapan «el ángulo φ gobierna la fase relativa», en 23 «puede violar», en 27 el titular de la separata y en 30 el aviso legal del pie. Obligan a leer a través de ellos. En escritorio no pasa: allí van en el riel vertical izquierdo."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "390x844",
+   "tipo": "otro",
+   "descripcion": "Hay rótulos repetidos que confunden la estructura. En la sección «Cuatro · La lectura», una nota roja del margen se titula «LO QUE DESTRUYE EL ESTADO», el mismo título que la separata final («Lo que destruye el estado.»). Además, la sección 7 lleva el rótulo «EL ANTAGONISTA» y la separata «SEPARATA · EL ANTAGONISTA» (fundamentos-2000/13 y 16). El lector ve dos veces la misma etiqueta para cosas distintas."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "1440x900",
+   "tipo": "otro",
+   "descripcion": "En la nota «Véalo ocurrir» de la separata, la magnitud «12 s» sale como «12  s», con un hueco muy ancho entre número y unidad. Es el espacio de la monoespaciada dentro de una línea en cursiva. Se ve también en fundamentos-movil/28.png y en fundamentos-2000/16.png."
+  }
+ ],
+ "html/hardware.html": [
+  {
+   "gravedad": "media",
+   "tamano": "2000x1030",
+   "tipo": "ritmo",
+   "descripcion": "En la sección «Seis maneras de sostener un cúbit», el rótulo «MODALIDAD 3/4/5/6» queda pegado a la última línea del párrafo de la modalidad anterior, a unos 20 px («más lento.» y justo debajo «MODALIDAD 5»). Hay menos aire que entre dos líneas del mismo texto, así que el rótulo parece el final del bloque de arriba y no el principio del siguiente. Pasa lo mismo en 05.png (MODALIDAD 1/2) y en 07.png."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "En móvil el defecto de ritmo es más grave. «MODALIDAD 1» sale pegado al final de la nota «CADA DATO CON SU FECHA» («no resultados.» y en la línea siguiente «MODALIDAD 1»). En 10.png, 11.png, 12.png y 13.png cada «MODALIDAD N» toca la última línea del párrafo anterior. Las seis modalidades se leen como un único texto sin cortes."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "2000x1030",
+   "tipo": "ritmo",
+   "descripcion": "El caption de la tabla «TABLA 1 — LAS SEIS MODALIDADES…» queda a unos 20 px del último renglón de las modalidades 5 y 6 («los 12 cúbits.»), sin nada que lo separe. La tabla parece la continuación del texto de las modalidades en vez de una pieza aparte. Se repite en 1440 (08.png) y en móvil (14.png)."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "movil",
+   "descripcion": "En móvil la Tabla 1 no cabe y queda cortada por el borde derecho: se ven «FIDELI», «≈ 99,7», «(clase / Heron» y «(USTC» a medias, y las columnas «Coherencia típica» y «Limitación principal» no aparecen. El contenedor tiene overflow-x:auto, pero nada lo indica visualmente (ni sombra, ni degradado, ni rótulo). El lector ve la tabla truncada y no sabe que puede desplazarla. También se ve en 15.png."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "En el pie de página en móvil, los botones sociales (GitHub, LinkedIn, Instagram) casi tocan el rótulo «CAPÍTULOS»: la fila de iconos termina a unos 425 px y el rótulo empieza a unos 430 px, así que la base de los iconos roza el texto. Tampoco hay aire entre «Contacto» y «PARA SEGUIR LEYENDO». Las tres columnas del pie están apiladas sin separación entre ellas. Se repite en 30.png."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "Las dos píldoras flotantes «SONIDO: NO» y «BAJO CONSUMO: NO» están fijas abajo a la derecha y tapan el texto corrido en casi todas las capturas de móvil. Por ejemplo, en 24.png tapan «coste-beneficio o mayor» y en 30.png «sin vínculo oficial con la UTP». Son semitransparentes, así que el texto de debajo se ve pero no se lee bien. Ocurre también en 00, 01, 09, 12, 13, 14, 22, 23 y 28."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "2000x1030",
+   "tipo": "desalineado",
+   "descripcion": "En la sección de las seis modalidades, el grid de dos columnas empieza en x≈368, más de 100 px a la izquierda de la columna de texto de toda la página (x≈476, donde empiezan el titular, la entradilla y las figuras). Además arranca pegado a la entradilla («hacen falta por cada cúbit lógico.» y justo debajo «MODALIDAD 1»). El salto de caja sin aire da sensación de error de maquetación. En 1440 (06.png) pasa lo mismo: el grid va a x=72 y el texto a x=182."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "escena-3d",
+   "descripcion": "En la Fig. 8 (criostato 3D), el tercio inferior del marco (y 80–268 en esta captura) solo tiene el rótulo fantasma «10 mK / Placa de mezcla», sin geometría: el aparato ya terminó más arriba y queda una franja de papel vacía dentro del marco. Mientras tanto, en la columna derecha hay unos 240 px vacíos entre la tabla de potencias y el pie «FIG. 8» (02.png)."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "En reposo, los botones «ILUMINAR Y MEDIR» y «APAGAR EL LÁSER» de la Fig. 13 enseñan el fantasma de registro (::after con data-fantasma) desplazado 2 px. Con letra mono tan pequeña se lee como texto duplicado o tachado, sobre todo en el botón rojo. Ampliado se ve claramente como una doble impresión sucia. Se repite en 1440 (13.png) y en móvil (20.png)."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "solape",
+   "descripcion": "Las píldoras verticales «SONIDO: NO» y «BAJO CONSUMO: NO», fijas en el borde izquierdo, quedan encima del primer fotograma de la tira de la Fig. 10, que va a sangre (x 14–38, y 790–1010). Se ven como un parche gris sobre la foto. Igual en 1440 (05.png)."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "desalineado",
+   "descripcion": "El glosario «Cinco términos que conviene no confundir» termina en x≈1417. Ese borde no coincide ni con el derecho de las figuras (x≈1308) ni con la columna de notas (1337–1632). La escena de iones de la Fig. 13 (10.png) también acaba en x≈1417. Hay tres anchos distintos en la misma sección y el borde derecho queda desigual. En 1440: glosario hasta 1148, figuras hasta 1037, notas hasta 1368."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "Las tarjetas «Capítulo III · Laboratorio» y «Capítulo IV · Aplicaciones» de la separata oscura no parecen enlaces: no tienen flecha, subrayado ni «Leer →». Además, entre el final de la separata y el filete del pie queda una franja de papel de unos 30 px (y 566–598) que no pertenece a ninguno de los dos bloques."
+  }
+ ],
+ "html/laboratorio.html": [
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "Los dos botones fijos «SONIDO: NO» y «BAJO CONSUMO: NO» (esquina inferior derecha, unos 248-376 px de x por 770-830 px de y) se quedan encima del texto corrido en casi todas las pantallas de móvil. Son semitransparentes y tapan palabras del párrafo: «No son / el simulador» en 02, «su propia cara» y «Bell permiten» en 03, «reconstruir un estado» en 04, «su media. Cada» en 05, la raya de «La ventaja real» en 06, y en 09 el pie legal «Publicación estudiantil sin vínculo oficial con la UTP»."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "En la sección «Cuatro experimentos», los botones de circuito (H·Z·H, Superposición, Par de Bell, GHZ de 3) quedan una pantalla entera por debajo del goniómetro 3D. El texto pide «mire la lectura de pureza» y dice que «la aguja desaparece», pero al pulsarlos ni la esfera ni las lecturas están a la vista. Esa pantalla es solo texto, con la columna derecha casi vacía (unos 440 px de papel entre «El que hay que probar» y «Y ahora arranque el reloj»). Pasa igual a 1440 (02.png) y en móvil (03.png)."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "movil",
+   "descripcion": "En la sección de Grover en móvil, los botones «Una iteración / Resolver y medir / Reiniciar» (06.png) quedan separados del gráfico de barras por el bloque de lecturas apilado y la nota «La ventaja real». Las barras solo aparecen en 07.png, más de 400 px más abajo, así que al pulsar «Una iteración» no se ve cambiar nada."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "En el pie de página en móvil, las columnas apiladas se pegan sin aire. Los iconos de GitHub, LinkedIn e Instagram (y≈125-158) tocan el rótulo «CAPÍTULOS» (y≈165). «Contacto» (y≈345) va seguido casi sin separación de «PARA SEGUIR LEYENDO» (y≈371). En 08.png se ve lo mismo: iconos a y≈666-700 y «CAPÍTULOS» a y≈708."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "Las etiquetas de todos los botones del aparato (H, X, Y, Z, S, T, CNOT, MEDIR, ARRANCAR T2, DESHACER, REINICIAR, y los de Grover y experimentos) salen desdobladas. El «fantasma» azul de ::before, desplazado 2 px, da a tamaño real la impresión de texto tachado o borroso, sobre todo en la mono de 0.78rem. Ampliando se ve claramente doble. Pasa en los tres tamaños."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "1440x900",
+   "tipo": "desalineado",
+   "descripcion": "El gráfico de Grover (.columna-ancha) no se alinea con ningún borde de la retícula. Las pistas acaban en x≈1082 y las cifras «0,25» en x≈1148, en medio del hueco entre la columna de texto (acaba en 928) y el margen (1061-1368), invadiendo el arranque de la columna de notas. A 2000 px (04.png) las cifras quedan en x≈1387-1416, dentro de la columna del margen, que empieza en 1337 y acaba en 1632. Además, en el estado inicial las 16 barras ocupan el 100 % de la pista con el valor 0,25, así que al empezar el gráfico es un muro uniforme sin información."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "390x844",
+   "tipo": "texto-cortado",
+   "descripcion": "En las barras de probabilidad del goniómetro en móvil, la cifra «100,0 %» se parte en dos líneas: «100,0» y «%» debajo. La columna de cifra de 3.4rem no cabe a 390 px."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "390x844",
+   "tipo": "desalineado",
+   "descripcion": "El bloque de lecturas (Elementos / Iteración / P(acierto) / Clásico, y Estado / Pureza… en 01-02.png) sale sangrado unos 16 px (x=36) respecto a todo lo demás (x=20). Su fondo --vitela coincide con el de la sección vitela, así que la caja no se ve y solo queda el sangrado, que parece un error. En escritorio pasa lo mismo: en 2000/00.png «ESTADO» está en x=1353 y «|0⟩» y «Registro de la sesión» en x=1337. En móvil, además, las lecturas se apilan en etiqueta/valor en líneas separadas y ocupan casi media pantalla."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "La navegación de cierre solo ofrece los capítulos anteriores (I Fundamentos y II La máquina). Falta el siguiente, Capítulo IV Aplicaciones, que es la continuación natural del Capítulo III (hardware.html sí enlaza hacia delante a Capítulo IV). El lector llega al final del laboratorio y no tiene un «siguiente»."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "1440x900",
+   "tipo": "solape",
+   "descripcion": "En escritorio, las pestañas verticales fijas «SONIDO: NO / BAJO CONSUMO: NO» (x≈14-38) quedan cruzadas por el filete negro superior del pie (y≈768 a 1440; y≈933 en 2000/04.png). No tapan texto, pero el filete atraviesa la pestaña."
+  }
+ ],
+ "html/aplicaciones.html": [
+  {
+   "gravedad": "grave",
+   "tamano": "390x844",
+   "tipo": "movil",
+   "descripcion": "En móvil la Tabla 1 se sale por la derecha. Solo se ven las columnas «Algoritmo», «Qué acelera» y media «Aceleración real»: el texto queda cortado («Cuadrática, y / demostrablem…», «No demostra…») y la columna «Qué haría falta» no aparece. Nada indica que la tabla se pueda desplazar en horizontal. El pie «TABLA 1 — QUÉ ACELERA CADA ALGORITMO Y QU» también se corta a media palabra. Las filas salen altísimas y con mucho papel vacío (Grover, QAOA en movil/03.png) porque la altura la marca la columna que no se ve."
+  },
+  {
+   "gravedad": "grave",
+   "tamano": "390x844",
+   "tipo": "movil",
+   "descripcion": "La Tabla 2 en móvil es peor. La columna «Qué resuelve» se ve con solo ~50px, cortada contra el borde, y deja una palabra por línea partida («Encaps / de clav / Sustitu / interca…»). Cada fila mide unos 350px de alto y casi todo es papel vacío bajo «FIPS 203 / ML-KEM / CRYSTALS-Kyber» (movil/18, 19 y 20). El pie «TABLA 2 — LOS TRES ESTÁNDARES POSCUÁNTICO / PUBLICADOS POR EL NIST EL 13 DE AGOSTO DE» también se corta por la derecha."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "En móvil los botones fijos «SONIDO: NO» y «BAJO CONSUMO: NO» quedan abajo a la derecha, semitransparentes, encima del texto del cuerpo en todas las pantallas. Tapan palabras de párrafos, de notas y de pies de figura («hoy del orden de…», «Recreación…» en movil/06; «Investigación», «Universidad» en movil/23; «Publicación estudiantil sin vínculo oficial con la UTP» en movil/30). Sobre la separata oscura (movil/27-28) se ven como bloques grises encima del texto."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "2000x1030",
+   "tipo": "ritmo",
+   "descripcion": "El rótulo «TABLA 1 — QUÉ ACELERA CADA ALGORITMO…» queda pegado a la última línea del párrafo anterior («es ajustada: Grover es óptimo.»), con unos 10px de aire. Parece una línea más del texto y no el arranque de una pieza. Pasa igual con la Tabla 2 («…no es comprar: es inventariar.» seguido de «TABLA 2 — …», aplicaciones-2000/09.png y aplicaciones-1440/11.png), a 1440 (aplicaciones-1440/01.png) y en móvil, donde el caption toca la nota del margen (movil/02.png y movil/18.png). Al final de la tabla ocurre lo contrario: el párrafo siguiente arranca a ~25px de la raya inferior (aplicaciones-1440/"
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "1440x900",
+   "tipo": "desalineado",
+   "descripcion": "Las tablas no respetan la retícula. El borde derecho de la Tabla 1 cae en x≈1148 a 1440 (x≈1417 a 2000), pero la figura termina en x≈1038 (1308) y la columna de notas empieza en x≈1061 (1337). Es decir, la tabla invade unos 80–90px la columna del margen. En aplicaciones-1440/02.png la tabla termina a unos 18px de la raya de la nota «FÍSICO NO ES LÓGICO», que está justo en esa franja, así que casi chocan."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "En el pie de página en móvil, el rótulo «CAPÍTULOS» queda pegado bajo los iconos de redes (GitHub/LinkedIn/Instagram), casi tocándolos. «PARA SEGUIR LEYENDO» también queda pegado al último enlace «Contacto», sin aire entre bloques. Las tres columnas del pie apiladas se leen como una sola lista."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "texto-cortado",
+   "descripcion": "En la ficha «LO QUE CUESTA MIGRAR» del margen, la fila ML-KEM-768 hace un salto feo: «clave pública / 1.184 B · cifrado / 1.088 B» a 2000, y a 1440 la segunda línea empieza con «· cifrado» (aplicaciones-1440/10.png). Las cifras quedan separadas de sus unidades."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "En móvil, las cuatro notas del margen de la sección «Cinco frentes» (Tres listones, Inspirado en lo cuántico, Dos máquinas, Lo que la descuantización no tocó) y «Lo que no ha funcionado» se apilan juntas al final de toda la sección, lejos de los párrafos a los que se refieren. Salen casi dos pantallas seguidas de cursiva azul. Pasa lo mismo en movil/16-17 con las notas de criptografía."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "hueco-vacio",
+   "descripcion": "A 2000px la columna de lectura mide solo ~545px (x 476–1020) y entre ella y las notas quedan ~315px de papel vacío (x 1020–1337). En los tramos largos sin notas (aplicaciones-2000/05, 06, 07, 12 y 13; a 1440, 06, 07, 08 y 15) la columna derecha solo lleva una nota fija y el resto de la pantalla es papel. No es un hueco roto, pero cuando el dueño habla de «espacios vacíos» se refiere a esto."
+  }
+ ],
+ "html/acerca-de.html": [
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "Los dos mandos fijos «SONIDO: NO» y «BAJO CONSUMO: NO» (abajo a la derecha, x≈248-376, y≈771-830) son semitransparentes y quedan encima del texto de lectura en casi todas las pantallas del móvil: tapan «Búsqueda y contraste de fuentes, / revisión de» (01), «las tipografías están / piezas 3D» (02), «autoalojadas en» (08), la tarjeta de ficha «FISC · UTP» (00), la nota «El otro sonido» (06), «Read the fine print» (10), «Cómo se verificó» (15), la descripción de «Contacto» en la separata oscura (16) y «sin vínculo oficial con la UTP» en el pie (18). Se lee a la vez el texto y el botón, y los dos "
+  },
+  {
+   "gravedad": "media",
+   "tamano": "1440x900",
+   "tipo": "desalineado",
+   "descripcion": "En «La redacción», el filete azul de la nota «Sobre el rigor» va de x=72 a x≈743, más ancho que la columna de Alejandro (el texto acaba en ≈613) y se mete por debajo de la columna de Marcos, que empieza en x=731: la raya pasa por debajo de «de usabilidad…» (confirmado con recorte). A 2000 px pasa lo mismo: la raya llega a x≈1040 y la columna de Marcos empieza en 1014 (acerca-de-2000/01.png). Además la nota solo cuelga de la columna izquierda y deja vacío el hueco de debajo de Marcos."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "1440x900",
+   "tipo": "hueco-vacio",
+   "descripcion": "Al acabar la bibliografía, la nota «Cómo se verificó» cae sola en la columna del margen, por debajo de la última referencia (y≈318-460), y los dos tercios de la izquierda se quedan vacíos unos 300 px (y≈230-535) antes de la separata oscura. A 2000 px pasa lo mismo (acerca-de-2000/07.png, y≈770-1030). Además el margen (x 1061-1368) se solapa en horizontal con la segunda columna de referencias (x 688-1148 a 1440; 975-1417 frente a 1337 a 2000): la nota no está alineada con nada."
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "En móvil, las fichas del equipo se pegan: «…la validación del formulario.» acaba en y≈635 y el nombre «Marcos Gaitán» empieza en y≈650, sin aire que separe a las dos personas. También el h2 «Dos personas. un reparto claro» (acaba en y≈378) está pegado a «Alejandro Brito Olivera» (y≈395)."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "Pie de página en móvil: los tres iconos sociales (GitHub, LinkedIn, Instagram) tocan el rótulo «CAPÍTULOS»; el borde inferior de los iconos está en y≈782 y el rótulo en y≈790, sin separación (confirmado con recorte). También «Contacto» queda muy pegado a «PARA SEGUIR LEYENDO» (acerca-de-movil/18.png, y≈345→371). Las columnas del pie apiladas no tienen gap vertical."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "desalineado",
+   "descripcion": "En «La redacción», el rótulo y el titular «Dos personas, un reparto claro» empiezan en x=476 (columna de texto), pero las fichas de Alejandro y Marcos que van justo debajo salen hacia fuera y empiezan en x=368. A 1440 es todavía más evidente: 182 frente a 72 (acerca-de-1440/00.png). Pasa lo mismo con las tarjetas «Capítulo VI / Capítulo I» de la separata (acerca-de-2000/08.png). El titular y sus fichas no comparten borde izquierdo. Encima, el titular queda a solo ~40 px de los nombres, menos que en las otras secciones."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "Los dos reproductores de «Para escuchar» dicen «0:00 / 0:00» aunque el rótulo de encima anuncia «51 segundos» y «1 minuto 15». Los archivos existen (audio/narracion.mp3 612 KB, audio/ambiente.mp3 1 MB), pero con preload=\"none\" el navegador no lee la duración, y el reproductor parece vacío o roto. Se ve igual a 1440 (04.png) y en móvil (06.png). Además es el control gris del sistema, que desentona con el papel."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "1440x900",
+   "tipo": "solape",
+   "descripcion": "A 1440 px, el mando vertical fijo «SONIDO: NO» (x≈14-38) monta sobre el borde inferior izquierdo de la tira a sangre de la FIG. 21 (y≈660-670) y sobre la primera miniatura. Además la FIG. 20, que está fija en el margen, se desliza unos 10 px por debajo de la cabecera fija: el marco mide ~194 px frente a los 204 que mide en 05.png, así que se le corta el borde superior."
+  }
+ ],
+ "html/contacto.html": [
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "solape",
+   "descripcion": "En móvil, los dos mandos fijos «SONIDO: NO» y «BAJO CONSUMO: NO» flotan en la esquina inferior derecha y se montan sobre el contenido en todas las pantallas: en 00.png tapan la mitad derecha del campo «nombre@utp.ac.pa»; en 01.png quedan al lado del botón «GUARDAR MENSAJE» y encima del filete de «SEIS CAMPOS VALIDADOS»; en 02.png pisan el filete de la sección «El archivo de datos» y se acercan al botón «LEER EL ARCHIVO»; en 03.png quedan sobre el filete negro del pie y junto al logotipo; en 05.png tapan el texto de los créditos («sin vínculo oficial con la UTP» queda ilegible bajo «SONIDO: NO»"
+  },
+  {
+   "gravedad": "media",
+   "tamano": "390x844",
+   "tipo": "ritmo",
+   "descripcion": "En el pie en móvil, los tres bloques .tercio se apilan sin nada de aire entre ellos: los iconos de GitHub, LinkedIn e Instagram tocan el rótulo «CAPÍTULOS» justo debajo (sin separación), y el último enlace «Contacto» se pega al rótulo «PARA SEGUIR LEYENDO». Se lee como una sola columna amontonada. Pasa lo mismo en 05.png."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "La nota al margen «QUÉ PASA CON SU MENSAJE» parte la frase en tres estilos: «El formulario no manda correo:» en cursiva serif, luego «ESCRIBE CADA MENSAJE EN UN ARCHIVO DE DATOS» en mayúsculas monoespaciadas pequeñas, como si fuera un rótulo, en su propia línea, y luego «del servidor, que es lo que pide…» otra vez en cursiva. El <strong> de la nota toma el estilo de rótulo y la frase se rompe a la vista. Se repite igual en 1440 (00.png) y en móvil (00.png)."
+  },
+  {
+   "gravedad": "leve",
+   "tamano": "2000x1030",
+   "tipo": "otro",
+   "descripcion": "En reposo, el botón «LEER EL ARCHIVO» muestra su texto doble: una capa roja y otra gris azulada desplazadas unos 2 px (el efecto fantasma de data-fantasma). A tamaño real parece una impresión movida o borrosa, no un efecto de registro, y cuesta leer el rótulo. Se ve igual en 1440/02.png y en móvil 02.png y 03.png."
+  }
+ ]
+}

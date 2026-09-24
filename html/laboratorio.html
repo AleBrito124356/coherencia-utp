@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio — Coherencia</title>
+<meta name="description" content="Un simulador cuántico escrito desde cero: aplique puertas a un registro real, vea el vector girar en la esfera de Bloch, mida y compruebe cómo la decoherencia se lleva el estado.">
+<meta name="author" content="Alejandro Brito Olivera y Marcos Gaitán">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="../img/marca.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-pagina="laboratorio">
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="../index.html" aria-label="Coherencia, portada">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Revista de computación cuántica · UTP · N.º 01</span>
+      </span>
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="navegacion" aria-label="Abrir el índice"><span></span></button>
+    <nav class="navegacion" id="navegacion" aria-label="Índice de la revista">
+      <a href="../index.html">Portada</a>
+      <a href="fundamentos.html">Fundamentos</a>
+      <a href="hardware.html">La máquina</a>
+      <a href="laboratorio.html" aria-current="page">Laboratorio</a>
+      <a href="aplicaciones.html">Aplicaciones</a>
+      <a href="acerca-de.html">Acerca de</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="capitulo" id="apertura">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Capítulo III</p>
+        <h1 class="imprime">Laboratorio</h1>
+        <p class="entradilla">
+          Todo lo que se mueve en esta página lo calcula un simulador cuántico escrito para esta
+          revista: <span class="magnitud">550</span> líneas de JavaScript sin librerías, en
+          <a href="../js/cuantica.js">js/cuantica.js</a>. La aguja del aparato no está animada:
+          apunta a donde de verdad está el estado del registro.
+        </p>
+      </div>
+      <aside class="margen">
+        <p class="nota">
+          <b>Cómo leerlo</b>
+          El vector de la esfera es el estado de un cúbit. Arriba, <span class="magnitud">|0⟩</span>;
+          abajo, <span class="magnitud">|1⟩</span>; en el ecuador, las superposiciones a medias.
+          Cuanto más corto es el vector, menos «puro» es el estado.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       El aparato
+       ================================================================== -->
+  <section class="capitulo capitulo--vitela" id="goniometro">
+    <div class="pliego">
+      <!-- El aparato va en la columna de lectura (2-8) y no en la ancha (2-10):
+           la ancha pisa la columna 10 y mandaba la lectura del aparato a una fila
+           de abajo, a casi mil píxeles de la esfera. Así se pulsa una puerta y se
+           ve a la vez el vector y el estado. -->
+      <div class="columna">
+        <figure class="figura imprime">
+          <div class="escena" data-escena="bloch"></div>
+          <div class="mandos" role="group" aria-label="Puertas cuánticas">
+            <button class="mando" type="button" data-puerta="H" data-fantasma="H">H</button>
+            <button class="mando" type="button" data-puerta="X" data-fantasma="X">X</button>
+            <button class="mando" type="button" data-puerta="Y" data-fantasma="Y">Y</button>
+            <button class="mando" type="button" data-puerta="Z" data-fantasma="Z">Z</button>
+            <button class="mando" type="button" data-puerta="S" data-fantasma="S">S</button>
+            <button class="mando" type="button" data-puerta="T" data-fantasma="T">T</button>
+            <button class="mando" type="button" data-accion="cnot" data-fantasma="CNOT">CNOT</button>
+          </div>
+          <div class="mandos" role="group" aria-label="Operaciones del registro">
+            <button class="mando mando--medir" type="button" data-accion="medir" data-fantasma="Medir">Medir</button>
+            <button class="mando" type="button" data-accion="t2" data-fantasma="Arrancar T2">Arrancar T2</button>
+            <button class="mando" type="button" data-accion="deshacer" data-fantasma="Deshacer">Deshacer</button>
+            <button class="mando" type="button" data-accion="reiniciar" data-fantasma="Reiniciar">Reiniciar</button>
+            <span class="mando__grupo">
+              Cúbit activo
+              <button class="mando" type="button" data-cubit="0" data-fantasma="q0" aria-pressed="true">q0</button>
+              <button class="mando" type="button" data-cubit="1" data-fantasma="q1" aria-pressed="false" hidden>q1</button>
+            </span>
+          </div>
+          <!-- Los circuitos de ejemplo van aquí, junto al aparato: una pantalla más
+               abajo, al pulsarlos no se veía ni la esfera ni la lectura. -->
+          <div class="mandos" role="group" aria-label="Circuitos de ejemplo">
+            <span class="mando__grupo">Cargar</span>
+            <button class="mando" type="button" data-ejemplo="interferencia" data-fantasma="H · Z · H">H · Z · H</button>
+            <button class="mando" type="button" data-ejemplo="superposicion" data-fantasma="Superposición">Superposición</button>
+            <button class="mando" type="button" data-ejemplo="bell" data-fantasma="Par de Bell">Par de Bell</button>
+            <button class="mando" type="button" data-ejemplo="ghz" data-fantasma="GHZ de 3">GHZ de 3</button>
+          </div>
+          <figcaption>
+            <b>Fig. 16</b> El goniómetro. La aguja de latón marca el vector de Bloch del cúbit
+            <span class="magnitud">q0</span>, calculado a partir de la matriz densidad reducida
+            del registro completo. <em>Render en tiempo real con Three.js; no es una fotografía.</em>
+          </figcaption>
+        </figure>
+      </div>
+
+      <aside class="margen">
+        <dl class="lectura">
+          <dt>Estado</dt><dd data-salida="estado">1,000 |0⟩</dd>
+          <dt>Pureza</dt><dd><span data-salida="pureza">1,00</span></dd>
+          <dt>Entrelazamiento</dt><dd><span data-salida="entrelazamiento">0,00 (ninguno)</span></dd>
+          <dt>Profundidad</dt><dd><span data-salida="profundidad">0</span> puertas</dd>
+          <dt>Reloj T2</dt><dd><span data-salida="t2">—</span></dd>
+        </dl>
+
+        <div class="barras" data-barras aria-label="Probabilidades de medición"></div>
+
+        <p class="nota" style="margin-top:1.6rem">
+          <b>Registro de la sesión</b>
+          <span data-salida="explicacion">Registro de un cúbit en |0⟩. Aplique una puerta para empezar.</span>
+        </p>
+
+        <ul class="lista-limpia folio" data-tira aria-live="polite" aria-label="Tira de papel del aparato"></ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Circuitos de ejemplo
+       ================================================================== -->
+  <section class="capitulo" id="circuitos">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">Cuatro experimentos</p>
+        <h2 class="imprime">Cargue un circuito y mire qué pasa.</h2>
+        <p>
+          Los cuatro están escritos con las mismas puertas que hay en el panel. No son animaciones
+          grabadas: el simulador los construye y el aparato muestra el resultado.
+        </p>
+        <p class="suave">
+          Están en la tercera fila de mandos del <a href="#goniometro">goniómetro</a>, junto a la
+          esfera: al cargar uno cambian a la vez la aguja, las lecturas y el registro de la sesión.
+        </p>
+        <h3>Lo que enseña el par de Bell</h3>
+        <p>
+          Cargue el par de Bell y mire la lectura de pureza: cae a <span class="magnitud">0,00</span>
+          y el entrelazamiento sube a <span class="magnitud">1,00</span>. La aguja desaparece, y no
+          es un fallo del dibujo. Cuando dos cúbits están máximamente entrelazados, ninguno de los
+          dos tiene estado propio: solo lo tiene el par. El vector de Bloch de cada uno por separado
+          mide exactamente cero.
+        </p>
+        <p>
+          Esa es la diferencia entre entrelazamiento y correlación clásica. Dos monedas pegadas con
+          cinta también salen siempre iguales, pero cada una tiene su propia cara antes de mirarla.
+          Aquí no la hay, y eso es lo que las desigualdades de Bell permiten comprobar en el
+          laboratorio.
+        </p>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>El que hay que probar</b>
+          Cargue <em>H · Z · H</em>. Dos Hadamard seguidas se cancelan y devuelven el cúbit a
+          <span class="magnitud">|0⟩</span>. Meta una Z en medio y el resultado pasa a ser
+          <span class="magnitud">|1⟩</span> con certeza. La Z no cambia ninguna probabilidad:
+          cambia una fase. Eso es la interferencia, y es toda la ventaja cuántica en tres puertas.
+        </p>
+      </aside>
+    </div>
+
+    <!-- Pliego nuevo: una nota pegajosa se desliza por TODO su pliego, no solo por su
+         fila; sin este corte bajaría encima de lo que viene detrás. -->
+    <div class="pliego" style="margin-top:2.2rem">
+      <article class="columna">
+        <h3>Por qué la medición no es leer</h3>
+        <p>
+          Pulse <em>Medir</em> con el registro en superposición. La barra de probabilidad salta a
+          <span class="magnitud">100 %</span> en uno de los resultados y a cero en el resto: el
+          estado ha colapsado. Vuelva a medir y saldrá siempre lo mismo, porque ya no queda
+          superposición que consultar.
+        </p>
+        <p>
+          Medir no es mirar un valor que ya estaba ahí. Es una interacción que convierte
+          información cuántica en un bit clásico y destruye la primera. Por eso reconstruir un
+          estado exige repetir el experimento muchas veces sobre copias preparadas igual, algo que
+          se llama tomografía.
+        </p>
+      </article>
+
+      <aside class="margen">
+        <p class="nota nota--antagonista">
+          <b>Y ahora arranque el reloj</b>
+          Prepare cualquier superposición y pulse <em>Arrancar T2</em>. Nadie está midiendo, pero
+          el estado se va igual: el vector se acorta y cae hacia el polo. En un procesador real eso
+          ocurre en unos cientos de microsegundos. Aquí está estirado a
+          <span class="magnitud">12 s</span> para que se pueda ver.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Grover
+       ================================================================== -->
+  <section class="capitulo capitulo--vitela" id="grover">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">El algoritmo de Grover</p>
+        <h2 class="imprime">Buscar sin mirar, y saber cuándo parar.</h2>
+        <p>
+          Hay <span class="magnitud">16</span> cajas y una sola guarda el premio. Un ordenador
+          clásico tiene que abrirlas de una en una: en promedio, ocho intentos. Grover no las abre:
+          marca la buena con un cambio de signo y luego refleja todas las amplitudes respecto a su
+          media. Cada vuelta empuja un poco más de amplitud hacia la respuesta correcta.
+        </p>
+        <p>
+          Pulse <em>Una iteración</em> varias veces y vigile la barra roja. Sube, sube… y a partir
+          de la cuarta vuelta <strong>baja</strong>. Grover no converge: gira. Si se pasa de
+          iteraciones, el algoritmo se aleja de la respuesta. Por eso el número de vueltas se
+          calcula de antemano, y aquí son <span class="magnitud">3</span>.
+        </p>
+        <div class="mandos" role="group" aria-label="Controles de Grover">
+          <button class="mando" type="button" data-grover="paso" data-fantasma="Una iteración">Una iteración</button>
+          <button class="mando mando--medir" type="button" data-grover="resolver" data-fantasma="Resolver y medir">Resolver y medir</button>
+          <button class="mando" type="button" data-grover="reiniciar" data-fantasma="Reiniciar">Reiniciar</button>
+        </div>
+      </div>
+
+      <aside class="margen">
+        <dl class="lectura">
+          <dt>Elementos</dt><dd><span class="magnitud">16</span></dd>
+          <dt>Iteración</dt><dd><span data-salida="grover-iteracion">0</span> de <span class="magnitud">3</span></dd>
+          <dt>P(acierto)</dt><dd><b data-salida="grover-exito">6,3 %</b></dd>
+          <dt>Clásico</dt><dd>≈ <span class="magnitud">8</span> consultas</dd>
+        </dl>
+        <p class="nota">
+          <b>La ventaja real</b>
+          Grover es <em>cuadrático</em>: pasa de <span class="magnitud">N</span> consultas a
+          <span class="magnitud">√N</span>. Es una mejora seria, pero no convierte lo imposible en
+          posible. Para eso hay que buscar en otra parte, y casi siempre no está.
+        </p>
+      </aside>
+    </div>
+
+    <div class="pliego">
+      <div class="columna-ancha">
+        <div class="barras" data-grover-barras aria-label="Amplitudes de los 16 elementos"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="capitulo capitulo--corto">
+    <div class="pliego">
+      <!-- Anterior a la izquierda y siguiente a la derecha, como en los demás capítulos -->
+      <article class="mitad imprime">
+        <a class="pieza pieza--anterior" href="hardware.html">
+          <p class="folio">Capítulo II · Anterior</p>
+          <h3>La máquina</h3>
+          <p>Por qué hace falta un refrigerador de tres metros para sostener doce segundos de aguja.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="aplicaciones.html">
+          <p class="folio">Capítulo IV · Siguiente</p>
+          <h3>Aplicaciones</h3>
+          <p>Qué se ha demostrado de verdad con máquinas que hacen lo mismo que este simulador, y qué sigue siendo promesa.</p>
+        </a>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="tercio">
+      <a class="marca" href="../index.html">
+        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+          <circle cx="44" cy="50" r="9" fill="currentColor"/>
+          <circle cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+        </svg>
+        <span><span class="marca__nombre">Coherencia</span></span>
+      </a>
+      <p class="suave" style="margin-top:1rem;font-size:.92rem">
+        Revista universitaria de divulgación sobre computación cuántica.
+        Facultad de Ingeniería de Sistemas Computacionales, Universidad Tecnológica de Panamá.
+      </p>
+      <div class="redes" style="margin-top:1.2rem">
+        <a href="https://github.com/AleBrito124356" rel="noopener" aria-label="GitHub del proyecto">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1 4.98 2.1 4.98 3.5zM.2 8h4.6v15H.2V8zm7.4 0h4.4v2.1h.1c.6-1.1 2-2.3 4.2-2.3 4.5 0 5.3 2.9 5.3 6.7V23h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 1.9-2.9 4V23H7.6V8z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 5.3A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.7-7.6a1.05 1.05 0 1 1-1.05-1.05A1.05 1.05 0 0 1 17.7 7.3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="tercio" aria-label="Índice del pie">
+      <h4>Capítulos</h4>
+      <ul>
+        <li><a href="fundamentos.html">Fundamentos</a></li>
+        <li><a href="hardware.html">La máquina</a></li>
+        <li><a href="laboratorio.html">Laboratorio</a></li>
+        <li><a href="aplicaciones.html">Aplicaciones</a></li>
+        <li><a href="acerca-de.html">Acerca de</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="tercio">
+      <h4>Para seguir leyendo</h4>
+      <ul>
+        <li><a href="https://quantum.cloud.ibm.com/docs" rel="noopener">Documentación de IBM Quantum</a> — cursos y acceso real a procesadores.</li>
+        <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST · Criptografía poscuántica</a> — los estándares de 2024.</li>
+      </ul>
+      <h4 style="margin-top:1.6rem">Redacción</h4>
+      <address>
+        Campus Dr. Víctor Levi Sasso<br>
+        Ciudad de Panamá<br>
+        <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a>
+      </address>
+    </div>
+
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Parcial N.º 1 · Ingeniería Web · Dra. Denis Cedeño · Grupo 1SF134</span>
+      <span>Publicación estudiantil sin vínculo oficial con la UTP</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos-fijos">
+  <button class="mando" type="button" data-audio aria-pressed="false">Sonido: no</button>
+  <button class="mando" type="button" data-bajo-consumo aria-pressed="false">Bajo consumo: no</button>
+</div>
+
+<script src="../js/cuantica.js"></script>
+<script src="../js/escena3d.js?v=2026-09-23"></script>
+<script src="../js/sitio.js" defer></script>
+<script src="../js/piezas.js" defer></script>
+</body>
+</html>

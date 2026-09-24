@@ -1,0 +1,2020 @@
+/* ==========================================================================
+   estilo.css — Coherencia · Revista de computación cuántica
+   Parcial N.º 1 de Ingeniería Web · Universidad Tecnológica de Panamá
+   Brito & Gaitán · 2026
+
+   DIRECCIÓN DE ARTE — «Tinta Fría»
+   El sitio es una revista científica impresa que alguien está leyendo, y el
+   papel se comporta como papel: retícula de 12 columnas, márgenes anchos,
+   notas al margen en cursiva, figuras numeradas con su pie, dos tintas y una
+   señal roja de corrector.
+
+   REGLA QUE GOBIERNA TODO:
+   el papel está quieto, lo cuántico fluctúa, la atención del lector mide.
+   Por eso ninguna animación es decorativa: cada una representa una medición.
+
+   LEY DE LUZ (vale también para las piezas 3D):
+   nada emite luz propia salvo lo que físicamente la emite. Ni bloom, ni
+   halos, ni degradados luminosos: toda la luz entra desde fuera del objeto.
+
+   ÍNDICE
+     1. Tokens
+     2. Base y retícula
+     3. Tipografía
+     4. Navegación y marca
+     5. El descenso (héroe con vídeo conducido por el scroll)
+     6. Figuras, piezas 3D y aparatos
+     7. Notas al margen, tablas y listas
+     8. Separata en huecograbado
+     9. Formulario
+    10. Pie de página
+    11. Movimiento
+    12. Adaptación a pantallas pequeñas e impresión
+   ========================================================================== */
+
+@import url("tipografias.css");
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  /* Tintas. Seis colores, cada uno con su trabajo. */
+  --papel: #f2efe6;           /* fondo maestro: papel offset de 120 g */
+  --vitela: #e7e1d1;          /* segundo papel: bandas, tablas, cajas */
+  --claro: #fbf8f1;           /* luz del papel: cajas sobre vitela */
+  --tinta: #17181b;           /* tinta primaria (15:1 sobre papel) */
+  --prusia: #1c3a5b;          /* segunda tinta, la del plano técnico */
+  --cinabrio: #be3a26;        /* señal única: la medición. Máximo 3 % */
+  --cobre: #a9632a;           /* material: jamás texto de lectura */
+  --plomo: #6e6c66;           /* texto secundario, pies, metadatos */
+  --huecograbado: #0e1013;    /* tinta plena de la separata */
+
+  /* Variables que leen las escenas 3D (js/escena3d.js) */
+  --c3d-papel: #f2efe6;
+  --c3d-claro: #fbf8f1;
+  --c3d-tinta: #17181b;
+  --c3d-prusia: #1c3a5b;
+  --c3d-cinabrio: #be3a26;
+  --c3d-cobre: #a9632a;
+  --c3d-plomo: #6e6c66;
+  --c3d-huecograbado: #0e1013;   /* el interior de la cámara de vacío */
+
+  /* Familias */
+  --display: "Bodoni Moda", "Didot", "Bodoni MT", "Times New Roman", serif;
+  --texto: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  /* Escala tipográfica: parámetros de revista, no de landing */
+  --cuerpo: 1.1875rem;        /* 19 px */
+  --interlinea: 1.58;
+  --medida: 34rem;            /* 62-68 caracteres */
+
+  /* Retícula */
+  --columnas: 12;
+  --via: clamp(0.9rem, 1.6vw, 1.75rem);
+  --margen-pagina: clamp(1.25rem, 5vw, 5.5rem);
+  --ancho-maximo: 90rem;
+
+  /* Ritmo vertical */
+  --capitulo: clamp(2.75rem, 5vw, 5rem);   /* antes llegaba a 9rem: 288 px de papel vacío entre secciones */
+  --parrafo: 1.15em;
+
+  /* Movimiento: dos velocidades y una sola curva */
+  --dedo: 180ms;              /* responde al dedo: hover, foco, pulsación */
+  --estado: 420ms;            /* cambio de estado: figura, capítulo, medida */
+  --curva: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Filetes */
+  --filete: 0.5px solid color-mix(in srgb, var(--tinta) 28%, transparent);
+  --filete-fuerte: 2px solid var(--tinta);
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE Y RETÍCULA
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* El ancla de los enlaces internos no se mete debajo de la cabecera */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  background-color: var(--papel);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: var(--cuerpo);
+  line-height: var(--interlinea);
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* Grano del papel: una sola capa fija, muy tenue. No es un filtro en vivo
+   sobre el contenido, es una textura encima, y se apaga en modo bajo consumo. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+body.bajo-consumo::after { display: none; }
+
+img,
+video,
+canvas,
+svg { max-width: 100%; display: block; }
+
+figure { margin: 0; }
+
+::selection {
+  background: color-mix(in srgb, var(--cinabrio) 22%, transparent);
+  color: var(--tinta);
+}
+
+/* La retícula de 12 columnas sobre la que se compone toda la revista */
+.pliego {
+  display: grid;
+  grid-template-columns: repeat(var(--columnas), minmax(0, 1fr));
+  gap: 0 var(--via);
+  max-width: var(--ancho-maximo);
+  margin-inline: auto;
+  padding-inline: var(--margen-pagina);
+}
+
+.columna { grid-column: 2 / span 7; }        /* la columna de lectura */
+.columna-ancha { grid-column: 2 / span 9; }
+.margen { grid-column: 10 / span 3; }        /* notas al margen */
+.todo { grid-column: 1 / -1; }
+.mitad { grid-column: span 6; }
+.tercio { grid-column: span 4; }
+
+.sangre {
+  grid-column: 1 / -1;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+.capitulo { padding-block: var(--capitulo); }
+.capitulo--corto { padding-block: calc(var(--capitulo) * 0.55); }
+.capitulo--vitela { background: var(--vitela); }
+
+/* Salto al contenido para teclado */
+.saltar {
+  position: absolute;
+  left: 1rem;
+  top: -6rem;
+  z-index: 1200;
+  background: var(--tinta);
+  color: var(--papel);
+  padding: 0.7rem 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: top var(--dedo) var(--curva);
+}
+.saltar:focus { top: 1rem; }
+
+/* --------------------------------------------------------------------------
+   3. TIPOGRAFÍA
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.005em;
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.8rem, 7.2vw, 6.4rem);
+  font-variation-settings: "opsz" 96;
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.012em;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-variation-settings: "opsz" 72;
+  margin-bottom: 0.6em;
+}
+
+h3 {
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  font-variation-settings: "opsz" 36;
+  margin-bottom: 0.45em;
+}
+
+h4 {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--plomo);
+  margin-bottom: 1.1em;
+}
+
+p { margin: 0 0 var(--parrafo); max-width: var(--medida); text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+.entradilla {
+  font-size: clamp(1.25rem, 1.7vw, 1.55rem);
+  line-height: 1.44;
+  color: var(--tinta);
+  max-width: 40rem;
+}
+
+.entradilla--suelta { font-style: italic; color: var(--prusia); }
+
+/* La letra capital con la que arranca cada capítulo, como en la revista */
+.capitular::first-letter {
+  font-family: var(--display);
+  font-variation-settings: "opsz" 96;
+  font-size: 3.9em;
+  line-height: 0.82;
+  float: left;
+  padding: 0.06em 0.08em 0 0;
+  color: var(--tinta);
+}
+
+a {
+  color: var(--prusia);
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 0.22em;
+  transition: color var(--dedo) var(--curva);
+}
+a:hover { color: var(--cinabrio); }
+
+strong, b { font-weight: 600; }
+em, i { font-style: italic; }
+
+abbr[title] { text-decoration: underline dotted 0.5px; cursor: help; }
+
+/* Las magnitudes físicas van siempre en monoespaciada y sin partirse */
+.magnitud,
+.dato,
+time,
+kbd {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-size: 0.88em;
+  white-space: nowrap;
+}
+
+.folio {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--plomo);
+}
+
+.rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--plomo);
+  margin-bottom: 1.4rem;
+}
+.rotulo::before {
+  content: "";
+  width: 1.6rem;
+  height: 2px;
+  background: var(--cinabrio);
+  flex: none;
+}
+
+.corrector { color: var(--cinabrio); }
+.suave { color: var(--plomo); }
+.prusia { color: var(--prusia); }
+
+/* --------------------------------------------------------------------------
+   4. NAVEGACIÓN Y MARCA
+   -------------------------------------------------------------------------- */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 800;
+  background: color-mix(in srgb, var(--papel) 92%, transparent);
+  -webkit-backdrop-filter: saturate(120%) blur(8px);
+  backdrop-filter: saturate(120%) blur(8px);
+  border-bottom: var(--filete);
+}
+
+.cabecera__interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: var(--ancho-maximo);
+  margin-inline: auto;
+  padding: 0.85rem var(--margen-pagina);
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--tinta);
+}
+.marca svg { width: 2.1rem; height: 2.1rem; flex: none; }
+.marca__nombre {
+  font-family: var(--display);
+  font-variation-settings: "opsz" 36;
+  font-size: 1.32rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.marca__pie {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.17em;
+  color: var(--plomo);
+  margin-top: 0.22rem;
+  text-transform: uppercase;
+}
+
+/* Los dos puntos del registro respiran, y colapsan al medir */
+.marca__punto { transition: transform var(--estado) var(--curva); }
+body.midiendo .marca__punto--tinta { transform: translateX(6px); }
+body.midiendo .marca__punto--rojo { transform: translateX(-6px); opacity: 0; }
+
+.navegacion { display: flex; align-items: center; gap: clamp(0.9rem, 1.5vw, 1.5rem); }
+
+.navegacion a {
+  position: relative;
+  font-family: var(--mono);
+  font-size: clamp(0.68rem, 0.82vw, 0.76rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tinta);
+  text-decoration: none;
+  padding-block: 0.3rem;
+  white-space: nowrap;
+}
+.navegacion a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--cinabrio);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dedo) var(--curva);
+}
+.navegacion a:hover::after,
+.navegacion a:focus-visible::after,
+.navegacion a[aria-current="page"]::after { transform: scaleX(1); }
+.navegacion a[aria-current="page"] { color: var(--cinabrio); }
+
+.menu-boton {
+  display: none;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: var(--filete);
+  background: var(--claro);
+  padding: 0;
+  cursor: pointer;
+}
+.menu-boton span,
+.menu-boton span::before,
+.menu-boton span::after {
+  display: block;
+  width: 1.05rem;
+  height: 1.5px;
+  background: var(--tinta);
+  margin-inline: auto;
+  transition: transform var(--dedo) var(--curva);
+}
+.menu-boton span::before,
+.menu-boton span::after { content: ""; position: relative; }
+.menu-boton span::before { top: -5px; }
+.menu-boton span::after { top: 3.5px; }
+.menu-boton[aria-expanded="true"] span { background: transparent; }
+.menu-boton[aria-expanded="true"] span::before { transform: translateY(5px) rotate(45deg); }
+.menu-boton[aria-expanded="true"] span::after { transform: translateY(-3.5px) rotate(-45deg); }
+
+/* --------------------------------------------------------------------------
+   5. EL DESCENSO — héroe con vídeo conducido por el scroll
+   -------------------------------------------------------------------------- */
+.descenso { position: relative; height: 340vh; background: var(--huecograbado); }
+.descenso__escenario {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--huecograbado);
+}
+
+.descenso__video,
+.descenso__lienzo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.descenso__lienzo { display: none; }
+.descenso.usa-secuencia .descenso__video { display: none; }
+.descenso.usa-secuencia .descenso__lienzo { display: block; }
+
+.descenso__velo {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(14, 16, 19, 0.72) 0%, rgba(14, 16, 19, 0.15) 32%, rgba(14, 16, 19, 0.2) 64%, rgba(14, 16, 19, 0.85) 100%);
+}
+
+.descenso__texto {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  color: var(--papel);
+}
+.descenso__texto .pliego { width: 100%; }
+
+.descenso__titular {
+  grid-column: 2 / span 8;
+  font-size: clamp(3.2rem, 11vw, 9.5rem);
+  font-variation-settings: "opsz" 96;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.018em;
+  color: var(--papel);
+  margin: 0;
+  /* Se dibuja de izquierda a derecha, como una pasada de tinta */
+  clip-path: inset(0 calc(100% - var(--entintado, 0%)) 0 0);
+}
+
+.descenso__lema {
+  grid-column: 2 / span 5;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--papel) 72%, transparent);
+  margin-top: 1.4rem;
+  opacity: var(--lema-visible, 0);
+  transition: opacity var(--estado) var(--curva);
+}
+
+.descenso__pie {
+  position: absolute;
+  left: var(--margen-pagina);
+  bottom: 2.4rem;
+  max-width: 30rem;
+  color: color-mix(in srgb, var(--papel) 80%, transparent);
+  font-size: 0.92rem;
+  opacity: var(--pie-visible, 0);
+  transition: opacity var(--estado) var(--curva);
+}
+.descenso__pie .folio { color: var(--cobre); display: block; margin-bottom: 0.3rem; }
+
+/* Regla de temperatura: además de indicador, es navegación */
+.termometro {
+  position: absolute;
+  right: var(--margen-pagina);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  z-index: 3;
+}
+.termometro__linea {
+  position: absolute;
+  right: 0.42rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--papel) 26%, transparent);
+}
+.termometro__linea::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: calc(var(--progreso, 0) * 100%);
+  background: var(--cobre);
+}
+.termometro__marca {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  background: none;
+  border: 0;
+  color: color-mix(in srgb, var(--papel) 55%, transparent);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: color var(--dedo) var(--curva);
+}
+.termometro__marca::after {
+  content: "";
+  width: 0.85rem;
+  height: 1px;
+  background: currentColor;
+}
+.termometro__marca[aria-current="true"] { color: var(--papel); }
+.termometro__marca[aria-current="true"]::after { background: var(--cobre); height: 2px; }
+.termometro__marca:hover { color: var(--papel); }
+
+.descenso__saltar {
+  position: absolute;
+  left: 50%;
+  bottom: 1.4rem;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--papel) 55%, transparent);
+  text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--papel) 28%, transparent);
+  padding: 0.5rem 0.9rem;
+  opacity: 0;
+}
+.descenso__saltar:focus-visible { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   6. FIGURAS, PIEZAS 3D Y APARATOS
+   -------------------------------------------------------------------------- */
+body { counter-reset: figura; }
+
+.figura { margin-block: 2.6rem; }
+
+.figura__marco {
+  position: relative;
+  overflow: hidden;
+  background: var(--vitela);
+  border: var(--filete);
+}
+.figura__marco img { width: 100%; height: auto; }
+
+.figura figcaption {
+  display: block;
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--plomo);
+  max-width: 32rem;
+}
+.figura figcaption b,
+.figura figcaption strong {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cinabrio);
+  margin-right: 0.5rem;
+}
+.figura figcaption em { color: var(--plomo); }
+
+/* La escena 3D es una figura más: va sobre el papel, sin caja oscura */
+.escena {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  background: var(--papel);
+  border: var(--filete);
+  touch-action: pan-y;
+}
+.escena .lienzo3d { position: absolute; inset: 0; width: 100%; height: 100%; }
+.escena.sin-webgl::after {
+  content: "Esta figura necesita WebGL. El texto de al lado explica lo mismo sin ella.";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--plomo);
+  font-size: 0.92rem;
+  background: var(--vitela);
+}
+/* La escena alta se limita a lo que cabe de una vez en la pantalla: si el
+   aparato no entra entero en el encuadre, el lector no llega a saber qué
+   tamaño tiene lo que está mirando. Se acota el ANCHO —no el alto— para que
+   la proporción la siga mandando aspect-ratio. */
+.escena--alta {
+  aspect-ratio: 3 / 4;
+  max-width: calc(80svh * 3 / 4);
+  margin-inline: auto;
+}
+.escena--ancha { aspect-ratio: 21 / 9; }
+
+/* Panel de mandos del aparato: monoespaciada, como la serigrafía de un equipo */
+.mandos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: var(--filete);
+}
+
+.mando {
+  position: relative;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tinta);
+  background: var(--claro);
+  border: 1px solid color-mix(in srgb, var(--tinta) 30%, transparent);
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  transition: color var(--dedo) var(--curva), border-color var(--dedo) var(--curva),
+    background-color var(--dedo) var(--curva);
+}
+/* El registro de imprenta: un fantasma azul a 2 px que colapsa al tocarlo */
+.mando::before {
+  content: attr(data-fantasma);
+  position: absolute;
+  left: calc(0.85rem + 2px);
+  top: calc(0.5rem + 2px);
+  color: var(--prusia);
+  opacity: 0.55;
+  pointer-events: none;
+  transition: transform var(--dedo) var(--curva), opacity var(--dedo) var(--curva);
+}
+.mando:hover::before,
+.mando:focus-visible::before { transform: translate(-2px, -2px); opacity: 0; }
+.mando:hover,
+.mando:focus-visible { border-color: var(--cinabrio); color: var(--cinabrio); }
+.mando[aria-pressed="true"] {
+  background: var(--tinta);
+  border-color: var(--tinta);
+  color: var(--papel);
+}
+.mando[aria-pressed="true"]::before { opacity: 0; }
+.mando--medir { border-color: var(--cinabrio); color: var(--cinabrio); }
+.mando--medir:hover { background: var(--cinabrio); color: var(--papel); }
+
+.mando__grupo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--plomo);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8rem;
+  height: 2px;
+  background: color-mix(in srgb, var(--tinta) 30%, transparent);
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0.85rem;
+  height: 0.85rem;
+  background: var(--cinabrio);
+  border-radius: 50%;
+  cursor: grab;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 0.85rem;
+  height: 0.85rem;
+  background: var(--cinabrio);
+  border: 0;
+  border-radius: 50%;
+}
+
+/* Lecturas de aparato: saltan, nunca interpolan */
+.lectura {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums lining-nums;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--vitela);
+}
+.lectura dt { color: var(--plomo); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; }
+.lectura dd { margin: 0; color: var(--tinta); }
+.lectura dd b { color: var(--cinabrio); font-weight: 500; }
+
+/* Barras de probabilidad: dibujo de imprenta, no gráfico de librería */
+.barras { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 1rem; }
+.barra {
+  display: grid;
+  grid-template-columns: 4.2rem 1fr 3.4rem;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+.barra__pista { height: 0.7rem; background: var(--vitela); position: relative; }
+.barra__valor {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--p, 0%);
+  background: var(--prusia);
+  transition: width var(--estado) var(--curva);
+}
+.barra--elegida .barra__valor { background: var(--cinabrio); }
+.barra__cifra { text-align: right; color: var(--plomo); }
+
+/* --------------------------------------------------------------------------
+   7. NOTAS AL MARGEN, TABLAS Y LISTAS
+   -------------------------------------------------------------------------- */
+.nota {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--prusia);
+  border-top: 2px solid var(--prusia);
+  padding-top: 0.7rem;
+  margin-bottom: 2rem;
+}
+.nota b,
+.nota strong {
+  display: block;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--plomo);
+  margin-bottom: 0.4rem;
+}
+
+/* La decoherencia es el antagonista del artículo: cierra capítulos en rojo */
+.nota--antagonista {
+  color: var(--cinabrio);
+  border-top-color: var(--cinabrio);
+  font-style: normal;
+}
+.nota--antagonista b { color: var(--cinabrio); }
+
+.caja {
+  background: var(--claro);
+  border: var(--filete);
+  padding: 1.5rem;
+}
+.caja--vitela { background: var(--vitela); border-color: transparent; }
+
+ul, ol { max-width: var(--medida); padding-left: 1.3rem; margin: 0 0 var(--parrafo); }
+li { margin-bottom: 0.45em; }
+li::marker { color: var(--cinabrio); }
+
+.lista-limpia { list-style: none; padding: 0; }
+.lista-limpia li { margin-bottom: 0.8em; }
+
+/* Lista de definiciones para el glosario */
+.glosario { display: grid; gap: 0; margin: 0; }
+.glosario > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) 1fr;
+  gap: 0 1.5rem;
+  padding: 0.95rem 0;
+  border-top: var(--filete);
+}
+.glosario dt {
+  font-family: var(--display);
+  font-variation-settings: "opsz" 24;
+  font-size: 1.1rem;
+}
+.glosario dd { margin: 0; color: var(--tinta); font-size: 0.96rem; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  margin-bottom: var(--parrafo);
+}
+caption {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--plomo);
+  padding-bottom: 0.7rem;
+}
+th, td { text-align: left; padding: 0.7rem 0.8rem; border-bottom: var(--filete); vertical-align: top; }
+thead th {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--plomo);
+  border-bottom: var(--filete-fuerte);
+}
+tbody tr:nth-child(even) { background: var(--vitela); }
+td .magnitud { color: var(--prusia); }
+
+/* Bibliografía: sangría francesa, como en una revista de verdad */
+.bibliografia {
+  list-style: none;
+  counter-reset: fuente;
+  padding: 0;
+  max-width: 48rem;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+.bibliografia li {
+  counter-increment: fuente;
+  position: relative;
+  padding: 0.85rem 0 0.85rem 3rem;
+  border-top: var(--filete);
+}
+.bibliografia li::before {
+  content: "[" counter(fuente) "]";
+  position: absolute;
+  left: 0;
+  top: 0.95rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  color: var(--cinabrio);
+  font-variant-numeric: tabular-nums;
+}
+.bibliografia a { word-break: break-word; }
+
+/* Reproductores de audio: sobrios, del ancho de la columna */
+audio {
+  width: 100%;
+  max-width: 34rem;
+  margin-block: 0.9rem 0.3rem;
+  border: var(--filete);
+  border-radius: 0;
+  background: var(--claro);
+}
+
+/* Cifra grande de dato editorial */
+.cifra {
+  font-family: var(--display);
+  font-variation-settings: "opsz" 96;
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums tabular-nums;
+  display: block;
+}
+.cifra small { font-size: 0.32em; color: var(--cobre); letter-spacing: 0.02em; }
+.cifra + p { font-size: 0.92rem; color: var(--plomo); max-width: 22ch; margin-top: 0.6rem; }
+
+/* Tarjeta de capítulo / enlace grande */
+.pieza {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-top: var(--filete-fuerte);
+  padding-top: 1.1rem;
+  transition: border-color var(--dedo) var(--curva);
+}
+.pieza:hover { border-color: var(--cinabrio); }
+.pieza h3 { margin-bottom: 0.3em; }
+.pieza:hover h3 { color: var(--cinabrio); }
+.pieza p { font-size: 0.95rem; color: var(--plomo); }
+
+/* --------------------------------------------------------------------------
+   8. SEPARATA EN HUECOGRABADO
+   La única sección oscura del sitio, además del héroe. Aparece UNA SOLA VEZ
+   POR DOCUMENTO, siempre a sangre y siempre cerrando el capítulo: es una
+   separata impresa, no un «modo oscuro».
+   -------------------------------------------------------------------------- */
+.separata {
+  background: var(--huecograbado);
+  color: var(--papel);
+  padding-block: var(--capitulo);
+  position: relative;
+}
+.separata::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: radial-gradient(circle at 1px 1px, var(--papel) 0.6px, transparent 0.7px);
+  background-size: 4px 4px;
+}
+.separata h2,
+.separata h3 { color: var(--papel); }
+.separata p { color: color-mix(in srgb, var(--papel) 78%, transparent); }
+.separata .rotulo { color: color-mix(in srgb, var(--papel) 60%, transparent); }
+.separata .nota { color: color-mix(in srgb, var(--papel) 72%, transparent); border-top-color: var(--cobre); }
+.separata .nota b { color: var(--cobre); }
+.separata .escena { background: transparent; border-color: color-mix(in srgb, var(--papel) 18%, transparent); }
+.separata .figura figcaption { color: color-mix(in srgb, var(--papel) 60%, transparent); }
+.separata .mando {
+  background: transparent;
+  color: var(--papel);
+  border-color: color-mix(in srgb, var(--papel) 30%, transparent);
+}
+.separata .mando::before { color: var(--cobre); }
+.separata .mando:hover { border-color: var(--cobre); color: var(--cobre); }
+.separata .lectura { background: color-mix(in srgb, var(--papel) 8%, transparent); }
+.separata .lectura dd { color: var(--papel); }
+.separata .cifra { color: var(--papel); }
+.separata a { color: var(--cobre); }
+
+/* --------------------------------------------------------------------------
+   9. FORMULARIO
+   -------------------------------------------------------------------------- */
+.formulario { max-width: 44rem; }
+
+.campo { margin-bottom: 1.6rem; }
+
+.campo > label,
+.campo legend {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--plomo);
+  margin-bottom: 0.5rem;
+}
+
+.campo input[type="text"],
+.campo input[type="email"],
+.campo input[type="tel"],
+.campo select,
+.campo textarea {
+  width: 100%;
+  font-family: var(--texto);
+  font-size: 1.02rem;
+  color: var(--tinta);
+  background: var(--claro);
+  border: 0;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--tinta) 35%, transparent);
+  padding: 0.75rem 0.2rem;
+  transition: border-color var(--dedo) var(--curva), background-color var(--dedo) var(--curva);
+}
+.campo textarea { min-height: 9rem; resize: vertical; line-height: 1.5; }
+.campo select { font-family: var(--mono); font-size: 0.92rem; }
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-bottom-color: var(--cinabrio);
+  background: var(--vitela);
+}
+
+.campo .ayuda { font-size: 0.82rem; color: var(--plomo); margin-top: 0.4rem; }
+
+.campo .error {
+  display: none;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--cinabrio);
+  margin-top: 0.45rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+.campo .error::before {
+  content: "×";
+  position: absolute;
+  left: 0;
+  font-size: 1.1em;
+  line-height: 1;
+}
+.campo.es-invalido .error { display: block; }
+.campo.es-invalido input,
+.campo.es-invalido select,
+.campo.es-invalido textarea { border-bottom-color: var(--cinabrio); }
+.campo.es-valido input,
+.campo.es-valido select,
+.campo.es-valido textarea {
+  border-bottom-color: color-mix(in srgb, var(--prusia) 70%, transparent);
+}
+
+.opciones { display: grid; gap: 0.5rem; border: 0; padding: 0; margin: 0; }
+.opcion { position: relative; }
+.opcion input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.opcion label {
+  display: block;
+  padding: 0.8rem 1rem;
+  background: var(--claro);
+  border: 1px solid color-mix(in srgb, var(--tinta) 18%, transparent);
+  cursor: pointer;
+  font-size: 0.96rem;
+  transition: border-color var(--dedo) var(--curva), background-color var(--dedo) var(--curva);
+}
+.opcion label small { display: block; color: var(--plomo); font-size: 0.82rem; margin-top: 0.15rem; }
+.opcion input:checked + label { border-color: var(--cinabrio); background: var(--vitela); }
+.opcion input:focus-visible + label { outline: 2px solid var(--cinabrio); outline-offset: 2px; }
+
+.acepto { display: flex; align-items: flex-start; gap: 0.7rem; font-size: 0.94rem; }
+.acepto input { margin-top: 0.35rem; accent-color: var(--cinabrio); width: 1.05rem; height: 1.05rem; }
+
+.contador { font-family: var(--mono); font-size: 0.72rem; color: var(--plomo); float: right; }
+.contador.pasado { color: var(--cinabrio); }
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--papel);
+  background: var(--tinta);
+  border: 1.5px solid var(--tinta);
+  padding: 0.9rem 1.6rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--dedo) var(--curva), color var(--dedo) var(--curva),
+    border-color var(--dedo) var(--curva);
+}
+.boton:hover,
+.boton:focus-visible { background: var(--cinabrio); border-color: var(--cinabrio); color: var(--papel); }
+.boton--linea { background: transparent; color: var(--tinta); }
+.boton--linea:hover { color: var(--papel); }
+.boton[disabled] { opacity: 0.5; cursor: progress; }
+
+/* Acuse de recibo: el sello del registro */
+.acuse { display: none; }
+.acuse.visible { display: block; }
+.acuse__sello {
+  display: inline-block;
+  border: 2px solid var(--cinabrio);
+  color: var(--cinabrio);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.1rem;
+  transform: rotate(-3deg);
+  margin-bottom: 1.6rem;
+}
+.acuse__resumen {
+  display: grid;
+  grid-template-columns: minmax(7rem, 10rem) 1fr;
+  gap: 0.35rem 1.4rem;
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  background: var(--vitela);
+  padding: 1.2rem 1.4rem;
+  margin-block: 1.4rem;
+}
+.acuse__resumen dt { color: var(--plomo); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.acuse__resumen dd { margin: 0; }
+
+/* --------------------------------------------------------------------------
+   10. PIE DE PÁGINA
+   -------------------------------------------------------------------------- */
+.pie {
+  border-top: var(--filete-fuerte);
+  padding-block: 3.5rem 2rem;
+  margin-top: calc(var(--capitulo) * 0.4);   /* la última sección ya trae su aire */
+}
+.pie h4 { margin-bottom: 0.9rem; }
+.pie ul { list-style: none; padding: 0; margin: 0; }
+.pie li { margin-bottom: 0.4rem; font-size: 0.92rem; }
+.pie a { text-decoration: none; }
+.pie a:hover { text-decoration: underline; }
+.pie address { font-style: normal; font-size: 0.92rem; line-height: 1.7; }
+
+.pie__creditos {
+  grid-column: 1 / -1;
+  border-top: var(--filete);
+  margin-top: 2.6rem;
+  padding-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2rem;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--plomo);
+}
+
+.redes { display: flex; gap: 1rem; align-items: center; }
+.redes a {
+  display: inline-grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: var(--filete);
+  color: var(--tinta);
+  transition: border-color var(--dedo) var(--curva), color var(--dedo) var(--curva);
+}
+.redes a:hover { border-color: var(--cinabrio); color: var(--cinabrio); }
+.redes svg { width: 1.05rem; height: 1.05rem; }
+
+/* Interruptores fijos: audio y bajo consumo */
+.mandos-fijos {
+  position: fixed;
+  right: 0.9rem;
+  bottom: 0.9rem;
+  z-index: 850;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.mandos-fijos .mando {
+  background: color-mix(in srgb, var(--papel) 94%, transparent);
+  border-color: color-mix(in srgb, var(--tinta) 18%, transparent);
+  color: var(--plomo);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.55rem;
+  opacity: 0.55;
+  transition: opacity var(--dedo) var(--curva), color var(--dedo) var(--curva),
+    border-color var(--dedo) var(--curva);
+}
+.mandos-fijos:hover .mando,
+.mandos-fijos .mando:focus-visible,
+.mandos-fijos .mando[aria-pressed="true"] { opacity: 1; color: var(--tinta); }
+.mandos-fijos .mando::before { content: none; }
+
+/* --------------------------------------------------------------------------
+   11. MOVIMIENTO
+   Solo se mueve lo que aún no ha sido medido.
+   -------------------------------------------------------------------------- */
+/* Nada se esconde si JavaScript no llega a ejecutarse: la clase js-animado
+   la pone sitio.js en cuanto arranca, así que sin JS el texto se ve entero. */
+.js-animado .imprime {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--estado) var(--curva);
+  transition-delay: var(--retraso, 0ms);
+}
+.js-animado .imprime.impresa { clip-path: inset(0 0 0 0); }
+
+/* Una figura con aparato dentro no se «imprime»: recortar un lienzo vivo lo
+   dejaría invisible si el observador no llegara a dispararse. */
+.js-animado .imprime:has(.escena) { clip-path: none; }
+
+/* El texto se revela por línea, nunca letra a letra */
+.js-animado .lineas > * {
+  opacity: 0;
+  transform: translateY(0.4rem);
+  transition: opacity var(--estado) var(--curva), transform var(--estado) var(--curva);
+  transition-delay: var(--retraso, 0ms);
+}
+.js-animado .lineas.impresa > * { opacity: 1; transform: none; }
+
+:focus-visible {
+  outline: 2px solid var(--cinabrio);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   12. PANTALLAS PEQUEÑAS E IMPRESIÓN
+   -------------------------------------------------------------------------- */
+@media (max-width: 62rem) {
+  :root { --cuerpo: 1.125rem; }
+
+  .columna,
+  .columna-ancha,
+  .margen,
+  .mitad,
+  .tercio { grid-column: 1 / -1; }
+
+  .margen { margin-top: 1.5rem; }
+
+  .menu-boton { display: block; }
+
+  .navegacion {
+    position: fixed;
+    inset: 4.6rem 0 auto 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--papel);
+    border-bottom: var(--filete-fuerte);
+    padding: 1rem var(--margen-pagina) 2rem;
+    transform: translateY(-120%);
+    transition: transform var(--estado) var(--curva);
+    z-index: 799;
+  }
+  .navegacion.abierta { transform: none; }
+  .navegacion a { font-size: 1rem; padding-block: 0.85rem; width: 100%; border-bottom: var(--filete); }
+
+  .descenso { height: 260vh; }
+  .descenso__titular { grid-column: 1 / -1; font-size: clamp(2.6rem, 13vw, 4.6rem); }
+  .descenso__lema { grid-column: 1 / -1; }
+  .termometro { right: 0.9rem; }
+  .termometro__marca { font-size: 0.62rem; }
+  .descenso__pie { left: var(--margen-pagina); right: 4.5rem; bottom: 1.6rem; }
+
+  .glosario > div { grid-template-columns: 1fr; gap: 0.2rem; }
+  .barra { grid-template-columns: 3.4rem 1fr 3rem; font-size: 0.72rem; }
+  .acuse__resumen { grid-template-columns: 1fr; }
+  .acuse__resumen dd { margin-bottom: 0.6rem; }
+}
+
+@media (max-width: 34rem) {
+  .escena { aspect-ratio: 4 / 3; }
+  /* El criostato es un objeto vertical: en el teléfono también se le da una
+     caja vertical, o el aparato sale del tamaño de un sello. */
+  .escena--alta { aspect-ratio: 3 / 4; max-width: none; }
+  .lectura { grid-template-columns: 1fr; }
+  .lectura dd { margin-bottom: 0.5rem; }
+}
+
+/* El papel no se mueve nunca; con movimiento reducido, tampoco lo cuántico */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .imprime { clip-path: none; }
+  .lineas > * { opacity: 1; transform: none; }
+  .descenso { height: auto; }
+  .descenso__escenario { position: relative; height: auto; min-height: 100svh; }
+  .descenso__titular { clip-path: none; }
+  .descenso__lema,
+  .descenso__pie { opacity: 1; }
+}
+
+@media print {
+  body::after,
+  .cabecera,
+  .mandos-fijos,
+  .termometro,
+  .escena { display: none !important; }
+  .descenso { height: auto; }
+  .separata { background: none; color: var(--tinta); }
+  .separata h2, .separata p { color: var(--tinta); }
+  a::after { content: " (" attr(href) ")"; font-size: 0.8em; color: var(--plomo); }
+}
+
+/* ==========================================================================
+   13. EL RIEL — la tercera columna deja de estar desabastecida
+   Bloque nuevo. Va al FINAL del archivo, después del @media print del bloque 12.
+   Todo lo de escritorio vive dentro de @media (min-width: 62.0625rem).
+   62rem = 992 px es el corte que ya usa la hoja; 62.0625rem = 993 px es el
+   primer píxel de escritorio, así que los dos bloques no se solapan ni por uno.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   13.1 · EL APARATO: la caja 3D de «La máquina»
+
+   POR QUÉ. `.escena--alta` (bloque 6, línea 627) lleva
+   `max-width: calc(80svh * 3 / 4)` + `margin-inline: auto`. A 1440x900 eso son
+   540 x 720 px CENTRADOS dentro de una `.columna-ancha` de 956 px: ~208 px de
+   papel en blanco a cada lado del aparato, y una barra de `.mandos` de 956 px
+   gobernando una imagen de 540. Ese es el hueco que ve el lector.
+
+   AVISO TÉCNICO. El `fov` de una PerspectiveCamera de Three.js es VERTICAL:
+   el tamaño en pantalla del modelo lo manda la ALTURA de la caja, y ensanchar
+   la caja añade papel, no modelo. La escena calcula ella misma la distancia de
+   la cámara a partir del contorno del aparato, del fov y de la proporción de
+   esta caja (_fuente/src/criostato.js, #encuadra), así que el aparato cabe
+   entero en reposo con cualquier alto que se le dé aquí.
+   NO tocar `campoVision`: subirlo EMPEQUEÑECE el modelo.
+   -------------------------------------------------------------------------- */
+@media (min-width: 62.0625rem) {
+
+  /* Se retira el tope de ancho. Va también fuera del @supports para que un
+     motor sin subgrid al menos deje de ver el sello centrado. */
+  .figura--aparato .escena--alta {
+    max-width: none;
+    margin-inline: 0;
+    aspect-ratio: auto;
+    height: 44rem;                 /* reserva para motores sin svh */
+    height: min(84svh, 52rem);     /* 756 px a 1440x900 */
+  }
+
+  @supports (grid-template-columns: subgrid) {
+    /* `2 / -1` = 11 pistas. La línea 1 del subgrid es la línea 2 del pliego,
+       así que la pista n del subgrid es la columna n+1 del pliego. */
+    .figura--aparato {
+      grid-column: 2 / -1;
+      display: grid;
+      grid-template-columns: subgrid;
+      /* Filas EXPLÍCITAS. Esto es lo que hace legítimo el `1 / -1` de abajo:
+         en una rejilla de filas IMPLÍCITA, `-1` resuelve a la línea 1 y la
+         regla se desactiva en silencio. Aquí hay tres filas declaradas, así
+         que `-1` es la línea 4 y el span es correcto. */
+      grid-template-rows: auto 1fr auto;
+      column-gap: var(--via);
+      row-gap: 1.2rem;
+      margin-block: 2.6rem;
+    }
+    .figura--aparato > .escena { grid-column: 1 / span 7; grid-row: 1 / -1; }   /* pliego 2-8 = 738 px */
+    .figura--aparato > .aparato__panel { grid-column: 8 / -1; grid-row: 1; }     /* pliego 9-12 = 412 px */
+    .figura--aparato > figcaption {
+      grid-column: 8 / -1;
+      grid-row: 3;                 /* pegado al canto INFERIOR de la escena */
+      margin-top: 0;
+      max-width: none;
+    }
+
+    /* Los mandos dejan de ser una barra más ancha que la imagen. */
+    .figura--aparato .mandos {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.7rem;
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+    }
+    .figura--aparato .mando__grupo { justify-content: space-between; }
+    .figura--aparato input[type="range"] { width: 100%; }
+    .figura--aparato .lectura { margin-top: 1.1rem; }
+    .figura--aparato .aparato__panel > .folio { margin: 1.4rem 0 0; }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13.2 · LA NOTA VIAJA CON SU SECCIÓN
+   Lo que se pega NO es el aside, sino su ÚLTIMA nota. Motivo, comprobado con
+   scroll real en Chrome y Edge: el límite de un elemento sticky es la caja de
+   su PADRE, y el padre de un aside es el .pliego entero, no su celda. Un aside
+   pegajoso bajaba por todo el pliego y acababa encima de los pies de figura,
+   de las tablas y de las escenas que venían detrás.
+   Así, el aside se estira a la altura de su fila (la del texto que comenta) y
+   su última nota viaja DENTRO de él: acompaña al párrafo y se detiene donde
+   termina, sin poder salir nunca de su fila. De paso, solo tiene que caber en
+   la ventana esa última nota, no la pila entera.
+   -------------------------------------------------------------------------- */
+@media (min-width: 62.0625rem) {
+  .margen { align-self: stretch; }
+  .margen > :last-child {
+    position: sticky;
+    top: calc(5.5rem + 1.5rem);    /* 5.5rem = el scroll-padding-top de html */
+  }
+
+  /* Escape para una nota final más alta que la ventana: no se pega, porque su
+     parte baja quedaría inalcanzable. */
+  .margen--largo > :last-child { position: static; }
+
+  /* Ritmo propio del riel: las piezas del margen no son párrafos. */
+  .margen > * + * { margin-top: 1.6rem; }
+}
+
+/* --------------------------------------------------------------------------
+   13.3 · EL PIE ENFRENTADO
+   La imagen se queda en las columnas 2-9 (847 px, pierde 109 px frente a los
+   956 de hoy) y el pie se va a las 10-12 (303 px), que es EXACTAMENTE la pista
+   de `.margen`. Se elige 10-12 y no 9-12 a propósito: así el pie cae en el
+   carril que el entregable calificado `diseno/tecnica-de-diseno.html` (línea
+   251) describe como el de las notas al margen, y ese documento sigue siendo
+   cierto. La clase `columna-ancha` SE CONSERVA en el marcado: es lo que hace
+   de reserva en un motor sin subgrid.
+   -------------------------------------------------------------------------- */
+@media (min-width: 62.0625rem) {
+  @supports (grid-template-columns: subgrid) {
+    .figura--anotada {
+      grid-column: 2 / -1;
+      display: grid;
+      grid-template-columns: subgrid;
+      column-gap: var(--via);
+      align-items: end;            /* el pie al canto inferior de la imagen */
+    }
+    .figura--anotada > .figura__marco { grid-column: 1 / span 8; }   /* pliego 2-9 */
+    .figura--anotada > figcaption {
+      grid-column: 9 / -1;                                           /* pliego 10-12 */
+      margin-top: 0;
+      max-width: none;
+      border-top: 2px solid var(--tinta);
+      padding-top: 0.7rem;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13.4 · DOS COLUMNAS PARA LO QUE NO ES TEXTO CORRIDO
+   OJO: `table`, `.glosario`, `.lectura`, `.caja` y `.barras` NO tienen
+   `max-width` en esta hoja (comprobado: los únicos max-width del archivo están
+   en las líneas 232, 239, 490, 588, 629, 796, 852, 877, 895 y 954). Lo que las
+   encajona es su CONTENEDOR, no un tope propio. Por eso aquí no se «quita el
+   max-width» a nada que no lo tenga: se compone a dos columnas lo que hoy es
+   una tira larguísima.
+   -------------------------------------------------------------------------- */
+@media (min-width: 62.0625rem) {
+
+  /* (a) El formulario de contacto. Seis campos apilados gastan ~870 px de alto
+     para rellenar 340 px de ancho útil; a dos columnas bajan a ~620 px.
+     El campo señuelo antispam de contacto.html:124 lleva `position:absolute`
+     en línea, así que sale del flujo y NO consume celda de rejilla. */
+  .formulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 var(--via);
+    align-items: start;
+  }
+  .formulario > .campo:has(textarea),
+  .formulario > .campo:has(.acepto),
+  .formulario > .boton { grid-column: 1 / -1; }
+  .formulario > .boton { justify-self: start; }
+
+  /* (b) La bibliografía de acerca-de: la tira más larga del sitio.
+     Vive dentro de un `div.columna-ancha` (956 px) pero se autolimita a 48rem
+     (768 px). Se libera SOLO ahí, con selector de hijo directo. */
+  .columna-ancha > .bibliografia {
+    max-width: none;
+    columns: 2;
+    column-gap: calc(var(--via) * 2);
+  }
+  .columna-ancha > .bibliografia li { break-inside: avoid; }
+
+  /* (c) Los dos glosarios que viven en `.columna-ancha`
+     (fundamentos §glosario y hardware §modalidades). El de aplicaciones
+     §algoritmos vive en un `.columna` de 738 px y queda FUERA a propósito:
+     a dos columnas ahí la definición se quedaría en 229 px. */
+  .columna-ancha > .glosario {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: calc(var(--via) * 2);
+  }
+  .columna-ancha > .glosario > div { grid-template-columns: minmax(7rem, 9rem) 1fr; }
+}
+
+/* --------------------------------------------------------------------------
+   13.5 · LA SEPARATA, COMPLETADA
+   El bloque 8 ya viste h2/h3/p/rotulo/nota/escena/figcaption/mando/lectura/
+   cifra/enlaces sobre huecograbado. Lo único que NO viste es `.pieza`, que es
+   lo que la separata necesita para cerrar el capítulo. Se completa aquí.
+   -------------------------------------------------------------------------- */
+.separata .pieza {
+  border-top-color: color-mix(in srgb, var(--papel) 40%, transparent);
+  color: var(--papel);
+}
+.separata .pieza h3 { color: var(--papel); }
+.separata .pieza .folio { color: color-mix(in srgb, var(--papel) 55%, transparent); }
+.separata .pieza p { color: color-mix(in srgb, var(--papel) 62%, transparent); }
+.separata .pieza:hover { border-color: var(--cobre); }
+.separata .pieza:hover h3 { color: var(--cobre); }
+
+/* Las tarjetas no se pegan al párrafo ni a la nota de encima: la rejilla no
+   tiene separación entre filas y el último párrafo no lleva margen. */
+.separata .mitad { margin-top: 2.6rem; }
+
+/* El tramado de puntos del ::before queda debajo del contenido. */
+.separata::before { z-index: 0; }
+.separata .pliego { position: relative; z-index: 1; }
+
+/* --------------------------------------------------------------------------
+   13.6 · LA TIRA DE CONTACTOS
+   Se monta sobre `.sangre`, que ya hace el full-bleed en esta hoja. Para que
+   el `calc(50% - 50vw)` de `.sangre` resuelva bien, la tira TIENE que ser hija
+   directa de un `.pliego`.
+   No lleva la clase `.figura`: así el `max-width: 32rem` de `.figura
+   figcaption` (línea 588) no la alcanza y el pie se compone a lo ancho.
+   -------------------------------------------------------------------------- */
+.tira { margin-block: var(--capitulo) 0; }
+
+.tira__fotogramas {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 2px;
+  background: color-mix(in srgb, var(--tinta) 28%, transparent);
+  border-block: var(--filete);
+}
+.tira__fotogramas img {
+  width: 100%;
+  height: clamp(9rem, 17vw, 15rem);
+  object-fit: cover;
+}
+
+.tira > figcaption {
+  max-width: var(--ancho-maximo);
+  margin-inline: auto;
+  padding: 0.8rem var(--margen-pagina) 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--plomo);
+}
+.tira > figcaption b {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cinabrio);
+  margin-right: 0.5rem;
+}
+.tira > figcaption em { color: var(--plomo); }
+
+/* --------------------------------------------------------------------------
+   13.7 · PANTALLAS PEQUEÑAS
+   Por debajo de 993 px NINGUNA regla de 13.1 a 13.4 se evalúa siquiera: todas
+   viven dentro de `@media (min-width: 62.0625rem)`. Lo que hay que adaptar es
+   solo lo que se declaró sin guard: la tira y la separata.
+   -------------------------------------------------------------------------- */
+@media (max-width: 62rem) {
+  /* La tira se mira en el teléfono como se mira una tira de contactos: se
+     desplaza. El `overflow-x: clip` del body no estorba porque el
+     desplazamiento es de un contenedor interno. */
+  .tira__fotogramas {
+    grid-auto-columns: 62%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tira__fotogramas img { height: 11rem; scroll-snap-align: start; }
+  .tira { margin-block: calc(var(--capitulo) * 0.7) 0; }
+}
+
+/* --------------------------------------------------------------------------
+   13.8 · IMPRESIÓN
+   -------------------------------------------------------------------------- */
+@media print {
+  /* En papel la nota se imprime en su sitio, no pegada. */
+  .margen, .margen > * { position: static !important; align-self: auto !important; }
+
+  /* El bloque 12 esconde `.escena` pero no el contenedor: sin esto la figura
+     del aparato deja 738 px de papel en blanco con su rejilla montada. */
+  .figura--aparato,
+  .figura--anotada { display: block !important; }
+  .figura--aparato .aparato__panel { margin-top: 1rem; }
+  .figura--anotada > figcaption { border-top: 0; padding-top: 0; margin-top: 0.8rem; }
+
+  /* La separata se imprime en papel blanco: hay que devolver las tintas. */
+  .separata .pieza,
+  .separata .pieza h3,
+  .separata .pieza p,
+  .separata .pieza .folio { color: var(--tinta); border-color: var(--tinta); }
+
+  /* Multicolumna en papel: una sola columna, que el salto de página la parte. */
+  .columna-ancha > .bibliografia { columns: 1; }
+}
+
+/* ==========================================================================
+   14. MOVIMIENTO LIGADO AL DESPLAZAMIENTO
+   Lo calcula el propio navegador con animation-timeline, sin una línea de
+   JavaScript y sin tocar el hilo principal. Donde no exista (navegadores
+   viejos, Firefox sin la preferencia) el bloque entero se ignora y la página
+   queda exactamente como estaba. Con movimiento reducido ni se evalúa.
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+
+    /* 14.1 · El revelado y la profundidad de las fotos.
+       La foto entra un poco lavada y termina de «revelarse» mientras sube por
+       la pantalla, como en la cubeta del laboratorio. Y dentro de su marco se
+       desplaza algo más despacio que la página: el marco es la ventana, la
+       foto está detrás. El `scale` deja margen para ese desplazamiento sin
+       que asome el fondo del marco. */
+    .figura__marco img {
+      scale: 1.08;
+      animation: revelado linear both, profundidad linear both;
+      animation-timeline: view(), view();
+      animation-range: entry 0% cover 42%, cover 0% cover 100%;
+    }
+    @keyframes revelado {
+      from { filter: grayscale(0.8) contrast(0.84) brightness(1.07); }
+      to   { filter: none; }
+    }
+    @keyframes profundidad {
+      from { translate: 0 -3.5%; }
+      to   { translate: 0 3.5%; }
+    }
+
+    /* 14.2 · El avance de lectura: un filete de cinabrio bajo la cabecera que
+       crece con el documento. En la portada no hace falta: allí el termómetro
+       del descenso ya cuenta por dónde va el lector. */
+    body:not([data-pagina="inicio"]) .cabecera::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 -1px 0;
+      height: 2px;
+      background: var(--cinabrio);
+      transform-origin: 0 50%;
+      animation: avance linear both;
+      animation-timeline: scroll(root block);
+    }
+    @keyframes avance {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* 14.3 · La tira de contactos se «pasa» como una tira en la mesa de luz:
+       cada fotograma se asoma un instante después que el anterior. */
+    .tira__fotogramas img {
+      animation: asoma linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
+    .tira__fotogramas img:nth-child(2) { animation-range: entry 16% cover 34%; }
+    .tira__fotogramas img:nth-child(3) { animation-range: entry 22% cover 38%; }
+    .tira__fotogramas img:nth-child(4) { animation-range: entry 28% cover 42%; }
+    .tira__fotogramas img:nth-child(5) { animation-range: entry 34% cover 46%; }
+    .tira__fotogramas img:nth-child(6) { animation-range: entry 40% cover 50%; }
+    @keyframes asoma {
+      from { opacity: 0; translate: 0 0.6rem; }
+      to   { opacity: 1; translate: 0 0; }
+    }
+  }
+}
+
+/* En papel no hay desplazamiento: ni filete de avance ni fotos a medio revelar */
+@media print {
+  .cabecera::after { content: none !important; }
+  .figura__marco img { animation: none !important; filter: none !important; scale: none !important; translate: none !important; }
+}
+
+/* ==========================================================================
+   15. CORRECCIONES DE LA REVISIÓN
+   ========================================================================== */
+
+/* 15.1 · El formulario a dos columnas (13.4) es `display: grid`, y eso pisa la
+   regla del navegador `[hidden] { display: none }`. formulario.js esconde el
+   formulario con `hidden` al mostrar el acuse: sin esta línea, a partir de
+   993 px se verían los dos a la vez. */
+.formulario[hidden] { display: none; }
+
+/* 15.2 · La trampa de iones se ve por dentro de la cámara de vacío: el
+   contenedor lleva el mismo fondo que el lienzo para que no destelle el
+   papel antes de que arranque WebGL. */
+.escena[data-escena="iones"] { background: var(--huecograbado); }
+
+/* 15.3 · Una tabla ancha en el teléfono se desplaza dentro de su caja en vez
+   de quedar cortada por el `overflow-x: clip` del documento. */
+@media (max-width: 62rem) {
+  .todo:has(> table), .columna-ancha:has(> table) { overflow-x: auto; }
+}
+
+/* 15.4 · Un intertítulo que sigue a otro bloque dentro de la columna de
+   lectura necesita aire: la rejilla no separa filas y el último párrafo de
+   cada bloque no lleva margen inferior. */
+.columna > * + h3,
+.columna > article + article { margin-top: 2.4rem; }
+
+/* 15.5 · Los interruptores de sonido y bajo consumo, al lomo. En escritorio
+   el riel de la derecha ya siempre tiene notas o pies, y los botones fijos
+   de la esquina acababan encima de su texto. El margen izquierdo de la
+   página, en cambio, no lleva nada nunca: allí van en vertical, como el
+   rótulo del lomo de una revista, y no pueden chocar con el contenido. */
+@media (min-width: 62.0625rem) {
+  .mandos-fijos {
+    left: 0.9rem;
+    right: auto;
+    bottom: 1.2rem;
+  }
+  .mandos-fijos .mando {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);   /* se lee de abajo arriba, como un lomo */
+    padding: 0.55rem 0.3rem;
+  }
+}
+
+/* 15.6 · La tira de contactos: menos aire encima (no es un capítulo nuevo,
+   es el cierre del anterior) y el pie alineado con la columna de lectura en
+   vez de con el borde de la página, dejando libre la pista del riel. */
+.tira { margin-block: calc(var(--capitulo) * 0.55) 0; }
+@media (min-width: 62.0625rem) {
+  .tira > figcaption {
+    --col: calc((min(100vw, var(--ancho-maximo)) - 2 * var(--margen-pagina) - 11 * var(--via)) / 12);
+    padding-left: calc(var(--margen-pagina) + var(--col) + var(--via));
+    padding-right: calc(var(--margen-pagina) + 3 * (var(--col) + var(--via)));
+  }
+}
+
+/* ==========================================================================
+   16. RITMO VERTICAL SIN HUECOS
+   Medido a 2000×1030 con scroll real: entre dos secciones del mismo papel se
+   sumaban el relleno inferior de una y el superior de la siguiente, sin
+   ningún cambio de fondo que los justificara. Se leía como una página a
+   medio cargar. Ahora, si dos secciones seguidas comparten papel, la segunda
+   entra con la mitad de aire; el cambio de papel a vitela conserva el suyo,
+   porque ahí el propio color marca la pausa.
+   ========================================================================== */
+.capitulo:not(.capitulo--vitela) + .capitulo:not(.capitulo--vitela),
+.capitulo--vitela + .capitulo--vitela {
+  padding-top: calc(var(--capitulo) * 0.5);
+}
+
+/* El rótulo que abre una fila propia (las tres cifras de la portada) no se
+   pega a lo que tiene debajo: como es el último hijo de su caja, perdía el
+   margen inferior. */
+.pliego > .todo > .rotulo:only-child { margin-bottom: 1.6rem; }
+
+/* ==========================================================================
+   17. REMATE TRAS LA REVISIÓN VISUAL
+   Siete revisores recorrieron cada página con scroll real a 2000×1030,
+   1440×900 y 390×844 y apuntaron todo defecto visible. Cada regla de este
+   bloque responde a uno de esos defectos.
+   ========================================================================== */
+
+/* 17.1 · Los interruptores de sonido y bajo consumo.
+   En el teléfono flotaban, translúcidos, encima del texto de TODAS las
+   pantallas. Ahí dejan de flotar: bajan al final de la página, debajo del
+   pie, como una línea más de créditos. En escritorio siguen en el lomo, pero
+   con papel opaco (el filete del pie y la tira a sangre se transparentaban)
+   y, sobre el vídeo del héroe, en negativo: sin relleno y con tinta clara. */
+/* En escritorio se componen por DIFERENCIA con lo que tengan debajo: tinta
+   sobre el papel, papel sobre la separata o el vídeo, y en la frontera entre
+   dos fondos cada mitad se invierte sola. Un relleno opaco o translúcido
+   quedaba gris sobre lo oscuro y partido en cada borde. */
+@media (min-width: 62.0625rem) {
+  .mandos-fijos { mix-blend-mode: difference; }
+  .mandos-fijos .mando {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.55);
+    opacity: 0.8;
+  }
+  .mandos-fijos:hover .mando,
+  .mandos-fijos .mando:focus-visible,
+  .mandos-fijos .mando[aria-pressed="true"] { opacity: 1; color: #fff; background: transparent; }
+}
+@media (max-width: 62rem) {
+  .mandos-fijos {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;          /* alineados con los créditos */
+    gap: 0.6rem;
+    padding: 0 var(--margen-pagina) 1.8rem;
+  }
+  .mandos-fijos .mando { opacity: 1; min-height: 2.75rem; }   /* 44 px táctiles */
+}
+
+/* 17.2 · Un solo borde izquierdo. Titulares y texto empiezan en la columna 2,
+   pero las tarjetas, las fichas, las cifras y el pie empezaban en la 1, un
+   centenar de píxeles más a la izquierda. Ahora las parejas van de la 2 a la
+   6 y de la 8 a la 12, y los tríos de la 2 a la 4, de la 6 a la 8 y de la 10
+   a la 12: mismo borde izquierdo que el texto, mismo derecho que el riel. */
+@media (min-width: 62.0625rem) {
+  .pliego > .mitad:nth-child(odd of .mitad)  { grid-column: 2 / span 5; }
+  .pliego > .mitad:nth-child(even of .mitad) { grid-column: 8 / span 5; }
+  .pliego > .tercio:nth-child(3n + 1 of .tercio) { grid-column: 2 / span 3; }
+  .pliego > .tercio:nth-child(3n + 2 of .tercio) { grid-column: 6 / span 3; }
+  .pliego > .tercio:nth-child(3n of .tercio)     { grid-column: 10 / span 3; }
+  .pliego > .todo:has(> .rotulo:only-child),
+  .pie .pie__creditos { grid-column: 2 / -1; }
+  /* Una nota bajo las dos fichas: a la medida de la primera columna, para
+     que su filete no se meta por debajo de la segunda ficha. */
+  .pliego > .todo:has(> .nota) { grid-column: 2 / span 6; }
+  .pliego > .todo > .nota { max-width: none !important; }
+}
+
+/* 17.3 · Aire entre filas de tarjetas y fichas: la rejilla no separa filas, y
+   el rótulo de cada modalidad quedaba pegado al párrafo de la anterior. */
+.pliego > .mitad { margin-bottom: 2.2rem; }
+.pliego > .mitad:nth-child(-n + 2 of .mitad) { margin-top: 2rem; }
+
+/* 17.4 · Las tablas son piezas, no párrafos: aire encima y debajo. */
+.pliego > :is(.todo, .columna-ancha):has(> table) { margin-block: 2.6rem 1.6rem; }
+caption { padding-bottom: 0.6rem; }
+
+/* 17.5 · En el teléfono cada fila de tabla es una ficha apilada: el nombre
+   de la fila arriba y cada dato con su cabecera encima. Antes las tablas se
+   cortaban por la derecha y nada avisaba de que se podían desplazar. */
+@media (max-width: 40rem) {
+  :is(.todo, .columna-ancha):has(> table) { overflow-x: visible; }
+  :is(.todo, .columna-ancha) > table,
+  :is(.todo, .columna-ancha) > table > tbody,
+  :is(.todo, .columna-ancha) > table > tbody > tr,
+  :is(.todo, .columna-ancha) > table > tbody > tr > :is(th, td) { display: block; width: auto; }
+  :is(.todo, .columna-ancha) > table > caption { display: block; white-space: normal; }
+  :is(.todo, .columna-ancha) > table > thead {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
+  }
+  :is(.todo, .columna-ancha) > table > tbody > tr {
+    border-top: var(--filete-fuerte);
+    padding-block: 0.9rem 0.4rem;
+    background: none !important;
+  }
+  :is(.todo, .columna-ancha) > table > tbody > tr > :is(th, td) { padding: 0 0 0.7rem; border: 0; }
+  :is(.todo, .columna-ancha) > table > tbody > tr > th[scope="row"] {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  :is(.todo, .columna-ancha) > table td[data-etiqueta]::before {
+    content: attr(data-etiqueta);
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--plomo);
+    margin-bottom: 0.15rem;
+  }
+}
+
+/* 17.6 · El «fantasma» de registro de los botones: a 2 px y en reposo, a
+   tamaño real se leía como texto borroso o tachado. Queda solo como gesto
+   al pasar por encima: aparece y colapsa. */
+.mando::before { opacity: 0; transform: translate(-2px, -2px); }
+.mando:hover::before,
+.mando:focus-visible::before { opacity: 0.45; transform: none; }
+
+/* 17.7 · La separata va pegada al pie: no queda una franja de papel suelta. */
+body:has(main > .separata:last-child) .pie { margin-top: 0; border-top-color: var(--huecograbado); }
+
+/* 17.8 · Las tres cifras: texto con una medida legible y, en el teléfono,
+   aire entre una cifra y la siguiente. */
+.cifra + p { max-width: 30ch; }
+@media (max-width: 62rem) { .tercio:has(> .cifra) { margin-bottom: 2.2rem; } }
+
+/* 17.9 · La entradilla se separa del cuerpo: la capitular casi la tocaba.
+   Con .pliego delante para ganarle a `p:last-child`, que la dejaba a cero
+   cuando la entradilla cierra su bloque (como en la portada). */
+.pliego .entradilla { margin-bottom: 1.8rem; }
+
+/* 17.10 · Un <strong> dentro de una nota es énfasis, no un rótulo: antes
+   partía la frase en tres estilos. El rótulo de las notas es el <b>. */
+.nota strong {
+  display: inline;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+  color: inherit;
+  margin: 0;
+}
+
+/* 17.11 · Una lectura de aparato sobre fondo vitela necesita su propio
+   papel, o solo se ve su sangría. */
+.capitulo--vitela .lectura { background: var(--claro); }
+
+/* 17.12 · Las cifras de las barras no se parten («100,0» y «%» debajo). */
+.barra__cifra { white-space: nowrap; }
+@media (max-width: 62rem) { .barra { grid-template-columns: 2.8rem 1fr 3.8rem; } }
+
+/* 17.13 · El pie de página apilado en el teléfono: aire entre bloques. */
+@media (max-width: 62rem) {
+  .pie .pliego { row-gap: 2.2rem; }
+  .pie .redes { margin-bottom: 0.4rem; }
+}
+
+/* 17.14 · El héroe en el teléfono: la regla de temperaturas sube a la
+   esquina de arriba, donde no choca con el titular ni con el lema. */
+@media (max-width: 34rem) {
+  .termometro { top: 5rem; transform: none; }
+}
+
+/* 17.15 · Las tarjetas del índice llevan una miniatura del capítulo: la
+   portada solo tenía una fotografía y el índice era texto puro. */
+.pieza__imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: var(--filete);
+  background: var(--vitela);
+  filter: saturate(0.92);
+  transition: filter var(--estado) var(--curva);
+}
+.pieza:hover .pieza__imagen { filter: none; }
+
+/* 17.16 · La bibliografía cede la columna 10 al riel: en la 2-10 chocaba con
+   la nota del margen, que caía sola a una fila de abajo y dejaba un hueco
+   de trescientos píxeles al final de la lista. */
+@media (min-width: 62.0625rem) {
+  #bibliografia .pliego > .columna-ancha { grid-column: 2 / span 8; }
+}
+
+/* 17.17 · Una magnitud no se parte entre la cifra y su unidad: se resuelve en
+   el marcado con un espacio fino duro entre ambas. Un nowrap en toda la
+   magnitud dejaba líneas cortísimas cuando la magnitud es una frase. */
+
+/* 17.18 · Grover en el teléfono: las barras justo debajo de sus botones.
+   Viven en otro pliego; se deshacen las dos cajas (display: contents) para
+   poder ordenar texto, barras y lectura dentro de la misma sección. */
+@media (max-width: 62rem) {
+  #grover { display: flex; flex-direction: column; }
+  #grover > .pliego { display: contents; }
+  #grover > .pliego > * { padding-inline: var(--margen-pagina); }
+  #grover .columna { order: 1; }
+  #grover .columna-ancha { order: 2; margin-block: 1.4rem; }
+  #grover .margen { order: 3; }
+}
+
+/* 17.19 · La regla de temperaturas sobre el vídeo: un velo oscuro bajo las
+   letras para que no se pierdan sobre el dorado de las placas. */
+.termometro__marca { text-shadow: 0 0 0.5rem rgba(8, 9, 11, 0.85), 0 0 0.15rem rgba(8, 9, 11, 0.9); }
+
+/* 17.20 · Las tarjetas de capítulo se leen como enlaces también sin ratón. */
+.pieza h3::after {
+  content: "\00a0→";
+  color: var(--plomo);
+  transition: color var(--dedo) var(--curva);
+}
+.pieza:hover h3::after { color: var(--cinabrio); }
+.separata .pieza h3::after { color: color-mix(in srgb, var(--papel) 55%, transparent); }
+
+/* ==========================================================================
+   18. SEGUNDA PASADA DE REVISIÓN
+   ========================================================================== */
+
+/* 18.1 · La columna ancha acaba en la 9, no en la 10. En la 10 empieza el
+   riel de notas: las tablas, los glosarios y las escenas se le metían 80 px,
+   y cada sección tenía tres bordes derechos distintos. Ahora todo lo ancho
+   acaba donde acaban las fotos con el pie enfrentado. */
+@media (min-width: 62.0625rem) {
+  /* Las figuras con pie o panel enfrentado NO: son subrejillas 2-12 que colocan
+     ellas mismas la imagen en 2-9 y el pie en 10-12 (13.3). Si se les aplica
+     esta regla, el pie cae en una pista implícita de 90 px. */
+  .columna-ancha:not(.figura--anotada, .figura--aparato) { grid-column: 2 / span 8; }
+  .pliego > .todo:has(> table) { grid-column: 2 / span 8; }
+}
+
+/* 18.2 · Unidades en minúscula dentro de rótulos en versalitas: «10 mK», no
+   «10 MK» (megakelvin). La clase la pone el marcado a cada unidad. */
+.sin-mayus { text-transform: none; letter-spacing: 0.02em; }
+
+/* 18.3 · Aire bajo las notas del margen cuando se apilan en el teléfono (la
+   nota de la redacción quedaba pegada a la capitular), y bajo las lecturas. */
+@media (max-width: 62rem) { .margen { margin-bottom: 2rem; } }
+.margen > .lectura { margin-bottom: 2rem; }
+
+/* 18.4 · Las lecturas de aparato mantienen etiqueta y valor en una misma
+   fila también en el teléfono: apiladas ocupaban media pantalla. */
+@media (max-width: 34rem) {
+  .lectura { grid-template-columns: auto 1fr; }
+  .lectura dd { margin-bottom: 0; }
+}
+
+/* 18.5 · Grover en el teléfono: la lectura (iteración, P(acierto)) entre los
+   botones y las barras, y la nota después. */
+@media (max-width: 62rem) {
+  #grover .margen { display: contents; }
+  #grover .margen > .lectura { order: 2; margin: 0 var(--margen-pagina) 0.6rem; }
+  #grover .columna-ancha { order: 3; }
+  #grover .margen > :not(.lectura) { order: 4; padding-inline: var(--margen-pagina); }
+}
+
+/* 18.6 · El capítulo anterior lleva la flecha hacia atrás. */
+.pieza--anterior h3::after { content: none; }
+.pieza--anterior h3::before { content: "←\00a0"; color: var(--plomo); }
+.pieza--anterior:hover h3::before { color: var(--cinabrio); }
+
+/* 18.7 · Cifras de la portada con más medida (y todo el ancho en el móvil). */
+.cifra + p { max-width: 34ch; }
+@media (max-width: 62rem) { .cifra + p { max-width: none; } }
+
+/* 18.8 · Una sombra oscura suave detrás de la regla de temperaturas, para
+   que se lea igual sobre las placas doradas que sobre el fondo negro. */
+.termometro::before {
+  content: "";
+  position: absolute;
+  inset: -1.2rem -0.9rem -1.2rem -3rem;
+  background: radial-gradient(closest-side, rgba(8, 9, 11, 0.55), rgba(8, 9, 11, 0));
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* 18.9 · Superíndices de los nombres de isótopo con cifras de caja alta. */
+th sup, h3 sup { font-family: var(--texto); font-variant-numeric: lining-nums; letter-spacing: 0; }
+
+/* 18.10 · Créditos del pie: sin separadores ni palabras huérfanas en el corte. */
+.pie__creditos span { text-wrap: balance; }
+
+/* ==========================================================================
+   19. PANTALLAS GRANDES
+   ========================================================================== */
+
+/* 19.1 · La revista crece con la pantalla. Hasta 1440 px todo mide lo que
+   dice la retícula; por encima, la raíz sube con el ancho (1/90 del
+   viewport) hasta 19 px. En un monitor de 2000 px la página ocupa 1710 px
+   en lugar de ser una isla de 1440 con 280 px de papel vacío a cada lado.
+   Las consultas de medios en rem no se enteran: se resuelven contra 16 px. */
+@media (min-width: 90.0625rem) {
+  html { font-size: min(1.1111vw, 1.1875rem); }
+}
+
+/* 19.2 · Medida de lectura: 38 rem, unos 66 caracteres de Source Serif a
+   19 px. Con 34 rem la prosa dejaba tres columnas de papel entre ella y
+   las notas al margen. */
+:root { --medida: 38rem; }
+audio { max-width: var(--medida); }
+.entradilla { max-width: 44rem; }

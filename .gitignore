@@ -1,0 +1,16 @@
+.vercel
+_fuente/node_modules/
+_fuente/gen/
+*.zip
+datos/mensajes.txt
+datos/mensajes.csv
+Thumbs.db
+.DS_Store
+
+.vercel
+# Material de trabajo pesado o temporal (no forma parte del sitio)
+_fuente/qa/salida/
+_fuente/qa/*.png
+_fuente/antes/
+_fuente/plan/
+_fuente/investigacion/

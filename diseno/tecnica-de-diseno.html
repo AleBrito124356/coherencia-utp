@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Técnica de diseño — Coherencia</title>
+<meta name="description" content="Wireframes, retícula, paleta y tipografía del sitio Coherencia. Documento de diseño del Parcial N.º 1 de Ingeniería Web, UTP.">
+<link rel="icon" href="../img/marca.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/estilo.css">
+<style>
+  /* Estilos exclusivos de este documento de diseño: los bocetos.
+     No forman parte del sitio, por eso viven aquí y no en css/estilo.css */
+  .bocetos { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 2rem; }
+  .boceto { background: var(--claro); border: 1px solid var(--tinta); padding: 0.85rem; }
+  .boceto__titulo {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--cinabrio); margin-bottom: .7rem; display: flex; justify-content: space-between;
+  }
+  .pantalla { border: 1px dashed color-mix(in srgb, var(--tinta) 45%, transparent); padding: .5rem; display: grid; gap: .4rem; }
+  .bloque {
+    border: 1px dashed color-mix(in srgb, var(--tinta) 40%, transparent);
+    background: repeating-linear-gradient(135deg, transparent 0 5px, color-mix(in srgb, var(--tinta) 7%, transparent) 5px 6px);
+    font-family: var(--mono); font-size: .58rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--plomo); padding: .35rem .45rem; display: flex; align-items: center; justify-content: center;
+    text-align: center; min-height: 1.9rem;
+  }
+  .bloque--alto { min-height: 6.5rem; }
+  .bloque--medio { min-height: 3.6rem; }
+  .bloque--tinta { background: var(--huecograbado); color: var(--papel); border-color: var(--huecograbado); }
+  .bloque--senal { border-color: var(--cinabrio); color: var(--cinabrio); }
+  .bloque--texto {
+    background: none; border: 0; min-height: 0; display: block; padding: .2rem 0;
+    background-image: repeating-linear-gradient(to bottom,
+      color-mix(in srgb, var(--tinta) 32%, transparent) 0 1px, transparent 1px 7px);
+    height: 2.5rem;
+  }
+  .fila2 { display: grid; grid-template-columns: 2fr 1fr; gap: .4rem; }
+  .fila3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+  .muestras { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1rem; }
+  .muestra__color { height: 4.5rem; border: 1px solid color-mix(in srgb, var(--tinta) 20%, transparent); }
+  .muestra p { font-family: var(--mono); font-size: .68rem; margin: .5rem 0 0; color: var(--plomo); line-height: 1.5; }
+  .muestra b { display: block; color: var(--tinta); font-weight: 500; }
+  .reticula { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--via); height: 7rem; }
+  .reticula span { background: color-mix(in srgb, var(--prusia) 12%, transparent); border-top: 2px solid var(--prusia); }
+  .reticula span:nth-child(n+2):nth-child(-n+8) { background: color-mix(in srgb, var(--cinabrio) 10%, transparent); border-top-color: var(--cinabrio); }
+  .espectro { font-family: var(--display); line-height: 1.1; margin: 0 0 .4rem; }
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="../index.html">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Documento de diseño</span>
+      </span>
+    </a>
+    <nav class="navegacion">
+      <a href="../index.html">Volver al sitio</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="capitulo">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Parcial N.º 1 · Ingeniería Web · UTP</p>
+        <h1>Técnica de diseño</h1>
+        <p class="entradilla">
+          El sitio se diseñó con <strong>wireframes de baja fidelidad</strong> y, sobre ellos, un
+          <strong>mockup</strong> de alta fidelidad. Este documento recoge los dos, más la
+          retícula, la paleta y la tipografía que salieron de ese trabajo.
+        </p>
+      </div>
+      <aside class="margen">
+        <p class="nota">
+          <b>Autores</b>
+          Alejandro Brito Olivera y Marcos Gaitán.<br>
+          Grupo 1SF134 · Facilitadora: Dra. Denis Cedeño.<br>
+          Entrega: <time datetime="2026-09-28">28 de septiembre de 2026</time>.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="capitulo capitulo--vitela">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Paso 1</p>
+        <h2>Por qué wireframe y no cardsorting</h2>
+        <p>
+          El <em>cardsorting</em> sirve para descubrir cómo agrupa la gente unos contenidos que ya
+          existen. Aquí el problema era el contrario: los contenidos había que escribirlos, y la
+          duda no era cómo agruparlos sino <strong>cuánto espacio dar a cada cosa</strong> —texto
+          largo, figuras numeradas, notas al margen y cuatro aparatos interactivos— dentro de una
+          misma retícula.
+        </p>
+        <p>
+          Por eso se empezó por wireframes: cajas grises, sin color y sin tipografía definitiva,
+          solo jerarquía y proporción. Cuando la proporción funcionó, se pasó al mockup, que ya
+          fija colores, tipos y comportamiento. El sitio final respeta esos bocetos casi caja
+          por caja.
+        </p>
+      </div>
+      <aside class="margen">
+        <p class="nota">
+          <b>Orden de trabajo</b>
+          1. Inventario de contenidos.<br>
+          2. Wireframe de las cuatro plantillas.<br>
+          3. Retícula de 12 columnas.<br>
+          4. Paleta y tipografía.<br>
+          5. Mockup y maquetación en HTML5 y CSS3.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="capitulo">
+    <div class="pliego">
+      <div class="todo">
+        <p class="rotulo">Paso 2 · Wireframes de baja fidelidad</p>
+        <h2>Cuatro plantillas para siete páginas</h2>
+        <p style="max-width:42rem">
+          Todo el sitio se resuelve con cuatro plantillas. Las tramas diagonales marcan bloques de
+          contenido; las líneas horizontales, texto corrido; el bloque negro, la única sección
+          impresa en huecograbado; el borde rojo, los elementos interactivos.
+        </p>
+      </div>
+
+      <div class="todo bocetos" style="margin-top:2rem">
+
+        <figure class="boceto">
+          <figcaption class="boceto__titulo"><span>A · Portada</span><span>index.html</span></figcaption>
+          <div class="pantalla">
+            <div class="bloque">Cabecera fija · marca + navegación</div>
+            <div class="bloque bloque--tinta bloque--alto">Fig. 0 · Vídeo conducido por el scroll<br>+ regla de temperatura</div>
+            <div class="fila2">
+              <div>
+                <div class="bloque bloque--texto"></div>
+                <div class="bloque bloque--texto"></div>
+              </div>
+              <div class="bloque">Nota al margen</div>
+            </div>
+            <div class="bloque bloque--medio">Fig. 1 · último fotograma, ya impreso</div>
+            <div class="fila3">
+              <div class="bloque">Cifra</div><div class="bloque">Cifra</div><div class="bloque">Cifra</div>
+            </div>
+            <div class="fila2"><div class="bloque">Índice de capítulos</div><div class="bloque">Índice</div></div>
+            <div class="bloque bloque--senal">Nota roja · decoherencia</div>
+            <div class="bloque">Pie · enlaces, redes, créditos</div>
+          </div>
+        </figure>
+
+        <figure class="boceto">
+          <figcaption class="boceto__titulo"><span>B · Capítulo</span><span>fundamentos · hardware · aplicaciones</span></figcaption>
+          <div class="pantalla">
+            <div class="bloque">Cabecera fija</div>
+            <div class="fila2">
+              <div>
+                <div class="bloque">Rótulo + título</div>
+                <div class="bloque bloque--texto"></div>
+              </div>
+              <div class="bloque">Nota</div>
+            </div>
+            <div class="fila2">
+              <div>
+                <div class="bloque bloque--texto"></div>
+                <div class="bloque bloque--texto"></div>
+              </div>
+              <div class="bloque">Nota</div>
+            </div>
+            <div class="bloque bloque--senal bloque--medio">Figura interactiva + mandos</div>
+            <div class="fila2">
+              <div class="bloque bloque--texto"></div>
+              <div class="bloque">Nota</div>
+            </div>
+            <div class="bloque bloque--medio">Tabla comparativa</div>
+            <div class="bloque bloque--senal">Nota roja de cierre</div>
+            <div class="bloque">Pie</div>
+          </div>
+        </figure>
+
+        <figure class="boceto">
+          <figcaption class="boceto__titulo"><span>C · Laboratorio</span><span>laboratorio.html</span></figcaption>
+          <div class="pantalla">
+            <div class="bloque">Cabecera fija</div>
+            <div class="bloque">Rótulo + título + entradilla</div>
+            <div class="fila2">
+              <div class="bloque bloque--senal bloque--alto">Esfera de Bloch<br>(canvas 3D)</div>
+              <div>
+                <div class="bloque">Lecturas</div>
+                <div class="bloque">Barras de probabilidad</div>
+                <div class="bloque">Tira de papel</div>
+              </div>
+            </div>
+            <div class="bloque bloque--senal">Puertas H X Y Z S T · CNOT · Medir · T2</div>
+            <div class="fila2">
+              <div class="bloque bloque--texto"></div>
+              <div class="bloque">Nota</div>
+            </div>
+            <div class="bloque bloque--senal bloque--medio">Grover · barras de amplitud</div>
+            <div class="bloque">Pie</div>
+          </div>
+        </figure>
+
+        <figure class="boceto">
+          <figcaption class="boceto__titulo"><span>D · Contacto</span><span>contacto.html</span></figcaption>
+          <div class="pantalla">
+            <div class="bloque">Cabecera fija</div>
+            <div class="bloque">Rótulo + título</div>
+            <div class="fila2">
+              <div>
+                <div class="bloque">Campo · nombre</div>
+                <div class="bloque">Campo · correo</div>
+                <div class="bloque">Campo · teléfono</div>
+                <div class="bloque">Campo · tema (lista)</div>
+                <div class="bloque bloque--medio">Campo · mensaje</div>
+                <div class="bloque">Casilla de permiso</div>
+                <div class="bloque bloque--senal">Guardar mensaje</div>
+              </div>
+              <div>
+                <div class="bloque">Nota · qué se valida</div>
+                <div class="bloque">Nota · otras vías</div>
+              </div>
+            </div>
+            <div class="bloque bloque--senal bloque--medio">Lector del archivo de datos</div>
+            <div class="bloque">Pie</div>
+          </div>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="capitulo capitulo--vitela">
+    <div class="pliego">
+      <div class="columna-ancha">
+        <p class="rotulo">Paso 3 · Retícula</p>
+        <h2>Doce columnas, y el texto ocupa siete</h2>
+        <p>
+          La columna de lectura va de la columna 2 a la 8 (marcada en rojo) y mide entre 62 y 68
+          caracteres, que es la medida a la que se lee cómodo un texto largo. Las notas al margen
+          ocupan de la 10 a la 12. Las figuras, las tablas y las escenas llegan hasta la 9, y solo el vídeo, la
+          separata y la tira de contactos se van a sangre. En pantallas de menos de
+          <span class="magnitud">62 rem</span> todo colapsa a una sola columna.
+        </p>
+        <p>
+          Dos piezas usan ese mismo reparto sin salirse de él. En las fotografías grandes la
+          imagen se queda de la columna 2 a la 9 y el pie se compone en la pista de las notas,
+          de la 10 a la 12, alineado al canto inferior de la imagen, que es como se compone un
+          pie en una revista impresa. La figura de aparato del criostato deja la escena en la
+          columna de lectura y lleva los mandos, la lectura de etapas y el pie a la 9-12, para
+          que el instrumento y su panel se vean a la vez. Lo que no es texto corrido —el
+          formulario, la bibliografía y los glosarios anchos— se compone a dos columnas: la
+          medida de lectura protege la prosa, no las listas. Y Fundamentos, La máquina,
+          Aplicaciones y Acerca de cierran con una separata en huecograbado a sangre, una sola
+          por documento; el Laboratorio y el Contacto, que son cortos, no la llevan.
+        </p>
+      </div>
+      <div class="todo reticula" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="capitulo">
+    <div class="pliego">
+      <div class="columna-ancha">
+        <p class="rotulo">Paso 4 · Paleta</p>
+        <h2>Dos tintas, un metal y una señal roja</h2>
+        <p>
+          Los colores no se eligieron en una rueda cromática: salen de materiales reales. Papel
+          offset, tinta de imprenta, azul de plano técnico, cobre del criostato y el lápiz rojo
+          del corrector. El rojo nunca pasa del <span class="magnitud">3 %</span> de la pantalla,
+          y el cobre no se usa jamás para texto de lectura porque su contraste sobre papel es de
+          <span class="magnitud">4,0:1</span>.
+        </p>
+      </div>
+
+      <div class="todo muestras" style="margin-top:1.5rem">
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#f2efe6"></div>
+          <p><b>Papel hueso</b>#F2EFE6<br>Fondo de todo el sitio</p>
+        </figure>
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#e7e1d1"></div>
+          <p><b>Papel vitela</b>#E7E1D1<br>Bandas y tablas</p>
+        </figure>
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#17181b"></div>
+          <p><b>Tinta grafito</b>#17181B<br>Texto · 15:1</p>
+        </figure>
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#1c3a5b"></div>
+          <p><b>Azul Prusia</b>#1C3A5B<br>Segunda tinta · 10:1</p>
+        </figure>
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#be3a26"></div>
+          <p><b>Rojo cinabrio</b>#BE3A26<br>Señal · 4,8:1</p>
+        </figure>
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#a9632a"></div>
+          <p><b>Cobre recocido</b>#A9632A<br>Material y rótulos, nunca lectura</p>
+        </figure>
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#6e6c66"></div>
+          <p><b>Gris plomo</b>#6E6C66<br>Pies y metadatos · 4,6:1</p>
+        </figure>
+        <figure class="muestra">
+          <div class="muestra__color" style="background:#0e1013"></div>
+          <p><b>Negro huecograbado</b>#0E1013<br>El vídeo y la separata</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="capitulo capitulo--vitela">
+    <div class="pliego">
+      <div class="columna-ancha">
+        <p class="rotulo">Paso 5 · Tipografía</p>
+        <h2>Tres familias con licencia abierta</h2>
+      </div>
+
+      <div class="columna-ancha">
+        <p class="espectro" style="font-size:3.4rem;font-variation-settings:'opsz' 96">Bodoni Moda</p>
+        <p>
+          Titulares. Es una didona real con eje de tamaño óptico: en cuerpos grandes los trazos
+          finos se afilan y los gruesos pesan. Es la letra de la ciencia impresa desde el siglo
+          XVIII, no una tipografía «tecnológica».
+        </p>
+      </div>
+
+      <div class="columna-ancha">
+        <p class="espectro" style="font-family:var(--texto);font-size:2.2rem">Source Serif 4 — <em>con cursiva verdadera</em></p>
+        <p>
+          Texto corrido. Está dibujada por Adobe para leer en pantalla y tiene cursiva de verdad,
+          que hacía falta para las notas al margen y los nombres de magnitudes. Una grotesca
+          cansaría en capítulos de dos mil palabras.
+        </p>
+      </div>
+
+      <div class="columna-ancha">
+        <p class="espectro" style="font-family:var(--mono);font-size:1.6rem">IBM Plex Mono · 10 mK · T2 ≤ 2·T1 · |ψ⟩</p>
+        <p>
+          Datos, temperaturas, etiquetas de cúbit y mandos de los aparatos. Nunca prosa: la
+          monoespaciada rotula lo que dice la máquina, y la prosa es voz de los autores.
+          Las tres familias están autoalojadas en <span class="magnitud">fuentes/</span> para que
+          el sitio funcione sin conexión.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="capitulo">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Paso 6 · Reglas de movimiento</p>
+        <h2>Solo se mueve lo que todavía no se ha medido</h2>
+        <p>
+          La regla que gobierna la interacción es una sola frase: <em>el papel está quieto, lo
+          cuántico fluctúa, la atención del lector mide</em>. En la práctica significa que no hay
+          parallax en el texto, que nada rebota, que nada brilla por su cuenta y que ninguna
+          animación es decorativa.
+        </p>
+        <ol>
+          <li>Dos velocidades: <span class="magnitud">180 ms</span> para lo que responde al dedo y
+            <span class="magnitud">420 ms</span> para los cambios de estado. Una sola curva.</li>
+          <li>Los botones llevan un duplicado fantasma en azul desplazado
+            <span class="magnitud">2 px</span>, como un registro de imprenta mal calado, que colapsa
+            al pasar el ratón.</li>
+          <li>Las figuras se imprimen con un barrido de máscara, nunca aparecen con un fundido.</li>
+          <li>El texto se revela por línea; jamás letra a letra.</li>
+          <li>Una cifra editorial puede contar hacia arriba; una lectura de aparato salta, como un
+            display de siete segmentos.</li>
+          <li>El scroll solo conduce dos cosas: el vídeo del héroe y la cámara de las piezas 3D.</li>
+          <li>El audio está apagado por defecto y el sitio se entiende entero en silencio.</li>
+        </ol>
+      </div>
+      <aside class="margen">
+        <p class="nota">
+          <b>Comprobación</b>
+          Con <span class="magnitud">prefers-reduced-motion</span> activado, el vídeo se sustituye
+          por un fotograma fijo con su pie, las figuras aparecen ya impresas y las piezas 3D
+          quedan en pose estática con sus controles por botón.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Documento de diseño · Parcial N.º 1 · Ingeniería Web · UTP</span>
+      <span><a href="../index.html">Volver al sitio</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

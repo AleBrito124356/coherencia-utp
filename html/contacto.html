@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contacto — Coherencia</title>
+<meta name="description" content="Escriba a la redacción de Coherencia: correcciones, dudas y propuestas. Cada mensaje queda guardado en un archivo de datos.">
+<meta name="author" content="Alejandro Brito Olivera y Marcos Gaitán">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="../img/marca.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-pagina="contacto">
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="../index.html" aria-label="Coherencia, portada">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Revista de computación cuántica · UTP · N.º 01</span>
+      </span>
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="navegacion" aria-label="Abrir el índice"><span></span></button>
+    <nav class="navegacion" id="navegacion" aria-label="Índice de la revista">
+      <a href="../index.html">Portada</a>
+      <a href="fundamentos.html">Fundamentos</a>
+      <a href="hardware.html">La máquina</a>
+      <a href="laboratorio.html">Laboratorio</a>
+      <a href="aplicaciones.html">Aplicaciones</a>
+      <a href="acerca-de.html">Acerca de</a>
+      <a href="contacto.html" aria-current="page">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="capitulo" id="apertura">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Capítulo VI</p>
+        <h1 class="imprime">Contacto</h1>
+        <p class="entradilla">
+          Si encuentra un dato mal, escríbanos: lo corregimos y lo anotamos. También puede
+          preguntar por cualquier capítulo o proponer un tema para el número dos.
+        </p>
+      </div>
+      <aside class="margen">
+        <p class="nota">
+          <b>Qué pasa con su mensaje</b>
+          El formulario no manda correo: <strong>escribe cada mensaje en un archivo de datos</strong>
+          del servidor, que es lo que pide el enunciado de este parcial. Abajo puede leer ese
+          archivo usted mismo.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="capitulo capitulo--vitela" id="escribir">
+    <div class="pliego">
+      <article class="columna">
+        <form class="formulario" id="formulario-contacto" method="post" action="../guardar.php"
+              data-base="../" novalidate>
+
+          <div class="campo">
+            <label for="nombre">Nombre y apellido</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="name"
+                   placeholder="Ej.: Ana Pérez" required minlength="3" maxlength="80">
+            <p class="error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" autocomplete="email" inputmode="email"
+                   placeholder="nombre@utp.ac.pa" required maxlength="120">
+            <p class="ayuda">Si escribe desde su correo <span class="magnitud">@utp.ac.pa</span> le respondemos antes.</p>
+            <p class="error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="telefono">Teléfono <span class="suave">(opcional)</span></label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel" inputmode="tel"
+                   placeholder="6XXX-XXXX" maxlength="20">
+            <p class="ayuda">Celular de Panamá de ocho dígitos o fijo de siete.</p>
+            <p class="error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="tema">¿De qué trata?</label>
+            <select id="tema" name="tema" required>
+              <option value="" selected disabled>Elija un tema…</option>
+              <option value="correccion">Corrección de un dato</option>
+              <option value="duda">Duda sobre un capítulo</option>
+              <option value="colaboracion">Propuesta de colaboración</option>
+              <option value="otro">Otro asunto</option>
+            </select>
+            <p class="error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="mensaje">Mensaje <span class="contador" id="contador-mensaje">0 / 1200</span></label>
+            <textarea id="mensaje" name="mensaje" required minlength="20" maxlength="1200"
+                      placeholder="Si es una corrección, díganos en qué capítulo está y qué debería decir."></textarea>
+            <p class="error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label class="acepto" for="acepto">
+              <input type="checkbox" id="acepto" name="acepto" required>
+              <span>Acepto que Coherencia guarde estos datos en su archivo únicamente para responderme.</span>
+            </label>
+            <p class="error" role="alert"></p>
+          </div>
+
+          <!-- Campo señuelo para robots: una persona no lo ve ni lo rellena -->
+          <div class="campo" aria-hidden="true" style="position:absolute;left:-9999px">
+            <label for="sitio">No rellene este campo</label>
+            <input type="text" id="sitio" name="sitio" tabindex="-1" autocomplete="off">
+          </div>
+
+          <button class="boton" type="submit">Guardar mensaje</button>
+        </form>
+
+        <!-- Acuse de recibo -->
+        <div class="acuse" id="acuse" aria-live="polite">
+          <p class="acuse__sello">Recibido y archivado</p>
+          <h2 tabindex="-1">Su mensaje quedó guardado.</h2>
+          <p>
+            Lo hemos añadido al archivo de datos con el folio que aparece abajo. Le responderemos
+            al correo indicado.
+          </p>
+          <dl class="acuse__resumen">
+            <dt>Folio</dt><dd data-acuse="folio">—</dd>
+            <dt>Fecha</dt><dd data-acuse="fecha">—</dd>
+            <dt>Nombre</dt><dd data-acuse="nombre">—</dd>
+            <dt>Correo</dt><dd data-acuse="correo">—</dd>
+            <dt>Tema</dt><dd data-acuse="tema">—</dd>
+            <dt>Guardado en</dt><dd data-acuse="motor">—</dd>
+          </dl>
+          <div class="mandos">
+            <button class="mando" type="button" data-accion="otro-mensaje" data-fantasma="Escribir otro">Escribir otro</button>
+            <button class="mando" type="button" data-accion="descargar" data-fantasma="Descargar archivo">Descargar archivo</button>
+          </div>
+        </div>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Seis campos validados</b>
+          Nombre (letras y longitud), correo (formato), teléfono (patrón panameño, y opcional),
+          tema (de la lista), mensaje (entre 20 y 1200 caracteres) y la casilla de permiso.
+          La misma comprobación se repite en el servidor, porque la del navegador se puede saltar.
+        </p>
+        <p class="nota">
+          <b>Otras vías</b>
+          <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a><br>
+          Campus Dr. Víctor Levi Sasso, Ciudad de Panamá.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="capitulo" id="archivo">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">El archivo de datos</p>
+        <h2 class="imprime">Compruébelo usted mismo.</h2>
+        <p>
+          Este botón pide al servidor el archivo donde se guardan los mensajes y lo muestra tal
+          cual, sin maquillar. Es la forma más directa de verificar que el formulario hace lo que
+          dice.
+        </p>
+        <div class="mandos">
+          <button class="mando mando--medir" type="button" data-accion="ver-archivo" data-fantasma="Leer el archivo">Leer el archivo</button>
+        </div>
+        <pre class="caja caja--vitela" data-salida="archivo" style="margin-top:1.2rem;white-space:pre-wrap;font-family:var(--mono);font-size:.82rem;max-height:22rem;overflow:auto">Pulse «Leer el archivo» para ver su contenido.</pre>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Tres rutas, un mismo archivo</b>
+          El sitio prueba primero <span class="magnitud">api/guardar</span> (la función de Node
+          del hosting), luego <span class="magnitud">guardar.php</span> (el servidor con PHP de
+          clase) y, si no hay ninguno —por ejemplo al abrir el proyecto directamente desde una
+          carpeta—, guarda en el propio navegador y deja descargar el
+          <span class="magnitud">.txt</span>.
+        </p>
+        <p class="nota nota--antagonista">
+          <b>Lo que no hace</b>
+          No hay base de datos todavía: en un hosting gratuito la función escribe en el
+          almacenamiento temporal del servidor y el archivo se puede perder cuando la plataforma
+          recicla la instancia. Con PHP en un servidor propio, <span class="magnitud">datos/mensajes.txt</span>
+          es permanente. La base de datos llega en el Proyecto N.º 2.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="tercio">
+      <a class="marca" href="../index.html">
+        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+          <circle cx="44" cy="50" r="9" fill="currentColor"/>
+          <circle cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+        </svg>
+        <span><span class="marca__nombre">Coherencia</span></span>
+      </a>
+      <p class="suave" style="margin-top:1rem;font-size:.92rem">
+        Revista universitaria de divulgación sobre computación cuántica.
+        Facultad de Ingeniería de Sistemas Computacionales, Universidad Tecnológica de Panamá.
+      </p>
+      <div class="redes" style="margin-top:1.2rem">
+        <a href="https://github.com/AleBrito124356" rel="noopener" aria-label="GitHub del proyecto">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1 4.98 2.1 4.98 3.5zM.2 8h4.6v15H.2V8zm7.4 0h4.4v2.1h.1c.6-1.1 2-2.3 4.2-2.3 4.5 0 5.3 2.9 5.3 6.7V23h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 1.9-2.9 4V23H7.6V8z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 5.3A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.7-7.6a1.05 1.05 0 1 1-1.05-1.05A1.05 1.05 0 0 1 17.7 7.3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="tercio" aria-label="Índice del pie">
+      <h4>Capítulos</h4>
+      <ul>
+        <li><a href="fundamentos.html">Fundamentos</a></li>
+        <li><a href="hardware.html">La máquina</a></li>
+        <li><a href="laboratorio.html">Laboratorio</a></li>
+        <li><a href="aplicaciones.html">Aplicaciones</a></li>
+        <li><a href="acerca-de.html">Acerca de</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="tercio">
+      <h4>Para seguir leyendo</h4>
+      <ul>
+        <li><a href="https://quantum.cloud.ibm.com/docs" rel="noopener">Documentación de IBM Quantum</a> — cursos y acceso real a procesadores.</li>
+        <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST · Criptografía poscuántica</a> — los estándares de 2024.</li>
+      </ul>
+      <h4 style="margin-top:1.6rem">Redacción</h4>
+      <address>
+        Campus Dr. Víctor Levi Sasso<br>
+        Ciudad de Panamá<br>
+        <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a>
+      </address>
+    </div>
+
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Parcial N.º 1 · Ingeniería Web · Dra. Denis Cedeño · Grupo 1SF134</span>
+      <span>Publicación estudiantil sin vínculo oficial con la UTP</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos-fijos">
+  <button class="mando" type="button" data-audio aria-pressed="false">Sonido: no</button>
+  <button class="mando" type="button" data-bajo-consumo aria-pressed="false">Bajo consumo: no</button>
+</div>
+
+<script src="../js/sitio.js" defer></script>
+<script src="../js/formulario.js" defer></script>
+</body>
+</html>

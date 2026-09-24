@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coherencia — Revista de computación cuántica · UTP</title>
+<meta name="description" content="Revista universitaria de divulgación sobre computación cuántica, escrita en la Universidad Tecnológica de Panamá. Qué es un cúbit, cómo se construye una máquina cuántica, para qué sirve de verdad y qué todavía no funciona.">
+<meta name="author" content="Alejandro Brito Olivera y Marcos Gaitán">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="img/marca.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Coherencia — Revista de computación cuántica">
+<meta property="og:description" content="Todo es verdad hasta que lo miras. Divulgación rigurosa de computación cuántica desde la Universidad Tecnológica de Panamá.">
+<meta property="og:image" content="img/descenso-poster.webp">
+<meta property="og:locale" content="es_PA">
+<link rel="preload" as="image" href="img/descenso-poster.webp">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body data-pagina="inicio">
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="index.html" aria-label="Coherencia, portada">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3" stroke-linecap="butt"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Revista de computación cuántica · UTP · N.º 01</span>
+      </span>
+    </a>
+
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="navegacion" aria-label="Abrir el índice"><span></span></button>
+
+    <nav class="navegacion" id="navegacion" aria-label="Índice de la revista">
+      <a href="index.html" aria-current="page">Portada</a>
+      <a href="html/fundamentos.html">Fundamentos</a>
+      <a href="html/hardware.html">La máquina</a>
+      <a href="html/laboratorio.html">Laboratorio</a>
+      <a href="html/aplicaciones.html">Aplicaciones</a>
+      <a href="html/acerca-de.html">Acerca de</a>
+      <a href="html/contacto.html">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ==================================================================
+       Fig. 0 — EL DESCENSO
+       Vídeo de 10 s recodificado con un fotograma clave en cada fotograma
+       para poder rebobinarlo con el scroll. Si el navegador no aguanta el
+       salto, js/sitio.js cambia solo a la secuencia de 36 imágenes.
+       ================================================================== -->
+  <section class="descenso" aria-label="El descenso al cero absoluto">
+    <div class="descenso__escenario">
+      <video class="descenso__video" src="video/descenso.mp4" poster="img/descenso-poster.webp"
+             muted playsinline preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1"></video>
+      <canvas class="descenso__lienzo" data-cuadros="36" data-ruta="img/secuencia/" aria-hidden="true"></canvas>
+      <div class="descenso__velo" aria-hidden="true"></div>
+
+      <div class="descenso__texto">
+        <div class="pliego">
+          <h1 class="descenso__titular">Coherencia</h1>
+          <p class="descenso__lema">Todo es verdad hasta que lo miras</p>
+        </div>
+      </div>
+
+      <nav class="termometro" aria-label="Etapas térmicas del descenso">
+        <span class="termometro__linea" aria-hidden="true"></span>
+        <button class="termometro__marca" type="button" data-p="0" aria-current="true">300 K</button>
+        <button class="termometro__marca" type="button" data-p="0.22" aria-current="false">50 K</button>
+        <button class="termometro__marca" type="button" data-p="0.45" aria-current="false">4 K</button>
+        <button class="termometro__marca" type="button" data-p="0.68" aria-current="false">100 mK</button>
+        <button class="termometro__marca" type="button" data-p="0.92" aria-current="false">10 mK</button>
+      </nav>
+
+      <p class="descenso__pie">
+        <span class="folio">Fig. 0 — Refrigerador de dilución</span>
+        La cámara baja por las etapas térmicas de la máquina hasta el chip, a diez milikelvin:
+        más frío que el espacio vacío entre las galaxias. Recreación generada con IA a partir de
+        fotografías de criostatos reales.
+      </p>
+
+      <a class="descenso__saltar" href="#apertura">Saltar la secuencia</a>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Capítulo de apertura: la costura entre el cine y el papel
+       ================================================================== -->
+  <section class="capitulo" id="apertura">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Número 01 · Septiembre de 2026</p>
+        <h2 class="imprime">Una máquina que solo funciona si nadie la mira.</h2>
+        <p class="entradilla lineas">
+          <span>Dentro de ese cilindro dorado no hay una computadora más rápida. Hay una manera
+          distinta de calcular, y una carrera contra el reloj: el estado cuántico que hace el
+          trabajo se destruye en cuanto el entorno lo toca.</span>
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Nota de la redacción</b>
+          Esta revista la escriben dos estudiantes de Ingeniería de Software, no un
+          departamento de física. Cada afirmación viene con su fuente, y hay un capítulo
+          entero dedicado a lo que todavía no funciona.
+        </p>
+      </aside>
+
+      <div class="columna">
+        <p class="capitular">
+          La computación cuántica arrastra un problema de traducción. Se repite que un cúbit
+          «es 0 y 1 a la vez» y que por eso «prueba todas las respuestas en paralelo». Las dos
+          frases son falsas, y explicarlas bien no es más difícil: es solo menos espectacular.
+          Un cúbit es un sistema de dos estados cuyo estado se describe con dos números
+          complejos, llamados amplitudes. Al medirlo se obtiene un único bit, con una
+          probabilidad que sale del cuadrado de esas amplitudes.
+        </p>
+        <p>
+          Lo que sí es extraordinario está en otro sitio. Las amplitudes pueden ser negativas o
+          complejas, y por tanto pueden <em>cancelarse</em>. Un algoritmo cuántico bien diseñado
+          no revisa todas las respuestas: organiza los caminos del cálculo para que los que
+          llevan a las respuestas equivocadas se anulen entre sí y los que llevan a la correcta
+          se refuercen. Esa coreografía se llama interferencia, y es la única fuente real de
+          ventaja.
+        </p>
+        <p>
+          Para que la interferencia ocurra, el sistema tiene que mantenerse coherente: aislado
+          del ruido térmico, de los campos magnéticos, de cualquier interacción que lo delate.
+          De ahí el refrigerador de la portada. Toda la ingeniería de una máquina cuántica es,
+          en el fondo, ingeniería contra el reloj.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Escuche la introducción</b>
+          Minuto y medio con lo esencial, por si prefiere oírlo. Todo lo que dice está también
+          escrito en esta página.
+        </p>
+        <audio controls preload="metadata" src="audio/narracion.mp3">
+          Su navegador no puede reproducir audio.
+          <a href="audio/narracion.mp3">Descargar la narración (MP3)</a>.
+        </audio>
+        <p class="folio">Voz generada con IA · 51 s</p>
+      </aside>
+
+      <!-- La última imagen del vídeo, ya impresa: el cine se vuelve papel -->
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="img/maqueta-portamuestras.webp" alt="Vista desde abajo del portamuestras chapado en oro colgado bajo la placa de mezcla: el chip oscuro con sus pistas, los hilos de unión y cuatro conectores coaxiales, con el rótulo 10 mK."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 1</b> El final del descenso, en la maqueta 3D del capítulo II. Lo que cuelga
+          de la última placa, dentro de su caja de oro, es el procesador: del tamaño de una uña.
+          Todo lo demás es el frigorífico que lo mantiene a <span class="magnitud">10 mK</span>.
+          <em>Render en tiempo real con Three.js, el mismo que se recorre con el dial en
+          <a href="html/hardware.html#el-frio">La máquina</a>.</em>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Tres cifras editoriales
+       ================================================================== -->
+  <section class="capitulo capitulo--corto capitulo--vitela">
+    <div class="pliego">
+      <div class="todo">
+        <p class="rotulo">Tres cifras para situarse</p>
+      </div>
+      <div class="tercio imprime">
+        <span class="cifra"><span data-cuenta="10">0</span><small> mK</small></span>
+        <p>Temperatura de trabajo de un procesador superconductor. El espacio interestelar está
+          unas doscientas setenta veces más caliente.</p>
+      </div>
+      <div class="tercio imprime">
+        <span class="cifra">2022</span>
+        <p>Año del Nobel de Física a Aspect, Clauser y Zeilinger por demostrar
+          experimentalmente que el entrelazamiento no se explica con variables ocultas locales.</p>
+      </div>
+      <div class="tercio imprime">
+        <span class="cifra"><span data-cuenta="3">0</span></span>
+        <p>Estándares de criptografía poscuántica publicados por el NIST en agosto de 2024.
+          La migración empezó antes de que exista la máquina que obliga a hacerla.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       El índice de la revista
+       ================================================================== -->
+  <section class="capitulo" id="indice">
+    <div class="pliego">
+      <div class="columna-ancha">
+        <p class="rotulo">En este número</p>
+        <h2 class="imprime">Seis capítulos y cuatro aparatos que se pueden tocar.</h2>
+      </div>
+
+      <article class="mitad imprime">
+        <a class="pieza" href="html/fundamentos.html">
+          <img class="pieza__imagen" src="img/lectura-luz.webp" alt="Hilera de iones atrapados vista por la mirilla de una cámara de vacío: puntos de luz verdosa entre electrodos de acero." width="1600" height="1066" loading="lazy" decoding="async">
+          <p class="folio">Capítulo I</p>
+          <h3>Fundamentos</h3>
+          <p>Qué es un cúbit de verdad, por qué la fase importa más que la superposición y qué
+            significa medir. Con la doble rendija funcionando en la propia página.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="html/hardware.html">
+          <img class="pieza__imagen" src="img/chip.webp" alt="Macro de un procesador superconductor sobre su portamuestras dorado, con los hilos de unión saliendo hacia los conectores." width="1600" height="1066" loading="lazy" decoding="async">
+          <p class="folio">Capítulo II</p>
+          <h3>La máquina</h3>
+          <p>Superconductores, iones atrapados, átomos neutros y fotones. Qué hace cada etapa
+            del refrigerador y por qué hay que bajar hasta los milikelvin.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="html/laboratorio.html">
+          <img class="pieza__imagen" src="img/goniometro.webp" alt="El goniómetro del laboratorio: una esfera de Bloch con aguja de latón sobre una peana de cobre." width="1200" height="800" loading="lazy" decoding="async">
+          <p class="folio">Capítulo III</p>
+          <h3>Laboratorio</h3>
+          <p>Un simulador cuántico escrito desde cero. Aplique puertas, vea girar el vector en
+            la esfera de Bloch, mida y compruebe cómo la coherencia se gasta.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="html/aplicaciones.html">
+          <img class="pieza__imagen" src="img/escala-oblea.webp" alt="Oblea de silicio con decenas de chips idénticos, sostenida por una mano enguantada en una sala limpia." width="1600" height="1066" loading="lazy" decoding="async">
+          <p class="folio">Capítulo IV</p>
+          <h3>Aplicaciones</h3>
+          <p>Qué se ha demostrado, qué es proyección comercial y qué hay que hacer ya con la
+            criptografía. Incluye lo que no ha funcionado.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="html/acerca-de.html">
+          <img class="pieza__imagen" src="img/ingeniera.webp" alt="Una técnica trabaja sobre el cableado de un criostato abierto." width="1600" height="1066" loading="lazy" decoding="async">
+          <p class="folio">Capítulo V</p>
+          <h3>Acerca de</h3>
+          <p>Quiénes escriben, cómo se diseñó el sitio, qué técnica se usó y de dónde sale cada
+            dato. Con la bibliografía completa.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="html/contacto.html">
+          <img class="pieza__imagen" src="img/desde-panama.webp" alt="Estudiante escribiendo cuentas de matrices en un cuaderno junto a un portátil." width="1600" height="1066" loading="lazy" decoding="async">
+          <p class="folio">Capítulo VI</p>
+          <h3>Contacto</h3>
+          <p>Correcciones, dudas y propuestas. El formulario guarda cada mensaje en un archivo
+            de datos.</p>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       El antagonista
+       ================================================================== -->
+  <section class="capitulo" id="decoherencia">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">El antagonista</p>
+        <h2 class="imprime">La coherencia se gasta.</h2>
+        <p class="lineas">
+          <span>Ningún cúbit está solo. El entorno lo mide sin querer, todo el rato: un fotón
+          térmico, una vibración, un campo magnético que pasaba por ahí. Esa vigilancia
+          involuntaria se llama decoherencia y destruye exactamente lo que hace útil al
+          sistema, que es la fase relativa entre sus amplitudes.</span>
+        </p>
+        <p>
+          En ingeniería se resume en dos números. <span class="magnitud">T1</span> mide cuánto
+          tarda un cúbit excitado en caer a su estado de reposo.
+          <span class="magnitud">T2</span> mide cuánto tarda en perder la fase, y nunca puede
+          superar el doble de <span class="magnitud">T1</span>. En los procesadores
+          superconductores de 2026 esos tiempos se cuentan en centenares de microsegundos:
+          todo el cálculo tiene que caber dentro de esa ventana.
+        </p>
+        <p>
+          Por eso cada capítulo de esta revista termina con una nota roja. No para asustar:
+          para que quede claro dónde está hoy la frontera real de esta tecnología.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota nota--antagonista">
+          <b>Lo que destruye el estado</b>
+          Calor, ruido electromagnético, vibración y la propia medición. La máquina no se
+          apaga: se olvida.
+        </p>
+        <p class="nota">
+          <b>Compruébelo</b>
+          En el <a href="html/laboratorio.html">laboratorio</a> puede arrancar el reloj de
+          <span class="magnitud">T2</span> y ver cómo el vector de estado cae hacia el polo
+          hasta que ya no queda nada que medir.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="tercio">
+      <a class="marca" href="index.html">
+        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+          <circle cx="44" cy="50" r="9" fill="currentColor"/>
+          <circle cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+        </svg>
+        <span><span class="marca__nombre">Coherencia</span></span>
+      </a>
+      <p class="suave" style="margin-top:1rem;font-size:.92rem">
+        Revista universitaria de divulgación sobre computación cuántica.
+        Facultad de Ingeniería de Sistemas Computacionales, Universidad Tecnológica de Panamá.
+      </p>
+      <div class="redes" style="margin-top:1.2rem">
+        <a href="https://github.com/AleBrito124356" rel="noopener" aria-label="GitHub del proyecto">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1 4.98 2.1 4.98 3.5zM.2 8h4.6v15H.2V8zm7.4 0h4.4v2.1h.1c.6-1.1 2-2.3 4.2-2.3 4.5 0 5.3 2.9 5.3 6.7V23h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 1.9-2.9 4V23H7.6V8z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 5.3A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.7-7.6a1.05 1.05 0 1 1-1.05-1.05A1.05 1.05 0 0 1 17.7 7.3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="tercio" aria-label="Índice del pie">
+      <h4>Capítulos</h4>
+      <ul>
+        <li><a href="html/fundamentos.html">Fundamentos</a></li>
+        <li><a href="html/hardware.html">La máquina</a></li>
+        <li><a href="html/laboratorio.html">Laboratorio</a></li>
+        <li><a href="html/aplicaciones.html">Aplicaciones</a></li>
+        <li><a href="html/acerca-de.html">Acerca de</a></li>
+        <li><a href="html/contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="tercio">
+      <h4>Para seguir leyendo</h4>
+      <ul>
+        <li><a href="https://quantum.cloud.ibm.com/docs" rel="noopener">Documentación de IBM Quantum</a> — cursos y acceso real a procesadores.</li>
+        <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST · Criptografía poscuántica</a> — los estándares de 2024.</li>
+      </ul>
+      <h4 style="margin-top:1.6rem">Redacción</h4>
+      <address>
+        Campus Dr. Víctor Levi Sasso<br>
+        Ciudad de Panamá<br>
+        <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a>
+      </address>
+    </div>
+
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Parcial N.º 1 · Ingeniería Web · Dra. Denis Cedeño · Grupo 1SF134</span>
+      <span>Publicación estudiantil sin vínculo oficial con la UTP</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos-fijos">
+  <button class="mando" type="button" data-audio aria-pressed="false">Sonido: no</button>
+  <button class="mando" type="button" data-bajo-consumo aria-pressed="false">Bajo consumo: no</button>
+</div>
+
+<script src="js/sitio.js" defer></script>
+</body>
+</html>

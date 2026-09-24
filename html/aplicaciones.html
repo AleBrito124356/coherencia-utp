@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aplicaciones — Coherencia</title>
+<meta name="description" content="Qué acelera de verdad un algoritmo cuántico, qué aplicaciones están demostradas y cuáles son proyección, la criptografía poscuántica del NIST y cómo empezar desde Panamá.">
+<meta name="author" content="Alejandro Brito Olivera y Marcos Gaitán">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="../img/marca.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-pagina="aplicaciones">
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="../index.html" aria-label="Coherencia, portada">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Revista de computación cuántica · UTP · N.º 01</span>
+      </span>
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="navegacion" aria-label="Abrir el índice"><span></span></button>
+    <nav class="navegacion" id="navegacion" aria-label="Índice de la revista">
+      <a href="../index.html">Portada</a>
+      <a href="fundamentos.html">Fundamentos</a>
+      <a href="hardware.html">La máquina</a>
+      <a href="laboratorio.html">Laboratorio</a>
+      <a href="aplicaciones.html" aria-current="page">Aplicaciones</a>
+      <a href="acerca-de.html">Acerca de</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+<section class="capitulo" id="algoritmos">
+  <div class="pliego">
+    <div class="columna">
+      <p class="rotulo">Capítulo IV · Aplicaciones</p>
+      <h2 class="imprime">Para qué sirve esto de verdad.</h2>
+      <p class="entradilla lineas">
+        <span>Cinco algoritmos concentran casi todo lo que se puede prometer. Dos tienen
+        aceleración bien fundamentada, uno es cuadrático y casi nunca compensa, y dos no tienen
+        ninguna.</span>
+      </p>
+      <p class="capitular">
+        Conviene separar tres regímenes. Primero, las
+        aceleraciones superpolinómicas frente al mejor algoritmo clásico conocido: Shor, para
+        factorizar y para el logaritmo discreto, y la simulación de sistemas cuánticos mediante
+        estimación de fase. Segundo, la cuadrática, demostrablemente óptima: Grover. Tercero,
+        las heurísticas sin garantía: VQE y QAOA.
+      </p>
+      <p>
+        Que no todo se acelere está en el mecanismo, no en el hardware. Una superposición de 2ⁿ
+        estados no son 2ⁿ resultados legibles: la medición devuelve uno solo. La ventaja aparece
+        cuando el algoritmo organiza interferencias que cancelan las ramas incorrectas y
+        refuerzan la correcta, y eso exige estructura explotable: periodicidad en Shor,
+        estructura de grupo en la estimación de fase, localidad en la simulación hamiltoniana.
+        Sin ella solo queda la búsqueda, y ahí Bennett, Bernstein, Brassard y Vazirani
+        demostraron en <time datetime="1997">1997</time> que la cota es ajustada: Grover es
+        óptimo.
+      </p>
+    </div>
+
+    <aside class="margen">
+      <p class="nota">
+        <b>Cómo leer este capítulo</b>
+        Cada afirmación lleva fecha y fuente. Cuando una cifra es una estimación y no una
+        medición, se dice. Cuando lo único que existe es un comunicado de empresa, también.
+      </p>
+      <p class="nota">
+        <b>Los NP-completos siguen ahí</b>
+        No se espera que caigan en tiempo polinómico cuántico. Tampoco está demostrado lo
+        contrario: la relación entre BQP y NP sigue siendo un problema abierto.
+      </p>
+    </aside>
+  </div>
+
+  <!-- Pliego nuevo: una nota pegajosa se desliza por TODO su pliego, no solo por su
+       fila; sin este corte bajaría encima de lo que viene detrás. -->
+  <div class="pliego">
+    <div class="columna-ancha imprime" tabindex="0" role="region" aria-label="Tabla 1 (se desplaza en horizontal)">
+      <table>
+        <caption>Tabla 1 — Qué acelera cada algoritmo y qué haría falta para que fuera útil</caption>
+        <thead>
+          <tr><th scope="col">Algoritmo</th><th scope="col">Qué acelera</th><th scope="col">Aceleración real</th><th scope="col">Qué haría falta</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Grover</th>
+            <td data-etiqueta="Qué acelera">Búsqueda en un conjunto sin estructura aprovechable.</td>
+            <td data-etiqueta="Aceleración real">Cuadrática, y demostrablemente óptima.</td>
+            <td data-etiqueta="Qué haría falta">Que la corrección de errores dejara de multiplicar el tiempo por una constante enorme. Babbush y colaboradores (2021) sostienen que lo cuadrático no cruza el umbral de utilidad en las primeras máquinas tolerantes a fallos.</td>
+          </tr>
+          <tr>
+            <th scope="row">Shor</th>
+            <td data-etiqueta="Qué acelera">Factorización de enteros y logaritmo discreto.</td>
+            <td data-etiqueta="Aceleración real">Superpolinómica frente al mejor algoritmo clásico conocido. No es una separación demostrada.</td>
+            <td data-etiqueta="Qué haría falta"><span class="magnitud">Menos de 1.000.000 de cúbits físicos</span> ruidosos durante <span class="magnitud">menos de una semana</span>, para RSA-2048 (Gidney, 2025).</td>
+          </tr>
+          <tr>
+            <th scope="row">Simulación hamiltoniana</th>
+            <td data-etiqueta="Qué acelera">Evolución de un sistema cuántico bajo su hamiltoniano: química y materiales.</td>
+            <td data-etiqueta="Aceleración real">Exponencial frente a los métodos clásicos exactos. Frente a los aproximados, mucho menos.</td>
+            <td data-etiqueta="Qué haría falta">Unos <span class="magnitud">4.000.000 de cúbits físicos</span> y <span class="magnitud">menos de 4 días</span> para el cofactor FeMo de la nitrogenasa (Lee y colaboradores, 2021).</td>
+          </tr>
+          <tr>
+            <th scope="row">VQE</th>
+            <td data-etiqueta="Qué acelera">Energía del estado fundamental de una molécula, con un circuito corto y un optimizador clásico.</td>
+            <td data-etiqueta="Aceleración real">No demostrada.</td>
+            <td data-etiqueta="Qué haría falta">Una prueba de que converge más rápido que una heurística clásica. No existe.</td>
+          </tr>
+          <tr>
+            <th scope="row">QAOA</th>
+            <td data-etiqueta="Qué acelera">Optimización combinatoria aproximada.</td>
+            <td data-etiqueta="Aceleración real">No demostrada.</td>
+            <td data-etiqueta="Qué haría falta"><span class="magnitud">73,91 millones de cúbits físicos</span>, profundidad <span class="magnitud">p = 623</span> y <span class="magnitud">14,99 horas</span> para cruzar frente a las mejores heurísticas clásicas en 8-SAT aleatorio de <span class="magnitud">179 variables</span> (Omanakuttan y colaboradores, 2025).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="columna">
+      <p>
+        Grover pide del orden de (π/4)√N llamadas al oráculo frente a las N/2 clásicas de media.
+        Es la aceleración mejor establecida del catálogo y casi nunca compensa: Grover paraleliza
+        mal, porque con <i>k</i> máquinas solo se gana √<i>k</i> mientras la búsqueda clásica
+        gana <i>k</i>.
+        Hoefler, Häner y Troyer lo resumieron en <time datetime="2023">2023</time>: hacen falta
+        problemas de datos pequeños y aceleraciones supercuadráticas.
+      </p>
+      <p>
+        Shor sí tiene factura calculada, y baja cada año: de
+        <span class="magnitud">20 millones de cúbits físicos</span> durante
+        <span class="magnitud">8 horas</span> para RSA-2048 a
+        <span class="magnitud">menos de 1.000.000</span> en
+        <span class="magnitud">menos de una semana</span>, según la estimación de Gidney de
+        <time datetime="2025-05">mayo de 2025</time>. La simulación hamiltoniana es la
+        aplicación más defendible, porque el problema es nativamente cuántico; pero la
+        comparación honesta no es contra la diagonalización exacta, sino contra DMRG, cúmulos
+        acoplados y Monte Carlo cuántico.
+      </p>
+      <p>
+        VQE y QAOA se diseñaron para hardware ruidoso y por eso dominaron la última década. No
+        tienen aceleración demostrada. Arrastran las mesetas áridas —el gradiente del coste se
+        anula exponencialmente con el número de cúbits— y algo peor: Cerezo y colaboradores
+        sugirieron en <time datetime="2025-08">agosto de 2025</time> que muchas arquitecturas
+        libres de mesetas áridas quedan confinadas a subespacios clásicamente simulables, tras
+        una fase previa de recolección de datos en el propio hardware. Esquivar el problema
+        tiende a eliminar el motivo de encender la máquina.
+      </p>
+
+      <dl class="glosario">
+        <div>
+          <dt>Cúbit lógico</dt>
+          <dd>Cúbit protegido por un código de corrección de errores. Es la unidad en la que se
+            escriben las estimaciones de recursos, y la que no aparece en los titulares.</dd>
+        </div>
+        <div>
+          <dt>Profundidad T</dt>
+          <dd>Capas de puertas T que debe atravesar el circuito. En una máquina tolerante a
+            fallos es el coste dominante, más que el número de cúbits.</dd>
+        </div>
+        <div>
+          <dt>Meseta árida</dt>
+          <dd>Región del paisaje de optimización donde el gradiente se desvanece
+            exponencialmente con el tamaño del sistema. Sin gradiente no hay entrenamiento.</dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Las dos notas sobre cúbits físicos y lógicos acompañan a las estimaciones de
+         Shor, que es donde se usan esas cifras; antes se apilaban arriba. -->
+    <aside class="margen">
+      <p class="nota">
+        <b>Físico no es lógico</b>
+        Un cúbit lógico corregido consume hoy del orden de cientos de cúbits físicos. Comparar
+        el titular de una máquina con la estimación de un algoritmo sin mirar esa etiqueta es el
+        error más común del sector.
+      </p>
+      <p class="nota nota--antagonista">
+        <b>La escala que falta</b>
+        En <time datetime="2026-03">marzo de 2026</time> lo demostrado públicamente son
+        <span class="magnitud">48 cúbits lógicos</span> corregidos sobre los
+        <span class="magnitud">98 cúbits físicos</span> del procesador Helios de Quantinuum, en
+        un resultado todavía en preprint. Las estimaciones de esta página piden entre
+        <span class="magnitud">cientos de miles</span> y
+        <span class="magnitud">decenas de millones de cúbits físicos</span>. No es una diferencia
+        de grado.
+      </p>
+    </aside>
+
+    <figure class="figura figura--anotada columna-ancha imprime">
+      <div class="figura__marco">
+        <img src="../img/escala-oblea.webp" alt="Una mano enguantada sostiene con una pinza de vacío una oblea de silicio inclinada hacia la luz; en su superficie se distingue la retícula de decenas de chips idénticos."
+             width="1600" height="1066" loading="lazy" decoding="async">
+      </div>
+      <figcaption>
+        <b>Fig. 17</b> El procesador es la parte barata. Lo que separa un chip como este de
+        romper RSA-2048 no es una idea nueva, sino algo del orden de
+        <span class="magnitud">1.000.000 de cúbits físicos</span> y una corrección de errores
+        que todavía no existe a esa escala.
+        <em>Recreación generada con IA a partir de fotografías de chips superconductores.</em>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="capitulo capitulo--vitela" id="aplicaciones">
+  <div class="pliego">
+    <div class="columna">
+      <p class="rotulo">Lo demostrado y lo proyectado</p>
+      <h2 class="imprime">Cinco frentes y ninguna aplicación industrial que gane a lo clásico.</h2>
+      <p>
+        El patrón más informativo del sector es el ciclo anuncio-refutación. En
+        <time datetime="2023-06">junio de 2023</time> IBM publicó en <cite>Nature</cite> un
+        experimento sobre <span class="magnitud">127 cúbits</span> presentado como «utilidad
+        antes de la tolerancia a fallos»; en <time datetime="2024-01">enero de 2024</time>
+        Begušić, Gray y Chan reprodujeron esos observables con métodos clásicos aproximados en
+        unos <span class="magnitud">10 segundos</span> por punto sobre un solo núcleo de
+        portátil, frente a las <span class="magnitud">4 y 9,5 horas</span> de la ejecución
+        cuántica; sus comprobaciones de convergencia más exigentes suben a unos
+        <span class="magnitud">15 minutos</span> por punto. La simulación de vidrios de espín
+        que D-Wave publicó en <time datetime="2025-03">marzo de 2025</time> como más allá de lo
+        clásico fue reproducida con redes tensoriales en
+        <time datetime="2026-05">mayo de 2026</time>.
+      </p>
+
+      <article>
+        <h3>Química y materiales</h3>
+        <p>
+          Es el terreno con mejor base teórica: simular un sistema cuántico con otro evita el
+          coste exponencial de la función de onda. El caso mejor documentado es el experimento
+          que Google llama Quantum Echoes, publicado en <cite>Nature</cite> el
+          <time datetime="2025-10-22">22 de octubre de 2025</time>. Sobre
+          <span class="magnitud">65 cúbits</span> del chip Willow midió
+          <a href="https://doi.org/10.1038/s41586-025-09526-6" rel="noopener">correladores fuera
+          de orden temporal</a> y estimó que el mejor algoritmo clásico conocido tardaría unas
+          <span class="magnitud">13.000 veces</span> más sobre el supercomputador Frontier. Tres
+          precisiones que casi nunca se citan: es una tarea de física, no una aplicación
+          industrial; esa cifra es una estimación del tiempo clásico, no una ejecución medida; y
+          los propios autores admiten que la prueba de resonancia magnética nuclear asociada
+          todavía no está más allá de lo clásico. Un preprint sin revisar sitúa el umbral de la
+          ventaja en química en torno a <span class="magnitud">200 cúbits lógicos</span>.
+        </p>
+      </article>
+
+      <article>
+        <h3>Fármacos</h3>
+        <p>
+          Aquí la distancia entre titular y resultado es máxima. Ninguna de las empresas
+          implicadas afirma tener una molécula en ensayo clínico cuyo diseño dependa de hardware
+          cuántico; lo que documentan son flujos híbridos que resuelven subproblemas pequeños
+          dentro de canalizaciones clásicas. El
+          <time datetime="2025-06-09">9 de junio de 2025</time>, IonQ, AstraZeneca, AWS y NVIDIA
+          presentaron uno que simula un paso de la reacción de Suzuki-Miyaura sobre el procesador
+          IonQ Forte, con <span class="magnitud">36 cúbits algorítmicos</span>. La cifra que
+          circuló, «más de <span class="magnitud">20 veces</span>», mide el tiempo de solución
+          frente a implementaciones anteriores del mismo flujo, no frente a la química
+          computacional clásica. Meses después la misma empresa anunció cálculos más precisos que
+          los clásicos con un socio no identificado, sin publicar ni una métrica: afirmación
+          fuerte sin cifra.
+        </p>
+      </article>
+
+      <article>
+        <h3>Optimización y logística</h3>
+        <p>
+          Aquí se prometió más y se cumplió menos. El caso
+          más citado sigue siendo el mismo de hace siete años: durante el Web Summit de Lisboa,
+          en <time datetime="2019-11">noviembre de 2019</time>, Volkswagen desplegó lo que la
+          propia empresa llama el primer proyecto piloto del mundo de optimización de tráfico con
+          un computador cuántico. <span class="magnitud">9 autobuses</span> de la operadora
+          CARRIS, <span class="magnitud">26 paradas</span>, <span class="magnitud">4 líneas</span>
+          y un procesador D-Wave calculando la ruta de cada vehículo. Obsérvese la palabra:
+          piloto. No consta comparación publicada con un solucionador clásico moderno sobre el
+          mismo problema.
+        </p>
+      </article>
+
+      <article>
+        <h3>Finanzas</h3>
+        <p>
+          Aquí una estimación publicada por la propia industria desactivó la promesa. En
+          <time datetime="2021">2021</time>, un equipo de Goldman Sachs, IBM Quantum y la
+          Universidad de Maryland calculó el coste de valorar derivados con ventaja real:
+          <span class="magnitud">8.000 cúbits lógicos</span> y una profundidad T de
+          <span class="magnitud">54 millones</span>, en el orden de
+          <span class="magnitud">un segundo</span>, solo para igualar al Monte Carlo clásico. En
+          carteras el veredicto es igual de claro: el benchmark de Stopfer y Wagner, en preprint
+          desde <time datetime="2025-09">septiembre de 2025</time>, resolvió
+          <span class="magnitud">250 instancias</span> de hasta
+          <span class="magnitud">1.000 activos</span> con datos reales a optimalidad probada
+          mediante programación entera mixta, en segundos, mientras el hardware cuántico no pasó
+          de <span class="magnitud">30 activos</span>.
+        </p>
+        <p>
+          La demostración con vocación comercial mejor documentada no es la esperada. El
+          <time datetime="2025-03-26">26 de marzo de 2025</time>, JPMorganChase, Quantinuum,
+          Argonne, Oak Ridge y la Universidad de Texas publicaron en <cite>Nature</cite> la
+          generación de aleatoriedad certificada sobre el procesador de iones atrapados H2-1, de
+          <span class="magnitud">56 cúbits</span>: <span class="magnitud">71.313 bits</span> de
+          entropía bajo un adversario restringido. Es útil, y es estrecha.
+        </p>
+      </article>
+
+      <article>
+        <h3>Aprendizaje automático</h3>
+        <p>
+          Es la promesa que más se ha desinflado, y el desinflado vino del propio campo. En
+          <time datetime="2018-07">julio de 2018</time>, Ewin Tang publicó un algoritmo clásico
+          para sistemas de recomendación que igualaba, con una ralentización solo polinómica, el
+          candidato más sólido a una aceleración exponencial demostrable en aprendizaje
+          automático cuántico. La técnica —descuantización— se extendió después, con varios
+          coautores, a más algoritmos de álgebra lineal. Sumada a las mesetas áridas, no cierra
+          el campo: cambia de lado la carga de la prueba.
+        </p>
+      </article>
+    </div>
+
+    <aside class="margen">
+      <p class="nota">
+        <b>Tres listones distintos</b>
+        Una demostración de laboratorio prueba que el algoritmo corre. Una ventaja cuántica
+        exige que ningún método clásico conocido iguale la tarea con recursos comparables. Un
+        uso comercial exige que alguien pague. Separarlos ordena casi todo el ruido del sector.
+      </p>
+      <p class="nota">
+        <b>«Inspirado en lo cuántico» no es cuántico</b>
+        Los algoritmos de descuantización corren en hardware clásico convencional. Varias
+        empresas venden producto <i lang="en">quantum-inspired</i> que no usa ningún cúbit.
+      </p>
+      <p class="nota">
+        <b>Dos máquinas distintas</b>
+        El recocido cuántico de D-Wave y un computador universal de puertas —IBM, Google,
+        Quantinuum, IonQ— son modelos de cómputo diferentes, con garantías diferentes.
+        Mezclarlos invalida cualquier comparación.
+      </p>
+      <p class="nota">
+        <b>Lo que la descuantización no tocó</b>
+        Afectó a los algoritmos de rango bajo con acceso por muestreo. El algoritmo HHL en
+        régimen disperso sigue siendo BQP-completo, y «X veces más rápido» sin decir frente a qué
+        sigue sin significar nada.
+      </p>
+      <p class="nota nota--antagonista">
+        <b>Lo que no ha funcionado</b>
+        El experimento de IBM de <time datetime="2023">2023</time> se reprodujo en un portátil al
+        año siguiente. El de D-Wave de <time datetime="2025">2025</time>, con redes tensoriales.
+        Ninguna reclamación de ventaja es firme hasta comprobar si ya fue refutada.
+      </p>
+    </aside>
+  </div>
+
+  <div class="pliego">
+    <figure class="figura figura--anotada columna-ancha imprime">
+      <div class="figura__marco">
+        <img src="../img/iones.webp" alt="Trampa de iones dentro de una cámara de vacío, con los haces de láser de control entrando por las ventanas ópticas."
+             width="1600" height="1066" loading="lazy" decoding="async">
+      </div>
+      <figcaption>
+        <b>Fig. 18</b> Iones atrapados. Sobre una máquina de esta familia, el H2-1 de Quantinuum,
+        se generaron los <span class="magnitud">71.313 bits</span> de aleatoriedad certificada de
+        <time datetime="2025-03">marzo de 2025</time>: la demostración con vocación comercial
+        mejor documentada de este capítulo.
+        <em>Recreación generada con IA a partir de documentación de trampas de iones.</em>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="capitulo" id="criptografia">
+  <div class="pliego">
+    <div class="columna">
+      <p class="rotulo">La urgencia que no espera al hardware</p>
+      <h2 class="imprime">Criptografía poscuántica: lo único con fecha en el calendario.</h2>
+      <p>
+        En <time datetime="1994">1994</time> Peter Shor describió algoritmos que resuelven en
+        tiempo polinómico la factorización y el logaritmo discreto: exactamente los dos problemas
+        sobre los que se construyó la clave pública en uso. RSA descansa en factorizar;
+        Diffie-Hellman, ECDH y ECDSA, en el logaritmo discreto. Esos esquemas no se debilitarían:
+        dejarían de servir. Y Shor no es fuerza bruta paralela: halla el periodo de una función
+        mediante la transformada cuántica de Fourier.
+      </p>
+      <p>
+        Conviene precisar qué no cae. La criptografía simétrica y las funciones hash solo sufren
+        a Grover, cuya aceleración es cuadrática: la respuesta estándar es usar AES-256 y seguir,
+        y el NIST no ha pedido abandonar AES. La curva elíptica, en cambio, es más barata de
+        atacar que RSA: Roetteler y colaboradores acotaron en <time datetime="2017">2017</time>
+        el algoritmo completo sobre la curva NIST P-256 en del orden de
+        <span class="magnitud">2.300 cúbits lógicos</span>, y un preprint de
+        <time datetime="2025-10-27">octubre de 2025</time> lo sitúa en
+        <span class="magnitud">4.300 cúbits lógicos</span>.
+      </p>
+      <p>
+        La urgencia no depende de esa cuenta atrás. «Cosechar ahora, descifrar después» describe
+        un ataque que empieza hoy sin ningún computador cuántico: interceptar tráfico cifrado y
+        archivarlo hasta poder abrirlo. Todo lo protegido con intercambio de claves RSA o de
+        curva elíptica queda expuesto retroactivamente. La regla de planificación que se usa es
+        la desigualdad de Mosca: si X son los años que el dato debe seguir siendo secreto, Y los
+        que toma migrar y Z los que faltan hasta que exista la máquina, hay un problema cuando
+        X + Y &gt; Z. Con historias clínicas y expedientes con retención legal, muchas
+        organizaciones ya la incumplen. Por eso el primer paso que repiten CISA, la NSA y el NIST
+        desde el <time datetime="2023-08-21">21 de agosto de 2023</time> no es comprar: es
+        inventariar.
+      </p>
+    </div>
+
+    <aside class="margen">
+      <p class="nota">
+        <b>Poscuántica no es cuántica</b>
+        La criptografía poscuántica es matemática clásica resistente a ataques cuánticos, que
+        corre hoy en servidores y teléfonos normales. No debe confundirse con la distribución
+        cuántica de claves, que exige fibra o satélites dedicados y no es lo que estandarizó el
+        NIST.
+      </p>
+      <p class="nota">
+        <b>Shor todavía no ha roto nada</b>
+        Ninguna implementación ha factorizado un semiprimo criptográficamente relevante. Las
+        demostraciones publicadas llegaron a 15 y 21, y varias fueron criticadas por precargar
+        la respuesta en la compilación del circuito.
+      </p>
+      <p class="rotulo">Lo que cuesta migrar</p>
+      <dl class="lectura">
+        <dt>ML-KEM-768</dt><dd>clave pública <span class="magnitud">1.184 B</span> · cifrado <span class="magnitud">1.088 B</span></dd>
+        <dt>ML-DSA-65</dt><dd>firma <span class="magnitud">3.309 B</span></dd>
+        <dt>SLH-DSA-128s</dt><dd>firma <span class="magnitud">7.856 B</span></dd>
+        <dt>ECDSA P-256</dt><dd>firma <span class="magnitud">64 B</span></dd>
+      </dl>
+      <p class="nota nota--antagonista">
+        <b>La mitad que falta</b>
+        El acuerdo de claves ya migró; las firmas y los certificados no. A finales de
+        <time datetime="2025">2025</time> no había certificados X.509 poscuánticos en
+        producción, y Cloudflare consideraba improbable que estuvieran ampliamente disponibles y
+        aceptados por los navegadores antes de <time datetime="2027">2027</time>. Hoy se puede
+        proteger el tráfico contra la cosecha; la autenticación de la web sigue apoyada en firmas
+        clásicas.
+      </p>
+    </aside>
+  </div>
+
+  <div class="pliego">
+    <div class="columna-ancha imprime" tabindex="0" role="region" aria-label="Tabla 2 (se desplaza en horizontal)">
+      <table>
+        <caption>Tabla 2 — Los tres estándares poscuánticos publicados por el NIST el 13 de agosto de 2024</caption>
+        <thead>
+          <tr><th scope="col">Estándar</th><th scope="col">Algoritmo</th><th scope="col">Origen</th><th scope="col">Qué resuelve</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">FIPS 203</th>
+            <td data-etiqueta="Algoritmo">ML-KEM</td>
+            <td data-etiqueta="Origen">CRYSTALS-Kyber</td>
+            <td data-etiqueta="Qué resuelve">Encapsulado de claves. Sustituye al intercambio de claves de RSA o de curva elíptica; no cifra los datos, que siguen protegidos con AES. Es la pieza que ya está desplegada a escala.</td>
+          </tr>
+          <tr>
+            <th scope="row">FIPS 204</th>
+            <td data-etiqueta="Algoritmo">ML-DSA</td>
+            <td data-etiqueta="Origen">CRYSTALS-Dilithium</td>
+            <td data-etiqueta="Qué resuelve">Firma digital de uso general, la recomendada por defecto. Una firma ML-DSA-65 ocupa <span class="magnitud">3.309 bytes</span> frente a los <span class="magnitud">64 bytes</span> de una ECDSA P-256 cruda.</td>
+          </tr>
+          <tr>
+            <th scope="row">FIPS 205</th>
+            <td data-etiqueta="Algoritmo">SLH-DSA</td>
+            <td data-etiqueta="Origen">SPHINCS+</td>
+            <td data-etiqueta="Qué resuelve">Firma de respaldo. Su seguridad depende solo de funciones hash, así que sobreviviría a un avance criptoanalítico contra los retículos. A cambio, una SLH-DSA-128s ronda los <span class="magnitud">7.856 bytes</span>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="columna">
+      <p>
+        El catálogo sigue abierto: en <time datetime="2025-03-11">marzo de 2025</time> el
+        <a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST</a>
+        seleccionó HQC como respaldo basado en códigos correctores. Y ni ML-KEM ni ML-DSA son
+        inquebrantables: su seguridad descansa en supuestos no demostrados, y el propio concurso
+        lo ilustra, porque SIKE y Rainbow, finalistas, cayeron ante computadores clásicos en
+        <time datetime="2022">2022</time>. Por eso se despliegan esquemas híbridos.
+      </p>
+      <p>
+        Ningún regulador ha prohibido RSA; lo que existe es un calendario escalonado. La suite
+        CNSA 2.0 de la NSA, aplicable solo a los sistemas de seguridad nacional estadounidenses,
+        fija el <time datetime="2027-01-01">1 de enero de 2027</time> para las nuevas
+        adquisiciones, <time datetime="2030">2030</time> para software, firmware y red, y
+        <time datetime="2033">2033</time> para web, nube y sistemas operativos. La industria no
+        esperó: en <time datetime="2025-10-28">octubre de 2025</time> más del
+        <span class="magnitud">50 %</span> del tráfico humano de Cloudflare usaba el híbrido
+        X25519MLKEM768, frente a cerca del <span class="magnitud">2 %</span> de las conexiones
+        TLS 1.3 a principios de <time datetime="2024">2024</time>.
+      </p>
+    </div>
+
+    <figure class="figura figura--anotada columna-ancha imprime">
+      <div class="figura__marco">
+        <img src="../img/fibras.webp" alt="Macro de un haz de fibras ópticas cortado a ras, con cada núcleo iluminado como un punto de luz."
+             width="1600" height="1066" loading="lazy" decoding="async">
+      </div>
+      <figcaption>
+        <b>Fig. 19</b> Todo lo que pasa hoy por aquí cifrado con RSA o curva elíptica puede
+        archivarse y abrirse después. Esa es la razón de migrar ahora, y no cuando exista la
+        máquina. <em>Recreación generada con IA a partir de fotografías de haces de fibra
+        óptica.</em>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="capitulo capitulo--vitela" id="desde-panama">
+  <div class="pliego">
+    <div class="columna">
+      <p class="rotulo">Desde aquí</p>
+      <h2 class="imprime">Qué hay en la región y cómo se empieza con cero dólares.</h2>
+      <p>
+        A <time datetime="2026-09">septiembre de 2026</time> no consta públicamente ningún
+        procesador cuántico de uso científico en operación en América Latina comparable a los de
+        IBM, Google o Quantinuum. Hay proyectos financiados, equipos didácticos de escritorio y
+        acceso en la nube a máquinas de fuera de la región. La actividad real está en software y
+        formación.
+      </p>
+      <p>
+        Brasil es el único país con presupuesto asignado y plazos de formación publicados: el
+        laboratorio CIMATEC QUANTUM, inaugurado en Salvador en
+        <time datetime="2025-06-25">junio de 2025</time>; el CIQUANTA-PB de João Pessoa, con
+        cerca de <span class="magnitud">R$ 200 millones</span> comprometidos y dos máquinas
+        previstas de <span class="magnitud">20 y 100 cúbits</span>, sin fecha informada de puesta
+        en operación; y el Projeto Residência em Tecnologias Quânticas, con
+        <span class="magnitud">R$ 20 millones</span> y <span class="magnitud">156 becas</span>.
+        En Chile, el proyecto Quantü arrancó en
+        <time datetime="2026-01-22">enero de 2026</time> para construir un procesador de átomos
+        neutros. Uruguay tiene a Quantum-South, primera empresa latinoamericana en la IBM Quantum
+        Network; en México, la UNAM celebró en <time datetime="2026-08">agosto de 2026</time> la
+        quinta edición de su Escuela de Cómputo Cuántico, en español.
+      </p>
+      <p>
+        Panamá no tiene centros ni laboratorios, pero sí produce ciencia relacionada. Eufemio
+        Moreno-Pineda y Concepción Molina-Jirón, del Grupo de Investigación de Materiales de la
+        Universidad de Panamá, firman con el Instituto de Tecnología de Karlsruhe y Northwestern
+        University un artículo publicado en <cite>Nature Communications</cite> el
+        <time datetime="2026-06-26">26 de junio de 2026</time> sobre los mecanismos que suprimen
+        el túnel cuántico del espín en imanes moleculares de lantánidos: una línea relevante para
+        la coherencia de cúbits moleculares. Es química-física básica, no ingeniería de
+        procesadores. Sobre la Universidad Tecnológica de Panamá, en la búsqueda hecha para esta
+        revista no se encontró evidencia pública de un laboratorio ni de una línea de
+        investigación en el tema; lo verificable es que difundió un curso presencial en Mohali,
+        India, financiado por el programa ITEC del gobierno indio: una puerta a formación
+        externa, no un centro propio.
+      </p>
+      <p>
+        En la Agenda Nacional de Tecnologías Avanzadas, lanzada el
+        <time datetime="2026-07-30">30 de julio de 2026</time> con una estrategia de inteligencia
+        artificial y otra de semiconductores —esta última con
+        <span class="magnitud">105 millones de dólares</span>—, no figura una línea explícita de
+        tecnologías cuánticas. Esa ausencia es, en sí misma, el dato. Nada de ello impide empezar
+        hoy:
+      </p>
+      <ol>
+        <li>Abrir una cuenta en <a href="https://quantum.cloud.ibm.com/" rel="noopener">IBM
+          Quantum Platform</a>. El plan Open es gratuito: hasta
+          <span class="magnitud">10 minutos</span> de procesador cuántico por ventana móvil de
+          <span class="magnitud">28 días</span>, más una promoción de
+          <span class="magnitud">180 minutos</span> en
+          <span class="magnitud">12 meses</span> para quien la active.</li>
+        <li>Programar con Qiskit, su SDK de Python, siguiendo los cursos abiertos de IBM Quantum
+          Learning.</li>
+        <li>Inscribirse en la Qiskit Global Summer School, gratuita y virtual, cuya edición de
+          <time datetime="2026-07">2026</time> incluyó por primera vez un itinerario para
+          principiantes.</li>
+        <li>Completar con el <a href="https://pennylane.ai/codebook" rel="noopener">Codebook de
+          PennyLane</a>, de Xanadu: <span class="magnitud">15 módulos</span> que van de las
+          compuertas de un cúbit al algoritmo de Shor.</li>
+      </ol>
+      <p>
+        Los requisitos reales son Python, álgebra lineal con números complejos y producto
+        tensorial, y nociones de compuertas lógicas. Eso, una laptop y conexión. El obstáculo no
+        es el presupuesto: es el álgebra lineal.
+      </p>
+    </div>
+
+    <aside class="margen">
+      <p class="nota">
+        <b>Anuncio, contrato y operación</b>
+        Son tres estados distintos. Antes de escribir que un país «ya tiene» una computadora
+        cuántica, verifique fabricante, tecnología, número de cúbits, institución anfitriona y
+        fecha de instalación.
+      </p>
+      <p class="nota">
+        <b>Tres cúbits son ocho números</b>
+        Los equipos de escritorio de resonancia magnética nuclear que la prensa regional llama
+        «computadoras cuánticas» son reales y útiles para docencia. Un sistema de tres cúbits se
+        describe con ocho amplitudes complejas: cualquier teléfono lo simula al instante.
+      </p>
+    </aside>
+  </div>
+
+  <div class="pliego">
+    <figure class="figura figura--anotada columna-ancha imprime">
+      <div class="figura__marco">
+        <img src="../img/desde-panama.webp" alt="Estudiante trabajando junto a una ventana en un aula corriente, con un portátil y un cuaderno cuadriculado lleno de cuentas de matrices y vectores."
+             width="1600" height="1066" loading="lazy" decoding="async">
+      </div>
+      <figcaption>
+        <b>Fig. 20</b> Para entrar en este campo desde Panamá no hace falta tener la máquina
+        delante: hacen falta álgebra lineal, Python y
+        <span class="magnitud">10 minutos</span> de procesador al mes, que son gratuitos.
+        <em>Recreación generada con IA; no documenta a ninguna persona real.</em>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="separata" id="nada-es-inmediato">
+  <div class="pliego">
+    <div class="columna">
+      <p class="rotulo">Separata · El antagonista</p>
+      <h2 class="imprime">Nada de esto es inmediato.</h2>
+      <p>
+        No hay hoy ninguna aplicación industrial en la que un computador cuántico gane a un
+        método clásico moderno. Las cifras de este capítulo piden entre
+        <span class="magnitud">10⁵ y 10⁸ cúbits físicos</span> según la aplicación, o
+        <span class="magnitud">miles de cúbits lógicos</span>; lo demostrado son
+        <span class="magnitud">48 cúbits lógicos</span>. Dos reclamaciones de ventaja acabaron
+        reproducidas con métodos clásicos. El único trabajo con fecha en el calendario es
+        criptográfico, y no necesita la máquina: necesita el inventario. Quien prometa otra cosa
+        a corto plazo está vendiendo, no informando.
+      </p>
+    </div>
+
+    <aside class="margen">
+      <p class="nota">
+        <b>Sigue el número</b>
+        Quedan dos capítulos: de dónde sale cada cifra de estas páginas y cómo avisar si alguna
+        está mal.
+      </p>
+    </aside>
+  </div>
+
+  <div class="pliego">
+    <article class="mitad imprime">
+      <a class="pieza" href="acerca-de.html">
+        <p class="folio">Capítulo V</p>
+        <h3>Acerca de</h3>
+        <p>Quiénes escriben, cómo se diseñó el sitio, qué técnica se usó y de dónde sale cada
+          dato. Con la bibliografía completa.</p>
+      </a>
+    </article>
+    <article class="mitad imprime">
+      <a class="pieza" href="contacto.html">
+        <p class="folio">Capítulo VI</p>
+        <h3>Contacto</h3>
+        <p>Correcciones, dudas y propuestas. El formulario guarda cada mensaje en un archivo
+          de datos.</p>
+      </a>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="tercio">
+      <a class="marca" href="../index.html">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+        <span><span class="marca__nombre">Coherencia</span></span>
+      </a>
+      <p class="suave" style="margin-top:1rem;font-size:.92rem">
+        Revista universitaria de divulgación sobre computación cuántica.
+        Facultad de Ingeniería de Sistemas Computacionales, Universidad Tecnológica de Panamá.
+      </p>
+      <div class="redes" style="margin-top:1.2rem">
+        <a href="https://github.com/AleBrito124356" rel="noopener" aria-label="GitHub del proyecto">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1 4.98 2.1 4.98 3.5zM.2 8h4.6v15H.2V8zm7.4 0h4.4v2.1h.1c.6-1.1 2-2.3 4.2-2.3 4.5 0 5.3 2.9 5.3 6.7V23h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 1.9-2.9 4V23H7.6V8z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 5.3A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.7-7.6a1.05 1.05 0 1 1-1.05-1.05A1.05 1.05 0 0 1 17.7 7.3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="tercio" aria-label="Índice del pie">
+      <h4>Capítulos</h4>
+      <ul>
+        <li><a href="fundamentos.html">Fundamentos</a></li>
+        <li><a href="hardware.html">La máquina</a></li>
+        <li><a href="laboratorio.html">Laboratorio</a></li>
+        <li><a href="aplicaciones.html">Aplicaciones</a></li>
+        <li><a href="acerca-de.html">Acerca de</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="tercio">
+      <h4>Para seguir leyendo</h4>
+      <ul>
+        <li><a href="https://quantum.cloud.ibm.com/docs" rel="noopener">Documentación de IBM Quantum</a> — cursos y acceso real a procesadores.</li>
+        <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST · Criptografía poscuántica</a> — los estándares de 2024.</li>
+      </ul>
+      <h4 style="margin-top:1.6rem">Redacción</h4>
+      <address>
+        Campus Dr. Víctor Levi Sasso<br>
+        Ciudad de Panamá<br>
+        <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a>
+      </address>
+    </div>
+
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Parcial N.º 1 · Ingeniería Web · Dra. Denis Cedeño · Grupo 1SF134</span>
+      <span>Publicación estudiantil sin vínculo oficial con la UTP</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos-fijos">
+  <button class="mando" type="button" data-audio aria-pressed="false">Sonido: no</button>
+  <button class="mando" type="button" data-bajo-consumo aria-pressed="false">Bajo consumo: no</button>
+</div>
+
+<script src="../js/sitio.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Coherencia">
+  <title>Coherencia</title>
+  <!-- Marca de registro de imprenta que además es una diana de medición:
+       dos estados que coexisten hasta que alguien los mira. -->
+  <rect width="100" height="100" fill="#f2efe6"/>
+  <circle cx="50" cy="50" r="26" fill="none" stroke="#17181b" stroke-width="3"/>
+  <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="#17181b" stroke-width="3"/>
+  <circle cx="44" cy="50" r="9" fill="#17181b"/>
+  <circle cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+</svg>

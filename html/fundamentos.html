@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fundamentos — Coherencia</title>
+<meta name="description" content="Qué es un cúbit de verdad, por qué la fase importa más que la superposición, cómo se lee la esfera de Bloch y qué significa medir. Con la doble rendija funcionando en la página.">
+<meta name="author" content="Alejandro Brito Olivera y Marcos Gaitán">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="../img/marca.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-pagina="fundamentos">
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="../index.html" aria-label="Coherencia, portada">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Revista de computación cuántica · UTP · N.º 01</span>
+      </span>
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="navegacion" aria-label="Abrir el índice"><span></span></button>
+    <nav class="navegacion" id="navegacion" aria-label="Índice de la revista">
+      <a href="../index.html">Portada</a>
+      <a href="fundamentos.html" aria-current="page">Fundamentos</a>
+      <a href="hardware.html">La máquina</a>
+      <a href="laboratorio.html">Laboratorio</a>
+      <a href="aplicaciones.html">Aplicaciones</a>
+      <a href="acerca-de.html">Acerca de</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+<!-- ==================================================================
+       Capítulo I · Fundamentos
+       1. Qué es un cúbit de verdad
+       ================================================================== -->
+  <section class="capitulo" id="que-es-un-cubit">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">Capítulo I · Fundamentos</p>
+        <h2 class="imprime">Un cúbit no es un bit indeciso.</h2>
+        <p class="entradilla lineas">
+          <span>«Es 0 y 1 a la vez» no simplifica: estorba. Dentro de un cúbit hay un vector con
+          dos números complejos, y casi todo lo interesante ocurre en la parte de esos números que
+          las probabilidades no enseñan.</span>
+        </p>
+        <p class="capitular">
+          Un cúbit es el sistema cuántico más simple que existe: el que tiene exactamente dos
+          resultados distinguibles al medirlo. Su estado no es un número binario. Es un vector de
+          dos componentes complejas que en notación de Dirac se escribe |ψ⟩ = α|0⟩ + β|1⟩. El
+          símbolo |·⟩ se llama ket y es, sin ningún misterio, un vector columna: |0⟩ = (1,0)ᵀ y
+          |1⟩ = (0,1)ᵀ forman la base computacional. Su transpuesta conjugada se escribe ⟨ψ| y se
+          llama bra; el producto interno ⟨φ|ψ⟩ mide el solapamiento entre dos estados.
+        </p>
+        <p>
+          Sobre α y β hay una sola condición, y es la que
+          <a href="https://quantum.cloud.ibm.com/learning/en/courses/basics-of-quantum-information/single-systems/quantum-information" rel="noopener">IBM
+          usa para definir un vector de estado</a>: son números complejos y la suma de sus valores
+          absolutos al cuadrado vale uno, |α|² + |β|² = 1. Se llaman amplitudes y no son
+          probabilidades. Pueden ser negativas y pueden ser complejas, y esa libertad no la tiene
+          la teoría clásica de probabilidad. La regla de Born es la que traduce: al medir en la
+          base {|0⟩, |1⟩} se obtiene 0 con probabilidad |α|² y 1 con probabilidad |β|².
+        </p>
+        <p>
+          De ahí sale la asimetría que gobierna todo lo demás. Un cúbit aislado admite un continuo
+          de estados —infinitos pares (α, β) de norma uno—, pero cada medición devuelve un único
+          bit clásico. Hay mucha estructura interna y muy poca información legible. Esa distancia
+          entre lo que el estado contiene y lo que se puede sacar de él es el verdadero problema
+          de diseño de un algoritmo cuántico.
+        </p>
+        <p>
+          El cúbit, además, no es un objeto: es un grado de libertad. Puede ser un circuito
+          superconductor, un ion atrapado, un espín nuclear o la polarización de un fotón. Las
+          matemáticas son idénticas en los cuatro casos. Lo que cambia es cuánto dura el estado y
+          cuánto cuesta operarlo, y de eso trata el capítulo siguiente.
+        </p>
+
+        <div class="caja caja--vitela">
+          <p class="folio">Tres frases que hay que borrar</p>
+          <ul class="lista-limpia">
+            <li>
+              <span class="corrector">«Un cúbit es 0 y 1 a la vez.»</span> Está en una combinación
+              lineal compleja de |0⟩ y |1⟩. Al medirlo sale 0 o sale 1, nunca las dos cosas: son
+              resultados mutuamente excluyentes por definición.
+            </li>
+            <li>
+              <span class="corrector">«Prueba todas las respuestas en paralelo.»</span> Reparte
+              amplitudes entre muchos caminos y los hace interferir para que las equivocadas se
+              cancelen. Si solo se probaran todas y se midiera, saldría una al azar.
+            </li>
+            <li>
+              <span class="corrector">«n cúbits guardan 2ⁿ bits.»</span> Hacen falta 2ⁿ amplitudes
+              para <em>describir</em> el estado, pero cada medición devuelve n bits clásicos.
+              Describir no es almacenar.
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>De dónde sale la notación</b>
+          El nombre viene de partir en dos la palabra inglesa <em>bracket</em>, corchete:
+          ⟨φ| es el <em>bra</em> y |ψ⟩ es el <em>ket</em>. Es notación, no física. Todo lo que
+          se escribe con kets se puede escribir con vectores y matrices corrientes.
+        </p>
+        <p class="nota">
+          <b>Leer cuesta caro</b>
+          Reconstruir α y β exige repetir el experimento muchas veces sobre copias preparadas
+          de forma idéntica, midiendo en bases distintas. Se llama tomografía de estado.
+        </p>
+      </aside>
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/cubit-chip.webp"
+               alt="Encapsulado de oro abierto sobre una alfombrilla antiestática: dentro, el chip superconductor unido al portamuestras por decenas de hilos de aluminio, con la tapa apoyada al lado y cuatro conectores coaxiales en los costados."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 2</b> Un procesador superconductor sobre su portamuestras. El cúbit no es
+          ninguna de las piezas que se ven: es el par de niveles de energía más bajos del circuito
+          que forman esas líneas. <em>Recreación generada con IA a partir de fotografías de chips
+          superconductores.</em>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       2. Fase relativa e interferencia · la pieza de la doble rendija
+       ================================================================== -->
+  <section class="capitulo" id="fase-e-interferencia">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">Dos · Dónde está la ventaja</p>
+        <h2 class="imprime">Las probabilidades no lo cuentan todo.</h2>
+        <p class="entradilla lineas">
+          <span>Dos estados pueden dar exactamente las mismas probabilidades y comportarse de
+          forma distinta. La diferencia se llama fase relativa. La ventaja cuántica no vive en la
+          superposición: vive ahí.</span>
+        </p>
+        <p>
+          Lo que separa un cúbit de una moneda tapada no es la incertidumbre. Es la fase. El
+          ejemplo canónico son |+⟩ = (|0⟩+|1⟩)/√2 y |−⟩ = (|0⟩−|1⟩)/√2. Los dos dan 0 y 1 con
+          probabilidad un medio. Para un estadístico son la misma moneda. Y sin embargo, al
+          aplicarles una compuerta de Hadamard, el primero regresa a |0⟩ y el segundo a |1⟩, con
+          certeza. Ese signo menos es información física real y no existe en la probabilidad
+          clásica.
+        </p>
+        <p>
+          Hay que separar dos fases y no volver a mezclarlas. La fase global, que consiste en
+          multiplicar todo el estado por un número complejo de módulo uno, no es observable: dos
+          estados que solo se diferencian en ella son el mismo estado. La fase relativa entre α y
+          β sí es observable, y es la que habilita la interferencia.
+        </p>
+        <p>
+          De aquí sale la única afirmación honesta sobre la ventaja cuántica. Un algoritmo no
+          revisa respuestas en paralelo: reparte amplitudes entre muchos caminos y los hace
+          interferir, de modo que los que llevan a respuestas equivocadas se cancelen y los que
+          llevan a la correcta se refuercen. Aaronson lo plantea sin rodeos en <cite>Quanta
+          Magazine</cite>: si uno prepara una superposición uniforme de todas las respuestas
+          posibles y la mide, sale una al azar. Sin interferencia no hay ventaja; hay un generador
+          de números aleatorios carísimo.
+        </p>
+        <p>
+          La figura de al lado es el mismo fenómeno con luz, y por eso se usa aquí. Con una
+          rendija abierta la pantalla recibe una mancha. Con dos rendijas aparecen franjas, y hay
+          puntos de la pantalla que reciben menos luz que cuando solo había una rendija abierta.
+          No se ha restado nada: se han sumado dos amplitudes con signos opuestos. Esa cancelación
+          es, literalmente, el motor de un algoritmo cuántico.
+        </p>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Global y relativa</b>
+          Multiplicar el estado entero por e^{iγ} no cambia nada observable: |ψ⟩ y e^{iγ}|ψ⟩ son
+          el mismo estado físico. Cambiar la fase <em>entre</em> α y β sí se nota. Confundir las
+          dos es el error de razonamiento más repetido en un primer curso.
+        </p>
+        <p class="nota">
+          <b>Para leer después</b>
+          Scott Aaronson,
+          <a href="https://www.quantamagazine.org/why-is-quantum-computing-so-hard-to-explain-20210608/" rel="noopener">«Why
+          is quantum computing so hard to explain?»</a>, <cite>Quanta Magazine</cite>,
+          <time datetime="2021-06-08">8 de junio de 2021</time>. Es la fuente de la formulación
+          sobre interferencia que se cita en esta página.
+        </p>
+      </aside>
+
+      <figure class="figura columna-ancha imprime">
+        <div class="escena escena--ancha" data-escena="interferencia"></div>
+        <div class="mandos" role="group" aria-label="Mandos de la doble rendija">
+          <span class="mando__grupo"><label for="mando-separacion">Separación</label>
+            <input type="range" id="mando-separacion" min="0" max="100" value="26"></span>
+          <span class="mando__grupo"><label for="mando-onda">Longitud de onda</label>
+            <input type="range" id="mando-onda" min="0" max="100" value="62"></span>
+          <button class="mando" type="button" data-rendijas="1" data-fantasma="Una rendija" aria-pressed="false">Una rendija</button>
+          <button class="mando" type="button" data-rendijas="2" data-fantasma="Dos rendijas" aria-pressed="true">Dos rendijas</button>
+        </div>
+        <figcaption>
+          <b>Fig. 3</b> Interferencia de dos rendijas, calculada en esta misma página. Cierre una
+          rendija y las franjas desaparecen; ábrala y vuelven, con puntos oscuros donde antes
+          llegaba luz. Separe más las rendijas para estrechar el paso de las franjas, o alargue la
+          longitud de onda para ensancharlo. La placa de la derecha recibe los impactos de uno en
+          uno, al azar: las franjas no están en ningún impacto, aparecen al acumularse, como en el
+          experimento de Akira Tonomura con electrones de uno en uno (Hitachi, 1989).
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       3. La esfera de Bloch y el factor θ/2
+       ================================================================== -->
+  <section class="capitulo capitulo--vitela" id="esfera-de-bloch">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">Tres · El instrumento</p>
+        <h2 class="imprime">Por qué el ángulo va partido por dos.</h2>
+        <p class="entradilla lineas">
+          <span>La esfera de Bloch no es un dibujo bonito. Es la consecuencia exacta de contar
+          cuántos números hacen falta para describir un cúbit, y el factor θ/2 es lo que la hace
+          funcionar.</span>
+        </p>
+        <p>
+          Después de descartar la fase global y aplicar la normalización, un estado puro de un
+          cúbit queda descrito por dos números reales. Por eso cabe en una esfera, y por eso la
+          esfera tiene la forma que tiene.
+        </p>
+
+        <div class="caja caja--vitela">
+          <p class="folio">Parametrización</p>
+          <p>|ψ⟩ = cos(θ/2)·|0⟩ + e^{iφ}·sen(θ/2)·|1⟩, con 0 ≤ θ ≤ π y 0 ≤ φ &lt; 2π.</p>
+          <p class="suave">El polo norte es |0⟩ y el polo sur es |1⟩. El ecuador reúne las
+          superposiciones equilibradas: |+⟩ y |−⟩ están ahí, separados media vuelta. El ángulo θ
+          gobierna las probabilidades de medición; el ángulo φ gobierna la fase relativa.</p>
+        </div>
+
+        <p>
+          El θ/2 es el detalle donde tropieza todo el mundo, y no es un capricho de notación. Los
+          ángulos θ y φ se reinterpretan como coordenadas esféricas —colatitud respecto del eje z
+          y longitud respecto del eje x—, y esa traducción es la que introduce el medio. La
+          consecuencia es la que importa: los estados ortogonales del espacio de Hilbert, los que
+          tienen producto interno nulo, caen en puntos antipodales. |0⟩ y |1⟩ son ortogonales;
+          como vectores complejos forman <span class="magnitud">90°</span>, pero sobre la esfera
+          quedan separados <span class="magnitud">180°</span>. Sin ese factor, la esfera es una
+          ilustración decorativa sin contenido.
+        </p>
+        <p>
+          Falta un aviso. La superficie de la esfera representa estados puros. El interior de la
+          bola representa estados mixtos, y es donde acaba un cúbit real cuando se degrada. Perder
+          coherencia es, literalmente, acortar el vector de Bloch hacia el centro. Cuando el vector
+          llega al origen ya no queda fase que aprovechar y el cúbit se ha convertido en una moneda
+          del montón.
+        </p>
+
+        <dl class="lectura">
+          <dt>Estado</dt><dd>|+⟩ frente a |−⟩</dd>
+          <dt>Ángulo θ</dt><dd><span class="magnitud">90°</span> en los dos — ecuador</dd>
+          <dt>Ángulo φ</dt><dd><b><span class="magnitud">0°</span> en |+⟩ · <span class="magnitud">180°</span> en |−⟩</b></dd>
+          <dt>P(0)</dt><dd>0,50 en los dos</dd>
+          <dt>P(1)</dt><dd>0,50 en los dos</dd>
+          <dt>Radio</dt><dd>1,00 — estado puro, sobre la superficie</dd>
+        </dl>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Cuatro reales, dos ángulos</b>
+          Dos amplitudes complejas son cuatro números reales. La normalización se lleva uno. La
+          fase global, que no se observa, se lleva otro. Quedan dos, y dos son exactamente los que
+          hacen falta para señalar un punto de una esfera.
+        </p>
+        <p class="nota">
+          <b>El vector se acorta</b>
+          Un estado puro vive en la superficie. Un estado degradado vive dentro. El centro de la
+          bola es la ignorancia total: ahí sí, y solo ahí, la analogía de la moneda tapada es
+          correcta.
+        </p>
+      </aside>
+
+      <!-- La lectura de arriba describe un instrumento: aquí está. Es la misma
+           escena del laboratorio, en modo demostración (js/piezas.js, DemoFase). -->
+      <figure class="figura columna-ancha imprime">
+        <div class="escena" data-escena="bloch" data-demo="fase"></div>
+        <figcaption>
+          <b>Fig. 4</b> El goniómetro del laboratorio, en demostración: la aguja da la vuelta
+          al ecuador y se detiene en |+⟩ y en |−⟩. Las probabilidades no se mueven, 0,50 y 0,50
+          todo el rato; lo único que cambia es el ángulo φ, la fase.
+          <em>Render en tiempo real con Three.js; no es una fotografía.</em>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       4. Medición y colapso
+       ================================================================== -->
+  <section class="capitulo" id="medicion-y-colapso">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">Cuatro · La lectura</p>
+        <h2 class="imprime">La pregunta decide qué es aleatorio.</h2>
+        <p class="entradilla lineas">
+          <span>Medir no es leer. Es una interacción que convierte información cuántica en
+          información clásica y destruye la primera al hacerlo.</span>
+        </p>
+        <p>
+          La regla de Born da la probabilidad de cada resultado; el estado que queda después es el
+          resultado obtenido, no la superposición anterior. No hay manera de mirar un cúbit y
+          averiguar α y β, porque una medición entrega un bit y nada más.
+        </p>
+        <p>
+          La primera precisión que la divulgación omite es que el colapso depende de la base. |+⟩
+          es perfectamente aleatorio si se mide en la base {|0⟩, |1⟩} y perfectamente determinista
+          si se mide en la base {|+⟩, |−⟩}. El mismo estado, dos comportamientos. No hay un valor
+          verdadero escondido esperando a que alguien lo lea: la pregunta que se formula es la que
+          decide qué parte del estado se vuelve azar.
+        </p>
+        <p>
+          La segunda precisión es de vocabulario. «Colapso» es un término operativo, no un
+          mecanismo consensuado. La decoherencia explica, sin postulados adicionales, por qué las
+          superposiciones dejan de ser observables cuando el entorno vigila al sistema; qué ocurre
+          «de verdad» sigue siendo una cuestión interpretativa abierta. Esta revista afirma que al
+          medir se obtiene 0 con probabilidad |α|², y no se compromete con ninguna interpretación.
+          La neutralidad es deliberada, y conviene decirlo en voz alta en lugar de disimularla.
+        </p>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Sin observadores conscientes</b>
+          No hace falta nadie mirando. Basta cualquier interacción con el entorno capaz de
+          distinguir |0⟩ de |1⟩: un fotón térmico que rebote, una carga que se mueva cerca. El
+          aparato de medida no tiene nada de especial salvo su tamaño.
+        </p>
+      </aside>
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/lectura-luz.webp"
+               alt="Vista por la mirilla de una cámara de vacío: cuatro electrodos de acero convergen hacia el eje y sobre él se alinea una hilera de puntos diminutos de luz verdosa, con dos huecos oscuros entre ellos."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 5</b> Una trampa de iones dentro de su cámara de vacío. La lectura se hace con
+          luz: solo uno de los dos estados del cúbit devuelve fluorescencia y el otro permanece
+          oscuro, de modo que contar fotones es, ahí, medir. <em>Recreación generada con IA a
+          partir de documentación de trampas de iones.</em>
+        </figcaption>
+      </figure>
+
+      <aside class="margen">
+        <p class="nota nota--antagonista">
+          <b>Medir es borrar</b>
+          Una medición es la forma más eficiente que existe de borrar una superposición. Por eso
+          la corrección cuántica de errores mide síndromes y nunca el dato codificado.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       5. Entrelazamiento
+       ================================================================== -->
+  <section class="capitulo" id="entrelazamiento">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">Cinco · El par</p>
+        <h2 class="imprime">Correlación sin comunicación.</h2>
+        <p class="entradilla lineas">
+          <span>Dos cúbits entrelazados no tienen estado propio; solo lo tiene el par. Eso produce
+          correlaciones que ningún modelo clásico local reproduce, y aun así no transmite ni un
+          bit.</span>
+        </p>
+        <p>
+          El ejemplo estándar es el estado de Bell (|00⟩ + |11⟩)/√2. No existe ninguna manera de
+          escribirlo como un estado del primer cúbit multiplicado por uno del segundo, y esa
+          imposibilidad es la definición técnica del entrelazamiento. Al medir los dos en la misma
+          base los resultados coinciden siempre, aunque cada medición por separado salga 50/50.
+        </p>
+        <p>
+          La tentación es contarlo como si viajara un mensaje. No viaja ninguno. El teorema de no
+          comunicación garantiza que las estadísticas locales de Bob no cambian haga lo que haga
+          Alicia; para aprovechar la correlación hay que comparar los resultados por un canal
+          clásico, limitado por la velocidad de la luz. El
+          <a href="https://scienceexchange.caltech.edu/topics/quantum-science-explained/entanglement" rel="noopener">Caltech
+          Science Exchange</a> recoge la formulación de Thomas Vidick, que es la más breve
+          posible: puede haber correlación sin comunicación.
+        </p>
+        <p>
+          Queda una objeción razonable. ¿Y si la correlación estuviera decidida de antemano, como
+          un guante en cada caja? Esa hipótesis tiene nombre —variables ocultas locales— y, a
+          diferencia de casi todo lo que se discute alrededor de la física cuántica, se puede
+          someter a experimento. Las desigualdades de Bell separan las dos predicciones, y los
+          experimentos violan las desigualdades.
+        </p>
+        <p>
+          El <a href="https://www.nobelprize.org/prizes/physics/2022/press-release/" rel="noopener">Premio
+          Nobel de Física de 2022</a> se otorgó el <time datetime="2022-10-04">4 de octubre de
+          2022</time> a Alain Aspect, John F. Clauser y Anton Zeilinger «por experimentos con
+          fotones entrelazados, estableciendo la violación de las desigualdades de Bell y siendo
+          pioneros en la ciencia de la información cuántica». Las variables ocultas locales no
+          están descartadas por consenso de opinión: están descartadas por medida.
+        </p>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>El guante en la caja</b>
+          Si alguien reparte un guante izquierdo y otro derecho en dos cajas, abrir una dice lo
+          que hay en la otra y no hay nada cuántico en ello. Las desigualdades de Bell existen
+          justamente para separar ese caso del entrelazamiento real, y los experimentos separan.
+        </p>
+        <p class="nota">
+          <b>Un recurso, no un canal</b>
+          El entrelazamiento refuerza protocolos que además usan un canal clásico. Nunca lo
+          sustituye, y nunca lo acelera por encima de la velocidad de la luz.
+        </p>
+      </aside>
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/bell-optica.webp"
+               alt="Mesa óptica con el montaje de pares de fotones entrelazados: cristal no lineal en su montura de latón, cubos divisores de haz, diafragma, espejos sobre monturas cinemáticas y una fibra monomodo enrollada al borde de la bancada."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 6</b> Una mesa óptica para pares de fotones entrelazados. El cristal no lineal de
+          la montura de latón parte fotones en parejas, y los cubos divisores y los espejos los
+          reparten. Con montajes de esta familia el grupo de Zeilinger violó las desigualdades de
+          Bell a finales de los noventa; los primeros experimentos de Clauser, en los setenta,
+          sacaban los pares de una cascada atómica de calcio. <em>Recreación generada con IA; no
+          reproduce ningún montaje concreto.</em>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       6. Glosario del capítulo
+       ================================================================== -->
+  <section class="capitulo capitulo--corto" id="glosario">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Seis · Para volver aquí</p>
+        <h2 class="imprime">Glosario del capítulo.</h2>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Lo que aquí no se define</b>
+          Cúbit lógico, código de superficie, umbral y tolerancia a fallos son vocabulario de la
+          corrección de errores y se definen donde hacen falta. Este glosario solo recoge los
+          términos que aparecen en este capítulo.
+        </p>
+      </aside>
+
+      <div class="columna-ancha">
+        <dl class="glosario">
+          <div>
+            <dt>Cúbit</dt>
+            <dd>Sistema cuántico con exactamente dos resultados distinguibles al medirlo. Su
+              estado se describe con dos amplitudes complejas; su medición devuelve un bit.</dd>
+          </div>
+          <div>
+            <dt>Amplitud</dt>
+            <dd>Cada uno de los dos números complejos, α y β, que describen el estado. No son
+              probabilidades: pueden ser negativas o complejas, y por eso pueden cancelarse.</dd>
+          </div>
+          <div>
+            <dt>Regla de Born</dt>
+            <dd>La receta que convierte amplitudes en probabilidades: el resultado 0 sale con
+              probabilidad |α|² y el resultado 1 con probabilidad |β|².</dd>
+          </div>
+          <div>
+            <dt>Notación de Dirac</dt>
+            <dd>Escritura de vectores de estado como |ψ⟩ (ket) y de sus duales como ⟨ψ| (bra). El
+              producto interno ⟨φ|ψ⟩ mide el solapamiento entre dos estados.</dd>
+          </div>
+          <div>
+            <dt>Superposición</dt>
+            <dd>Un estado descrito como combinación lineal de |0⟩ y |1⟩. No significa «ser las dos
+              cosas a la vez»: significa que a cada resultado le corresponde una amplitud.</dd>
+          </div>
+          <div>
+            <dt>Fase global</dt>
+            <dd>Factor complejo de módulo uno que multiplica al estado entero. No es observable:
+              no cambia ninguna predicción experimental.</dd>
+          </div>
+          <div>
+            <dt>Fase relativa</dt>
+            <dd>La diferencia de fase entre α y β. Sí es observable, es lo que distingue |+⟩ de
+              |−⟩ y es el recurso que hace posible la interferencia.</dd>
+          </div>
+          <div>
+            <dt>Interferencia</dt>
+            <dd>Suma de amplitudes que se refuerzan o se cancelan. Es la fuente real de la ventaja
+              cuántica, no la superposición por sí sola.</dd>
+          </div>
+          <div>
+            <dt>Esfera de Bloch</dt>
+            <dd>Representación de un estado de un cúbit mediante dos ángulos, θ y φ. La superficie
+              son los estados puros; el interior, los mixtos.</dd>
+          </div>
+          <div>
+            <dt>Estado puro y estado mixto</dt>
+            <dd>Puro es el que se describe con un solo vector de estado. Mixto es una mezcla
+              estadística de varios, que es donde acaba un cúbit al degradarse.</dd>
+          </div>
+          <div>
+            <dt>Base de medición</dt>
+            <dd>El conjunto de resultados entre los que se pregunta. Cambiar de base cambia qué
+              es aleatorio y qué es seguro para el mismo estado.</dd>
+          </div>
+          <div>
+            <dt>Tomografía de estado</dt>
+            <dd>Procedimiento para reconstruir un estado repitiendo la preparación y la medición
+              muchas veces, en bases distintas.</dd>
+          </div>
+          <div>
+            <dt>Entrelazamiento</dt>
+            <dd>Correlación entre dos o más cúbits que no admite descripción como estados
+              independientes. El par tiene estado; cada miembro, no.</dd>
+          </div>
+          <div>
+            <dt>Estado de Bell</dt>
+            <dd>El par entrelazado canónico, (|00⟩ + |11⟩)/√2. Medir ambos en la misma base da
+              siempre resultados iguales, aunque cada uno por separado sea 50/50.</dd>
+          </div>
+          <div>
+            <dt>Teorema de no comunicación</dt>
+            <dd>Resultado que garantiza que las estadísticas locales de un extremo no cambian por
+              lo que se haga en el otro. El entrelazamiento correlaciona, no comunica.</dd>
+          </div>
+          <div>
+            <dt>Decoherencia</dt>
+            <dd>Pérdida de la fase relativa por interacción con el entorno. Explica por qué el
+              mundo grande se ve clásico y es el obstáculo central del hardware.</dd>
+          </div>
+        </dl>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       7. Cierre: decoherencia, T1 y T2
+       ================================================================== -->
+  <section class="capitulo" id="decoherencia">
+    <div class="pliego">
+      <article class="columna">
+        <p class="rotulo">El antagonista</p>
+        <h2 class="imprime">Todo esto tiene fecha de caducidad.</h2>
+        <p class="entradilla lineas">
+          <span>Ningún cúbit está aislado. El entorno lo mide sin querer, todo el rato, y lo
+          primero que se lleva es la fase relativa: exactamente el recurso del que vive la
+          interferencia.</span>
+        </p>
+        <p>
+          Esa vigilancia involuntaria del entorno se llama decoherencia. Es el mecanismo descrito
+          por <a href="https://link.aps.org/doi/10.1103/RevModPhys.75.715" rel="noopener">Wojciech
+          Zurek</a>, y explica por qué el mundo macroscópico se ve clásico sin necesidad de añadir
+          ningún postulado nuevo a la teoría.
+        </p>
+        <p>
+          La ingeniería lo resume en dos tiempos. <span class="magnitud">T1</span>, la relajación
+          longitudinal, mide cuánto tarda en promedio un cúbit excitado en caer a |0⟩ cediendo
+          energía. <span class="magnitud">T2</span>, la relajación transversal, mide cuánto
+          sobrevive la fase relativa de una superposición. No son independientes:
+          <a href="https://arxiv.org/abs/1904.06560" rel="noopener">Krantz y sus colaboradores</a>
+          escriben la tasa transversal como 1/T2 = 1/(2·T1) + 1/Tφ, con Tφ el desfase puro, de
+          donde sale la cota que ningún dato puede violar: T2 ≤ 2·T1. Si una fuente publica lo
+          contrario, la fuente está mal.
+        </p>
+      </article>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Declare la secuencia</b>
+          Un T2* medido con Ramsey incluye el ruido lento del entorno y suele salir más corto que
+          un T2 de eco de Hahn, que refocaliza parte de ese ruido.
+          <a href="https://quantum.cloud.ibm.com/docs/en/guides/qpu-information" rel="noopener">IBM
+          documenta</a> que su T2 se reporta con eco. Dos números medidos de forma distinta no son
+          el mismo número.
+        </p>
+      </aside>
+
+      <div class="columna-ancha" tabindex="0" role="region" aria-label="Tiempos de coherencia publicados (se desplaza en horizontal)">
+        <table>
+          <caption>Tiempos de coherencia publicados, con su fecha y su origen</caption>
+          <thead>
+            <tr>
+              <th scope="col">Sistema</th>
+              <th scope="col">T1</th>
+              <th scope="col">T2 con eco</th>
+              <th scope="col">Compuerta</th>
+              <th scope="col">Fecha del dato</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Transmón en producción · IBM Heron r2, ibm_fez</th>
+              <td data-etiqueta="T1"><span class="magnitud">136,5 µs</span> (mediana)</td>
+              <td data-etiqueta="T2 con eco"><span class="magnitud">78,6 µs</span> (mediana)</td>
+              <td data-etiqueta="Compuerta">CZ, <span class="magnitud">68 ns</span></td>
+              <td data-etiqueta="Fecha del dato"><time datetime="2024-07-04">4 de julio de 2024</time></td>
+            </tr>
+            <tr>
+              <th scope="row">Transmón de laboratorio · Aalto</th>
+              <td data-etiqueta="T1"><span class="magnitud">425 µs</span> (mediana)</td>
+              <td data-etiqueta="T2 con eco"><span class="magnitud">541 µs</span> (mediana)</td>
+              <td class="suave" data-etiqueta="Compuerta">no se midieron</td>
+              <td data-etiqueta="Fecha del dato"><time datetime="2025-07-08">8 de julio de 2025</time></td>
+            </tr>
+            <tr>
+              <th scope="row">Transmón de laboratorio · Princeton</th>
+              <td data-etiqueta="T1">más de <span class="magnitud">1 ms</span></td>
+              <td data-etiqueta="T2 con eco">más de <span class="magnitud">1 ms</span></td>
+              <td class="suave" data-etiqueta="Compuerta">no se midieron</td>
+              <td data-etiqueta="Fecha del dato"><time datetime="2025-11-05">5 de noviembre de 2025</time></td>
+            </tr>
+            <tr>
+              <th scope="row">Ion ¹⁷¹Yb⁺ en reposo, como memoria</th>
+              <td class="suave" data-etiqueta="T1">no aplica</td>
+              <td data-etiqueta="T2 con eco">≈ <span class="magnitud">5 500 s</span></td>
+              <td class="suave" data-etiqueta="Compuerta">no aplica</td>
+              <td data-etiqueta="Fecha del dato"><time datetime="2021">2021</time></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="suave">
+          Fuentes, por filas: <a href="https://arxiv.org/abs/2410.00916" rel="noopener">AbuGhanem,
+          <cite>The Journal of Supercomputing</cite> 81 (2025)</a>, con datos accedidos en julio de
+          2024; <a href="https://www.aalto.fi/en/news/new-quantum-record-transmon-qubit-coherence-reaches-millisecond-threshold" rel="noopener">Tuokkola
+          y otros, Universidad Aalto, <cite>Nature Communications</cite> (2025)</a>;
+          <a href="https://doi.org/10.1038/s41586-025-09687-4" rel="noopener">Bland, Bahrami y
+          otros, <cite>Nature</cite> 647, 343-348 (2025)</a>;
+          <a href="https://doi.org/10.1038/s41467-020-20330-w" rel="noopener">Wang, Luan, Qiao y
+          otros, <cite>Nature Communications</cite> 12, 233 (2021)</a>. La última fila es una
+          memoria en reposo, no un procesador ejecutando compuertas: sus puertas son órdenes de
+          magnitud más lentas, así que la cifra no se puede comparar con las otras tres sin
+          normalizar.
+        </p>
+      </div>
+
+      <article class="columna">
+        <p>
+          Lo que importa no es ninguna de esas cifras por separado, sino su cociente con la
+          duración de una compuerta. En el ibm_fez, con una CZ de
+          <span class="magnitud">68 ns</span>, el T2 mediano deja un techo del orden de mil
+          compuertas de dos cúbits. Pero el límite que de verdad manda es otro: con un error
+          mediano de <span class="magnitud">2,848 × 10⁻³</span> por compuerta, el circuito se
+          degrada mucho antes, alrededor de las trescientas cincuenta. Las dos cuentas son cálculos
+          propios de orden de magnitud, no datos publicados, y la segunda es la que fija el
+          presupuesto real de un algoritmo. El conteo de cúbits no dice nada por sí solo.
+        </p>
+        <p>
+          Un ion en reposo aguanta miles de segundos y un transmón de producción, décimas de
+          milisegundo; sin embargo el ion no está ejecutando nada y sus operaciones son mucho más
+          lentas. Comparar plataformas por el tiempo de coherencia sin normalizar por la duración
+          de la compuerta es el error más frecuente de las tablas comparativas, incluidas las de
+          los fabricantes.
+        </p>
+      </article>
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/cables-ruido.webp"
+               alt="Brida superior de un refrigerador de dilución vista de cerca: decenas de pasamuros coaxiales en anillos concéntricos, con los cables semirrígidos de cobre y acero saliendo de ellos en haces atados."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 7</b> La electrónica de control. Cada cable que baja al criostato es a la vez la
+          única manera de hablarle al cúbit y una puerta abierta al ruido que lo destruye.
+          <em>Recreación generada con IA a partir de fotografías de salas de control de
+          computadores cuánticos.</em>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Separata · Lo que destruye el estado
+       La nota antagonista que cerraba el capítulo, compuesta a sangre.
+       ================================================================== -->
+  <section class="separata" id="lo-que-destruye-el-estado">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Separata</p>
+        <h2 class="imprime">Lo que destruye el estado.</h2>
+        <p>
+          Calor, ruido electromagnético, vibración y la propia medición. T1 cuenta cuánto tarda el
+          cúbit en perder la energía; T2, cuánto tarda en perder la fase, que es lo que de verdad
+          hace falta. T2 nunca puede pasar del doble de T1. La máquina no se apaga: se olvida.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Véalo ocurrir</b>
+          En el goniómetro del <a href="laboratorio.html#goniometro">laboratorio</a>, el mando
+          <em>Arrancar T2</em> deja que el entorno se lleve una superposición sin que nadie mida:
+          el vector se acorta y cae hacia el polo. Allí el reloj va estirado a
+          <span class="magnitud">12 s</span> para que se pueda ver.
+        </p>
+      </aside>
+
+      <article class="mitad imprime">
+        <a class="pieza" href="hardware.html">
+          <p class="folio">Capítulo II</p>
+          <h3>Dónde vive un cúbit</h3>
+          <p>Transmones, iones atrapados, átomos neutros y fotones. Las mismas matemáticas de este
+            capítulo, con cuatro presupuestos de tiempo muy distintos.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="laboratorio.html">
+          <p class="folio">Capítulo III</p>
+          <h3>Vea girar el vector</h3>
+          <p>El goniómetro del laboratorio es una esfera de Bloch de verdad: aplique una puerta,
+            cambie la fase, mida y compruebe en qué base el resultado deja de ser azar.</p>
+        </a>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="tercio">
+      <a class="marca" href="../index.html">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+        <span><span class="marca__nombre">Coherencia</span></span>
+      </a>
+      <p class="suave" style="margin-top:1rem;font-size:.92rem">
+        Revista universitaria de divulgación sobre computación cuántica.
+        Facultad de Ingeniería de Sistemas Computacionales, Universidad Tecnológica de Panamá.
+      </p>
+      <div class="redes" style="margin-top:1.2rem">
+        <a href="https://github.com/AleBrito124356" rel="noopener" aria-label="GitHub del proyecto">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1 4.98 2.1 4.98 3.5zM.2 8h4.6v15H.2V8zm7.4 0h4.4v2.1h.1c.6-1.1 2-2.3 4.2-2.3 4.5 0 5.3 2.9 5.3 6.7V23h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 1.9-2.9 4V23H7.6V8z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 5.3A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.7-7.6a1.05 1.05 0 1 1-1.05-1.05A1.05 1.05 0 0 1 17.7 7.3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="tercio" aria-label="Índice del pie">
+      <h4>Capítulos</h4>
+      <ul>
+        <li><a href="fundamentos.html">Fundamentos</a></li>
+        <li><a href="hardware.html">La máquina</a></li>
+        <li><a href="laboratorio.html">Laboratorio</a></li>
+        <li><a href="aplicaciones.html">Aplicaciones</a></li>
+        <li><a href="acerca-de.html">Acerca de</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="tercio">
+      <h4>Para seguir leyendo</h4>
+      <ul>
+        <li><a href="https://quantum.cloud.ibm.com/docs" rel="noopener">Documentación de IBM Quantum</a> — cursos y acceso real a procesadores.</li>
+        <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST · Criptografía poscuántica</a> — los estándares de 2024.</li>
+      </ul>
+      <h4 style="margin-top:1.6rem">Redacción</h4>
+      <address>
+        Campus Dr. Víctor Levi Sasso<br>
+        Ciudad de Panamá<br>
+        <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a>
+      </address>
+    </div>
+
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Parcial N.º 1 · Ingeniería Web · Dra. Denis Cedeño · Grupo 1SF134</span>
+      <span>Publicación estudiantil sin vínculo oficial con la UTP</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos-fijos">
+  <button class="mando" type="button" data-audio aria-pressed="false">Sonido: no</button>
+  <button class="mando" type="button" data-bajo-consumo aria-pressed="false">Bajo consumo: no</button>
+</div>
+
+<script src="../js/cuantica.js"></script>
+<script src="../js/escena3d.js?v=2026-09-23"></script>
+<script src="../js/sitio.js" defer></script>
+<script src="../js/piezas.js" defer></script>
+</body>
+</html>

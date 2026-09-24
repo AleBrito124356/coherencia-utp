@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acerca de — Coherencia</title>
+<meta name="description" content="Quién escribe Coherencia, cómo se diseñó y se programó el sitio, de dónde sale cada imagen y cada dato, y la bibliografía completa del número.">
+<meta name="author" content="Alejandro Brito Olivera y Marcos Gaitán">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="../img/marca.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-pagina="acerca">
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="../index.html" aria-label="Coherencia, portada">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Revista de computación cuántica · UTP · N.º 01</span>
+      </span>
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="navegacion" aria-label="Abrir el índice"><span></span></button>
+    <nav class="navegacion" id="navegacion" aria-label="Índice de la revista">
+      <a href="../index.html">Portada</a>
+      <a href="fundamentos.html">Fundamentos</a>
+      <a href="hardware.html">La máquina</a>
+      <a href="laboratorio.html">Laboratorio</a>
+      <a href="aplicaciones.html">Aplicaciones</a>
+      <a href="acerca-de.html" aria-current="page">Acerca de</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="capitulo" id="apertura">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Capítulo V</p>
+        <h1 class="imprime">Acerca de</h1>
+        <p class="entradilla">
+          Esta revista es el Parcial N.º 1 de la asignatura Ingeniería Web. La escribieron dos
+          estudiantes de Ingeniería de Software, y todo lo que hay aquí —textos, código, diseño,
+          simulador y piezas en tres dimensiones— se hizo desde cero para este número.
+        </p>
+      </div>
+      <aside class="margen">
+        <dl class="lectura">
+          <dt>Asignatura</dt><dd>Ingeniería Web</dd>
+          <dt>Grupo</dt><dd>1SF134</dd>
+          <dt>Facilitadora</dt><dd>Dra. Denis Cedeño</dd>
+          <dt>Entrega</dt><dd><time datetime="2026-09-28">28/09/2026</time></dd>
+          <dt>Facultad</dt><dd>FISC · UTP</dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="capitulo capitulo--vitela" id="equipo">
+    <div class="pliego">
+      <div class="columna-ancha">
+        <p class="rotulo">La redacción</p>
+        <h2 class="imprime">Dos personas, un reparto claro</h2>
+      </div>
+
+      <article class="mitad imprime">
+        <h3>Alejandro Brito Olivera</h3>
+        <p class="folio">Cédula 20-24-7596 · Ingeniería de Software</p>
+        <p>
+          Dirección de arte y programación. Retícula, tipografía y paleta; el motor de simulación
+          cuántica de <a href="../js/cuantica.js">js/cuantica.js</a>; las cuatro piezas
+          tridimensionales con Three.js; el héroe conducido por el scroll y la validación del
+          formulario.
+        </p>
+      </article>
+
+      <article class="mitad imprime">
+        <h3>Marcos Gaitán</h3>
+        <p class="folio">Cédula 8-988-725 · Ingeniería de Software</p>
+        <p>
+          Investigación, redacción y verificación. Búsqueda y contraste de fuentes, redacción de
+          los capítulos, revisión de cada cifra contra su publicación original, glosario,
+          bibliografía y pruebas de usabilidad en pantallas pequeñas.
+        </p>
+      </article>
+
+      <aside class="todo">
+        <p class="nota" style="max-width:42rem">
+          <b>Sobre el rigor</b>
+          Ninguno de los dos es físico. Por eso el método fue conservador: cada afirmación fuerte
+          se contrastó con su publicación original y, cuando una cifra no se pudo confirmar, se
+          quitó en lugar de suavizarla. Si encuentra un error, <a href="contacto.html">escríbanos</a>:
+          lo corregimos y lo anotamos.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="capitulo" id="como-esta-hecho">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Cómo está hecho</p>
+        <h2 class="imprime">HTML5 y CSS3 escritos a mano</h2>
+        <p>
+          No hay ningún framework de diseño. El sitio son siete páginas en HTML5 semántico, una
+          hoja de estilos de CSS3 con retícula de doce columnas y variables propias, y JavaScript
+          orientado a objetos para lo que se mueve. Las tipografías están autoalojadas y el
+          paquete de las piezas 3D se compila a un único archivo clásico, de modo que el proyecto
+          <strong>funciona también abriendo <span class="magnitud">index.html</span> desde la
+          carpeta</strong>, sin servidor.
+        </p>
+
+        <h3>La técnica de diseño</h3>
+        <p>
+          Se usaron <strong>wireframes de baja fidelidad</strong> y, sobre ellos, un
+          <strong>mockup</strong>. Los bocetos de las cuatro plantillas, la retícula, la paleta con
+          sus contrastes medidos y las reglas de movimiento están recogidos en un documento
+          aparte que forma parte de la entrega:
+        </p>
+        <p>
+          <a class="boton boton--linea" href="../diseno/tecnica-de-diseno.html">Ver el documento de diseño</a>
+        </p>
+
+        <h3>Qué hace cada archivo</h3>
+        <dl class="glosario">
+          <div><dt>css/estilo.css</dt><dd>Sistema completo: tokens, retícula, componentes, movimiento, adaptación a móvil e impresión.</dd></div>
+          <div><dt>js/cuantica.js</dt><dd>El motor: números complejos, puertas, vector de estado de hasta doce cúbits, medición, esfera de Bloch y el algoritmo de Grover. Trae sus propias pruebas.</dd></div>
+          <div><dt>js/escena3d.js</dt><dd>Paquete compilado con Three.js y las cuatro figuras tridimensionales. El código legible está en <span class="magnitud">_fuente/src/</span>.</dd></div>
+          <div><dt>js/sitio.js</dt><dd>Navegación, impresión de figuras, el descenso del héroe con su prueba de capacidad, el sonido y el modo de bajo consumo.</dd></div>
+          <div><dt>js/piezas.js</dt><dd>Conecta los mandos de cada aparato con el motor y con las escenas.</dd></div>
+          <div><dt>js/formulario.js</dt><dd>Validación de seis campos en el navegador y envío al archivo de datos.</dd></div>
+          <div><dt>guardar.php · api/guardar.js</dt><dd>Las dos formas de guardar el formulario: PHP para un servidor propio, Node para el hosting.</dd></div>
+        </dl>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Estructura de carpetas</b>
+          La carpeta principal lleva los apellidos de los dos integrantes, y dentro están
+          <span class="magnitud">html/</span>, <span class="magnitud">css/</span> e
+          <span class="magnitud">img/</span>, más <span class="magnitud">js/</span>,
+          <span class="magnitud">audio/</span>, <span class="magnitud">video/</span>,
+          <span class="magnitud">fuentes/</span>, <span class="magnitud">datos/</span> y
+          <span class="magnitud">diseno/</span>.
+        </p>
+        <p class="nota">
+          <b>Comprobado en</b>
+          Chrome, Edge y Firefox de escritorio, y en pantallas de 375, 768, 1024 y 1440 píxeles.
+          Con <span class="magnitud">prefers-reduced-motion</span> activo, el vídeo se congela y
+          las figuras aparecen ya impresas.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Audio del número
+       ================================================================== -->
+  <section class="capitulo capitulo--vitela" id="sonido">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Audio del número</p>
+        <h2 class="imprime">Para escuchar</h2>
+        <p>
+          Dos piezas de sonido acompañan a este número. Ninguna suena sola: hay que darle al
+          botón, y todo lo que dicen está también escrito.
+        </p>
+
+        <article>
+          <h3>Introducción narrada</h3>
+          <p class="folio">Voz generada con IA · 51 segundos</p>
+          <audio controls preload="metadata" src="../audio/narracion.mp3">
+            Su navegador no puede reproducir audio.
+            <a href="../audio/narracion.mp3">Descargar la narración (MP3)</a>.
+          </audio>
+          <p class="suave" style="font-size:.92rem;margin-top:.8rem">
+            «La computación cuántica no es una computadora más rápida. Es otra manera de calcular.
+            Un cúbit no guarda un cero o un uno: guarda dos números complejos, llamados amplitudes,
+            y esas amplitudes pueden cancelarse entre sí. Ahí está toda la ventaja…»
+          </p>
+        </article>
+
+        <article style="margin-top:2.2rem">
+          <h3>Ambiente del criostato</h3>
+          <p class="folio">Música instrumental generada con IA · 1 minuto 15</p>
+          <audio controls preload="metadata" src="../audio/ambiente.mp3">
+            Su navegador no puede reproducir audio.
+            <a href="../audio/ambiente.mp3">Descargar la pieza (MP3)</a>.
+          </audio>
+          <p class="suave" style="font-size:.92rem;margin-top:.8rem">
+            Pieza pensada para acompañar la lectura del capítulo de la máquina: cuerdas graves
+            sostenidas y resonancia metálica, sin percusión.
+          </p>
+        </article>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>El otro sonido</b>
+          El interruptor «Sonido» —en el lomo izquierdo, o al pie de la página en el teléfono— no reproduce ningún archivo: sintetiza en
+          el navegador, con la API de audio web, el zumbido grave de la bomba de circulación y el
+          clic de relé de cada medición. El filtro se cierra conforme se desciende por el héroe,
+          así que al fondo del criostato se hace el silencio.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Procedencia
+       ================================================================== -->
+  <section class="capitulo" id="procedencia">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Procedencia del material</p>
+        <h2 class="imprime">Qué es una foto y qué no</h2>
+        <p>
+          En un trabajo académico la procedencia no es opcional, así que aquí va sin rodeos.
+          <strong>Ninguna imagen de este sitio es una fotografía documental.</strong> Todas las
+          imágenes fijas y el vídeo del héroe se generaron con modelos de inteligencia artificial
+          a partir de indicaciones escritas por nosotros, cotejando el resultado con documentación
+          de criostatos y trampas de iones reales para que no apareciera instrumental imposible.
+          Cada pie de figura lo declara.
+        </p>
+        <p>
+          Las cuatro piezas en tres dimensiones son <strong>esquemas</strong>, no reconstrucciones
+          exactas: la geometría es propia, construida con Three.js, y busca ser fiel a las
+          proporciones y al funcionamiento, no a un modelo comercial concreto.
+        </p>
+        <p>
+          El vídeo del héroe se recodificó con un fotograma clave en cada fotograma para poder
+          recorrerlo con el scroll, y pesa <span class="magnitud">3,9 MB</span>. Para los
+          navegadores que no aguantan ese salto —Safari, casi todos los móviles— existe la misma
+          toma como secuencia de <span class="magnitud">36</span> imágenes, y el sitio elige entre
+          una y otra midiendo cuánto tarda el navegador en responder a un salto de prueba.
+        </p>
+
+        <h3>Licencias</h3>
+        <ul>
+          <li><strong>Tipografías:</strong> Bodoni Moda, Source Serif 4 e IBM Plex Mono, todas con
+            licencia SIL Open Font License, autoalojadas en <span class="magnitud">fuentes/</span>.</li>
+          <li><strong>Three.js:</strong> licencia MIT, compilada dentro de
+            <span class="magnitud">js/escena3d.js</span>.</li>
+          <li><strong>Textos, código, diseño y simulador:</strong> obra propia de los autores.</li>
+        </ul>
+      </div>
+
+      <aside class="margen">
+        <figure class="figura">
+          <div class="figura__marco">
+            <img src="../img/ingeniera.webp" alt="Una ingeniera con bata antiestática ajusta un cable coaxial en un refrigerador de dilución abierto." width="1600" height="1066" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            <b>Fig. 21</b> Trabajo sobre un criostato abierto.
+            <em>Recreación generada con IA; no documenta a ninguna persona real.</em>
+          </figcaption>
+        </figure>
+      </aside>
+
+      <!-- La tira de contactos: la prueba a la vista de lo que dice el tercer
+           párrafo. Tiene que ser hija directa del pliego para que .sangre
+           resuelva su calc() contra el ancho de la retícula. -->
+      <figure class="tira sangre imprime">
+        <div class="tira__fotogramas">
+          <img src="../img/secuencia/f01.webp" alt="Plano general del criostato abierto: tres placas doradas escalonadas cuelgan en la penumbra, con muelles y cables, y una luz cian asoma bajo la pieza central." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f08.webp" alt="La cámara se ha acercado: las tres placas se ven más grandes, la de arriba ya toca el borde superior y la luz cian sigue bajo la pieza central." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f15.webp" alt="Quedan a la vista las dos placas de abajo y el bloque metálico central, rodeado de cables finos y de dos muelles." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f22.webp" alt="La placa inferior llena la mitad de arriba del encuadre; debajo se distinguen las aletas verticales del bloque central y los dos soportes dorados de los lados." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f29.webp" alt="Primer plano del bloque de aletas con un muelle a su izquierda; la luz cian sale de la pieza pequeña de su extremo inferior." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f36.webp" alt="Encuadre más cerrado sobre la base del bloque central, entre dos soportes dorados, con un destello cian que cruza la imagen en horizontal." width="960" height="540" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 22</b> Seis de los treinta y seis fotogramas del descenso, del primero al
+          último. Son las imágenes que el sitio dibuja en un lienzo, en lugar del vídeo de la
+          portada, cuando el navegador no responde a tiempo al salto de prueba.
+          <em>Fotogramas del vídeo del héroe, generado con IA; no es una fotografía documental.</em>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Bibliografía
+       ================================================================== -->
+  <section class="capitulo capitulo--vitela" id="bibliografia">
+    <div class="pliego">
+      <div class="columna-ancha">
+        <p class="rotulo">Bibliografía</p>
+        <h2 class="imprime">De dónde sale cada dato</h2>
+        <p>
+          Referencias en formato APA 7. Se consultaron alrededor de doscientas fuentes para este
+          número; aquí están las que sostienen las afirmaciones principales.
+        </p>
+
+        <ol class="bibliografia">
+          <li>Aaronson, S. (2015). Read the fine print. <em>Nature Physics, 11</em>(4), 291-293.
+            <a href="https://doi.org/10.1038/nphys3272" rel="noopener">https://doi.org/10.1038/nphys3272</a></li>
+
+          <li>Aaronson, S. (2021, 8 de junio). <em>Why is quantum computing so hard to explain?</em>
+            Quanta Magazine.
+            <a href="https://www.quantamagazine.org/why-is-quantum-computing-so-hard-to-explain-20210608/" rel="noopener">quantamagazine.org</a></li>
+
+          <li>Abbas, A., Ambainis, A., Augustino, B., Bärtschi, A., Buhrman, H., Coffrin, C., et al.
+            (2024). Challenges and opportunities in quantum optimization.
+            <em>Nature Reviews Physics, 6</em>, 718-735.
+            <a href="https://doi.org/10.1038/s42254-024-00770-9" rel="noopener">https://doi.org/10.1038/s42254-024-00770-9</a></li>
+
+          <li>Arute, F., Arya, K., Babbush, R., Bacon, D., Bardin, J. C., Barends, R., … Martinis, J. M.
+            (2019). Quantum supremacy using a programmable superconducting processor.
+            <em>Nature, 574</em>(7779), 505-510.
+            <a href="https://doi.org/10.1038/s41586-019-1666-5" rel="noopener">https://doi.org/10.1038/s41586-019-1666-5</a></li>
+
+          <li>Bennett, C. H., Bernstein, E., Brassard, G., &amp; Vazirani, U. (1997). Strengths and
+            weaknesses of quantum computing. <em>SIAM Journal on Computing, 26</em>(5), 1510-1523.</li>
+
+          <li>Bluvstein, D., Evered, S. J., Geim, A. A., Li, S. H., Zhou, H., Manovitz, T., … Lukin, M. D.
+            (2024). Logical quantum processor based on reconfigurable atom arrays.
+            <em>Nature, 626</em>, 58-65.
+            <a href="https://doi.org/10.1038/s41586-023-06927-3" rel="noopener">https://doi.org/10.1038/s41586-023-06927-3</a></li>
+
+          <li>Bravyi, S., Cross, A. W., Gambetta, J. M., Maslov, D., Rall, P., &amp; Yoder, T. J. (2024).
+            High-threshold and low-overhead fault-tolerant quantum memory. <em>Nature, 627</em>, 778-782.
+            <a href="https://doi.org/10.1038/s41586-024-07107-7" rel="noopener">https://doi.org/10.1038/s41586-024-07107-7</a></li>
+
+          <li>Deutsch, D. (1985). Quantum theory, the Church-Turing principle and the universal quantum
+            computer. <em>Proceedings of the Royal Society A, 400</em>(1818), 97-117.</li>
+
+          <li>Feynman, R. P. (1982). Simulating physics with computers.
+            <em>International Journal of Theoretical Physics, 21</em>(6-7), 467-488.</li>
+
+          <li>Gidney, C., &amp; Ekerå, M. (2021). How to factor 2048 bit RSA integers in 8 hours using
+            20 million noisy qubits. <em>Quantum, 5</em>, 433.
+            <a href="https://doi.org/10.22331/q-2021-04-15-433" rel="noopener">https://doi.org/10.22331/q-2021-04-15-433</a></li>
+
+          <li>Goings, J. J., White, A., Lee, J., Tautermann, C. S., Degroote, M., Gidney, C., Shiozaki, T.,
+            Babbush, R., &amp; Rubin, N. C. (2022). Reliably assessing the electronic structure of
+            cytochrome P450 on today's classical computers and tomorrow's quantum computers.
+            <em>PNAS, 119</em>(38), e2203533119.
+            <a href="https://doi.org/10.1073/pnas.2203533119" rel="noopener">https://doi.org/10.1073/pnas.2203533119</a></li>
+
+          <li>Google Quantum AI y colaboradores. (2025). Quantum error correction below the surface code
+            threshold. <em>Nature, 638</em>, 920-926.
+            <a href="https://doi.org/10.1038/s41586-024-08449-y" rel="noopener">https://doi.org/10.1038/s41586-024-08449-y</a></li>
+
+          <li>Grover, L. K. (1996). A fast quantum mechanical algorithm for database search. En
+            <em>Proceedings of the 28th Annual ACM Symposium on Theory of Computing</em> (pp. 212-219). ACM.</li>
+
+          <li>IBM Quantum. (2026). <em>IBM Quantum documentation</em>. IBM. Recuperado el 22 de septiembre
+            de 2026, de <a href="https://quantum.cloud.ibm.com/docs" rel="noopener">https://quantum.cloud.ibm.com/docs</a></li>
+
+          <li>Javadi-Abhari, A., Treinish, M., Krsulich, K., Wood, C. J., Lishman, J., Gacon, J., … Gambetta, J. M.
+            (2024). <em>Quantum computing with Qiskit</em> (arXiv:2405.08810). arXiv.
+            <a href="https://arxiv.org/abs/2405.08810" rel="noopener">https://arxiv.org/abs/2405.08810</a></li>
+
+          <li>National Institute of Standards and Technology. (2024). <em>Module-lattice-based
+            key-encapsulation mechanism standard</em> (FIPS 203). U.S. Department of Commerce.
+            <a href="https://doi.org/10.6028/NIST.FIPS.203" rel="noopener">https://doi.org/10.6028/NIST.FIPS.203</a></li>
+
+          <li>National Institute of Standards and Technology. (2024). <em>Module-lattice-based digital
+            signature standard</em> (FIPS 204). U.S. Department of Commerce.
+            <a href="https://doi.org/10.6028/NIST.FIPS.204" rel="noopener">https://doi.org/10.6028/NIST.FIPS.204</a></li>
+
+          <li>National Institute of Standards and Technology. (2024). <em>Stateless hash-based digital
+            signature standard</em> (FIPS 205). U.S. Department of Commerce.
+            <a href="https://doi.org/10.6028/NIST.FIPS.205" rel="noopener">https://doi.org/10.6028/NIST.FIPS.205</a></li>
+
+          <li>Nielsen, M. A., &amp; Chuang, I. L. (2010). <em>Quantum computation and quantum information</em>
+            (10.ª ed. de aniversario). Cambridge University Press.</li>
+
+          <li>Preskill, J. (2018). Quantum computing in the NISQ era and beyond. <em>Quantum, 2</em>, 79.
+            <a href="https://doi.org/10.22331/q-2018-08-06-79" rel="noopener">https://doi.org/10.22331/q-2018-08-06-79</a></li>
+
+          <li>Shor, P. W. (1997). Polynomial-time algorithms for prime factorization and discrete logarithms
+            on a quantum computer. <em>SIAM Journal on Computing, 26</em>(5), 1484-1509.</li>
+
+          <li>The Royal Swedish Academy of Sciences. (2022, 4 de octubre). <em>The Nobel Prize in Physics
+            2022</em> [Comunicado de prensa]. NobelPrize.org.
+            <a href="https://www.nobelprize.org/prizes/physics/2022/press-release/" rel="noopener">nobelprize.org</a></li>
+
+          <li>Zurek, W. H. (2003). Decoherence, einselection, and the quantum origins of the classical.
+            <em>Reviews of Modern Physics, 75</em>(3), 715-775.
+            <a href="https://doi.org/10.1103/RevModPhys.75.715" rel="noopener">https://doi.org/10.1103/RevModPhys.75.715</a></li>
+        </ol>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Cómo se verificó</b>
+          Cada bloque de contenido pasó por una segunda lectura cuyo único objetivo era
+          <em>refutarlo</em>: buscar la fuente primaria de cada cifra y descartar lo que no
+          apareciera en ella. Lo que no se pudo confirmar no se publicó.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Separata: la nota antagonista que cerraba la bibliografía, sacada
+       del margen y compuesta en huecograbado. Una sola por documento.
+       ================================================================== -->
+  <section class="separata" id="aviso-de-caducidad">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Separata · El antagonista</p>
+        <h2 class="imprime">Aviso de caducidad.</h2>
+        <p>
+          Este campo se mueve rápido. Las cifras de cúbits, fidelidades y tiempos de coherencia
+          corresponden a septiembre de 2026 y envejecerán pronto. Las ideas de los capítulos I y
+          III, en cambio, llevan décadas sin cambiar.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Para seguir</b>
+          Si una cifra se ha quedado vieja, el formulario de contacto es el camino para avisarnos.
+          Lo que no caduca empieza en el capítulo I.
+        </p>
+      </aside>
+
+      <article class="mitad imprime">
+        <a class="pieza" href="contacto.html">
+          <p class="folio">Capítulo VI</p>
+          <h3>Contacto</h3>
+          <p>Correcciones, dudas y propuestas. El formulario guarda cada mensaje en un archivo
+            de datos.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="fundamentos.html">
+          <p class="folio">Capítulo I</p>
+          <h3>Fundamentos</h3>
+          <p>Qué es un cúbit de verdad, por qué la fase importa más que la superposición y qué
+            significa medir. Con la doble rendija funcionando en la propia página.</p>
+        </a>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="tercio">
+      <a class="marca" href="../index.html">
+        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+          <circle cx="44" cy="50" r="9" fill="currentColor"/>
+          <circle cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+        </svg>
+        <span><span class="marca__nombre">Coherencia</span></span>
+      </a>
+      <p class="suave" style="margin-top:1rem;font-size:.92rem">
+        Revista universitaria de divulgación sobre computación cuántica.
+        Facultad de Ingeniería de Sistemas Computacionales, Universidad Tecnológica de Panamá.
+      </p>
+      <div class="redes" style="margin-top:1.2rem">
+        <a href="https://github.com/AleBrito124356" rel="noopener" aria-label="GitHub del proyecto">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1 4.98 2.1 4.98 3.5zM.2 8h4.6v15H.2V8zm7.4 0h4.4v2.1h.1c.6-1.1 2-2.3 4.2-2.3 4.5 0 5.3 2.9 5.3 6.7V23h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 1.9-2.9 4V23H7.6V8z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 5.3A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.7-7.6a1.05 1.05 0 1 1-1.05-1.05A1.05 1.05 0 0 1 17.7 7.3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="tercio" aria-label="Índice del pie">
+      <h4>Capítulos</h4>
+      <ul>
+        <li><a href="fundamentos.html">Fundamentos</a></li>
+        <li><a href="hardware.html">La máquina</a></li>
+        <li><a href="laboratorio.html">Laboratorio</a></li>
+        <li><a href="aplicaciones.html">Aplicaciones</a></li>
+        <li><a href="acerca-de.html">Acerca de</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="tercio">
+      <h4>Para seguir leyendo</h4>
+      <ul>
+        <li><a href="https://quantum.cloud.ibm.com/docs" rel="noopener">Documentación de IBM Quantum</a> — cursos y acceso real a procesadores.</li>
+        <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST · Criptografía poscuántica</a> — los estándares de 2024.</li>
+      </ul>
+      <h4 style="margin-top:1.6rem">Redacción</h4>
+      <address>
+        Campus Dr. Víctor Levi Sasso<br>
+        Ciudad de Panamá<br>
+        <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a>
+      </address>
+    </div>
+
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Parcial N.º 1 · Ingeniería Web · Dra. Denis Cedeño · Grupo 1SF134</span>
+      <span>Publicación estudiantil sin vínculo oficial con la UTP</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos-fijos">
+  <button class="mando" type="button" data-audio aria-pressed="false">Sonido: no</button>
+  <button class="mando" type="button" data-bajo-consumo aria-pressed="false">Bajo consumo: no</button>
+</div>
+
+<script src="../js/sitio.js" defer></script>
+</body>
+</html>

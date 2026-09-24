@@ -1,0 +1,11 @@
+{
+  "name": "coherencia-3d",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Fuente del bundle 3D del sitio (se compila a ../js/escena3d.js)",
+  "type": "module",
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "three": "^0.181.0"
+  }
+}

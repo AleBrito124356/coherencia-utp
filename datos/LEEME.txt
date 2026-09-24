@@ -1,0 +1,15 @@
+Carpeta del archivo de datos
+============================
+
+Aquí escribe el formulario de contacto del sitio.
+
+  mensajes.txt   un bloque por mensaje, legible por una persona
+  mensajes.csv   lo mismo en columnas, para abrir en una hoja de cálculo
+
+Los dos archivos los crea guardar.php la primera vez que alguien envía el
+formulario desde un servidor con PHP (WAMP, XAMPP o un hosting con PHP).
+
+Si el sitio se abre sin servidor, el formulario guarda el mismo contenido en
+el navegador y ofrece descargarlo como mensajes.txt desde la propia página.
+
+Coherencia · Parcial N.º 1 de Ingeniería Web · UTP · Brito & Gaitán

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La máquina — Coherencia</title>
+<meta name="description" content="Cómo se construye una computadora cuántica: el refrigerador de dilución etapa por etapa, las seis modalidades de hardware y el estado real de la corrección de errores.">
+<meta name="author" content="Alejandro Brito Olivera y Marcos Gaitán">
+<meta name="theme-color" content="#f2efe6">
+<link rel="icon" href="../img/marca.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body data-pagina="hardware">
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="cabecera__interior">
+    <a class="marca" href="../index.html" aria-label="Coherencia, portada">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+      <span>
+        <span class="marca__nombre">Coherencia</span>
+        <span class="marca__pie">Revista de computación cuántica · UTP · N.º 01</span>
+      </span>
+    </a>
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="navegacion" aria-label="Abrir el índice"><span></span></button>
+    <nav class="navegacion" id="navegacion" aria-label="Índice de la revista">
+      <a href="../index.html">Portada</a>
+      <a href="fundamentos.html">Fundamentos</a>
+      <a href="hardware.html" aria-current="page">La máquina</a>
+      <a href="laboratorio.html">Laboratorio</a>
+      <a href="aplicaciones.html">Aplicaciones</a>
+      <a href="acerca-de.html">Acerca de</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+<!-- ==================================================================
+       Capítulo II — La máquina
+       1. El refrigerador de dilución (pieza interactiva A)
+       2. Las seis modalidades de hardware + tabla comparativa
+       3. La cadena de iones (pieza interactiva B)
+       4. Estado del arte y corrección de errores
+       ================================================================== -->
+
+  <section class="capitulo" id="el-frio">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Capítulo II · La máquina</p>
+        <h2 class="imprime">Seis etapas de frío entre la sala y el procesador.</h2>
+        <p class="entradilla lineas">
+          <span>Una computadora cuántica superconductora no se parece a un servidor. Se parece
+          a una planta criogénica: placas de cobre colgadas unas de otras, cada una más fría que
+          la de arriba, y el procesador en el último piso.</span>
+        </p>
+        <p class="capitular">
+          El aparato que consigue ese frío se llama refrigerador de dilución y no usa ningún
+          truco electrónico. Aprovecha una propiedad de la mezcla de helio-3 y helio-4: por
+          debajo de unos <span class="magnitud">870 mK</span> se separa sola en dos fases, una
+          concentrada, casi todo ³He, y otra diluida, que retiene alrededor de un
+          <span class="magnitud">6,6 %</span> de ³He disuelto en ⁴He. Cuando un átomo de ³He
+          cruza de la fase concentrada a la diluida, absorbe energía del entorno. Ese paso
+          endotérmico es lo que enfría, y mientras se bombee ³He de la fase diluida la máquina
+          enfría en continuo.
+        </p>
+        <p>
+          El descenso se hace por etapas, y cada una tiene su oficio. En la brida de vacío, a
+          <span class="magnitud">300 K</span>, entran los cables coaxiales que llevan los pulsos
+          de control: traen señal, pero también calor y ruido, y hay que atenuarlos en cada piso.
+          El escudo de <span class="magnitud">50 K</span> es la primera etapa del tubo de pulsos
+          y trabaja contra la radiación térmica del exterior. La etapa de
+          <span class="magnitud">4 K</span> aloja los amplificadores criogénicos de lectura y
+          precondensa el ³He. En el <i>still</i>, cerca de <span class="magnitud">800 mK</span>,
+          se bombea el ³He de la fase diluida para sostener la circulación. La placa de
+          <span class="magnitud">100 mK</span> monta los intercambiadores a contracorriente. Y en
+          la cámara de mezcla, a <span class="magnitud">10 mK</span>, cuelga el chip.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Por qué 10 <span class="sin-mayus">mK</span> y no 4 K</b>
+          Un transmón trabaja a unos <span class="magnitud">5 GHz</span>. Esa frecuencia equivale
+          a una energía térmica de aproximadamente <span class="magnitud">250 mK</span>. Si el
+          chip estuviera a esa temperatura, el entorno excitaría el estado |1⟩ por su cuenta. El
+          frío no es un lujo: es la condición para que el cúbit empiece en el estado que se le
+          pidió.
+        </p>
+        <p class="nota">
+          <b>Lo que no vamos a escribir</b>
+          Que la cámara de mezcla sea «el lugar más frío del universo». Lo verificable basta:
+          <span class="magnitud">10 mK</span> está muy por debajo del fondo cósmico de
+          microondas, que está a <span class="magnitud">2,7 K</span>. Y hay laboratorios que han
+          alcanzado temperaturas efectivas todavía menores.
+        </p>
+      </aside>
+    </div>
+
+    <!-- Se abre otro pliego a propósito: la nota pegajosa solo viaja dentro
+         del suyo. Con un solo pliego bajaría por encima de las figuras. -->
+    <div class="pliego">
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/criostato.webp"
+               alt="Refrigerador de dilución completo, con sus escudos cilíndricos abiertos y las placas de cobre suspendidas una debajo de otra."
+               width="1800" height="1012" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 8</b> El aparato entero. Lo que se ve son los escudos térmicos abiertos: cada
+          cilindro protege del calor al que tiene debajo. El procesador ocupa el último palmo.
+          <em>Recreación generada con IA a partir de documentación de criostatos comerciales.</em>
+        </figcaption>
+      </figure>
+
+      <div class="columna">
+        <p>
+          En un Bluefors XLD1000-SL cargado con cableado hay unos <span class="magnitud">30 W</span> disponibles en la
+          etapa de <span class="magnitud">50 K</span> y unas decenas de microvatios en la cámara
+          de mezcla: un factor de un millón entre esa etapa y la última.
+        </p>
+        <p class="suave">
+          Valores tabulados en un sistema cargado con cableado
+          (<a href="https://arxiv.org/html/2502.01945v2" rel="noopener">arXiv:2502.01945v2</a>).
+          Solo la cifra de la cámara de mezcla es especificación del fabricante: el
+          <a href="https://bluefors.com/products/dilution-refrigerator-measurement-systems/xldsl-dilution-refrigerator-measurement-system/" rel="noopener">XLD1000sl</a>
+          garantiza temperatura base de <span class="magnitud">10 mK</span>, más de
+          <span class="magnitud">30 µW</span> a <span class="magnitud">20 mK</span> y más de
+          <span class="magnitud">1.000 µW</span> a <span class="magnitud">100 mK</span>.
+        </p>
+      </div>
+
+      <!-- El aparato: la escena en la columna de lectura y, a su lado, el panel
+           con el mando y la potencia de cada etapa. El pie va el último. -->
+      <figure class="figura figura--aparato columna-ancha imprime">
+        <div class="escena escena--alta" data-escena="criostato"></div>
+
+        <div class="aparato__panel">
+          <div class="mandos">
+            <span class="mando__grupo"><label for="mando-etapa">Descenso</label>
+              <input type="range" id="mando-etapa" min="0" max="100" value="0"></span>
+            <output class="magnitud" data-salida="criostato-temp">300 K</output>
+            <span class="suave" data-salida="criostato-nombre">Brida de vacío</span>
+          </div>
+
+          <p class="folio">Potencia frigorífica por etapa · Bluefors XLD1000-SL</p>
+          <dl class="lectura">
+            <dt>50 K</dt><dd><b>~30 W</b> · escudo de radiación, primera etapa del tubo de pulsos</dd>
+            <dt>4 K</dt><dd><b>~0,7 W</b> · amplificadores criogénicos y precondensación del ³He</dd>
+            <dt>800 <span class="sin-mayus">mK</span></dt><dd><b>~7 mW</b> · <i>still</i>: bombeo del ³He de la fase diluida</dd>
+            <dt>100 <span class="sin-mayus">mK</span></dt><dd><b>~1 mW</b> · intercambiadores a contracorriente</dd>
+            <dt>10 <span class="sin-mayus">mK</span></dt><dd><b>&gt;30 µW a 20 mK</b> · cámara de mezcla: aquí va el chip</dd>
+          </dl>
+        </div>
+
+        <figcaption>
+          <b>Fig. 9</b> Recorrido del criostato. Mueva el mando y baje por las seis etapas
+          térmicas: la lectura da la temperatura nominal de cada placa y el nombre de la pieza.
+          El salto difícil no está arriba, sino entre el <i>still</i> y la cámara de mezcla,
+          donde la potencia disponible cae a microvatios. Al final del recorrido la cámara pasa
+          por debajo de la placa de mezcla, hasta el portamuestras chapado en oro donde va el chip.
+        </figcaption>
+      </figure>
+
+      <div class="columna">
+        <p>
+          Aquí aparece el problema que manda sobre el diseño. Cada cúbit necesita sus propias
+          líneas de control y de lectura, y cada línea es un cable que baja desde temperatura
+          ambiente. Un XLD1000sl admite hasta <span class="magnitud">1.008</span> líneas
+          coaxiales de <span class="magnitud">18 GHz</span>, y con esa configuración máxima las
+          cargas térmicas estáticas de los cables consumen el
+          <span class="magnitud">63,4 %</span> de la potencia disponible en la placa de
+          <span class="magnitud">100 mK</span>. El cuello de botella no está abajo, donde vive el
+          chip, sino en esa etapa intermedia: para la arquitectura analizada, los autores
+          calculan un límite práctico de unos <span class="magnitud">140 cúbits</span> por
+          refrigerador. El techo lo fija el cableado, no el procesador.
+        </p>
+        <p>
+          El insumo tampoco es indiferente. El helio-3 cotiza entre
+          <span class="magnitud">1.900</span> y <span class="magnitud">2.600 USD</span> por
+          litro a granel, y un XLD1000sl contiene unos <span class="magnitud">40 litros</span>:
+          del orden de <span class="magnitud">100.000 USD</span> solo en gas. Casi todo el
+          suministro terrestre viene de la desintegración del tritio almacenado en arsenales
+          nucleares. De ahí que varias líneas persigan cúbits que funcionen por encima de
+          <span class="magnitud">1 K</span>, donde bastaría helio-4.
+        </p>
+      </div>
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/control.webp"
+               alt="Armarios de electrónica de control con instrumentos apilados y haces de cables coaxiales ordenados que bajan hacia el criostato."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 10</b> La mitad de la máquina que casi nadie fotografía. Los generadores de
+          microondas, los conversores y el cableado ocupan más espacio que el criostato, y cada
+          línea que entra al frío se paga en vatios.
+          <em>Recreación generada con IA a partir de fotografías de salas de control criogénico.</em>
+        </figcaption>
+      </figure>
+
+      <!-- Tira de contactos a sangre: hija directa del pliego, o el cálculo de
+           .sangre no resuelve contra su ancho -->
+      <figure class="tira sangre imprime">
+        <div class="tira__fotogramas">
+          <img src="../img/secuencia/f01.webp" alt="Plano general del aparato suspendido en la oscuridad: tres placas doradas escalonadas, con resortes y cables entre ellas y un módulo que brilla en cian en el extremo inferior." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f08.webp" alt="La cámara se ha acercado: las tres placas ocupan casi todo el alto del cuadro y la superior ya queda cortada por arriba." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f15.webp" alt="La placa superior sale del encuadre; dominan las dos inferiores, el haz de cables que cuelga de ellas y el módulo central iluminado en cian." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f22.webp" alt="Encuadre sobre la placa más baja: dos soportes con resortes a los lados y, en el centro, un bloque metálico acanalado cuya base brilla en cian." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f29.webp" alt="Primer plano del bloque acanalado entre los dos soportes dorados, con la luz cian saliendo de su base." width="960" height="540" loading="lazy" decoding="async">
+          <img src="../img/secuencia/f36.webp" alt="Detalle de la base del bloque: la luz cian llena el centro del cuadro y los soportes dorados quedan cortados en los bordes." width="960" height="540" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 11</b> Seis de los treinta y seis fotogramas del descenso, de izquierda a
+          derecha: la cámara pasa del aparato entero a la base del último módulo. Son los mismos
+          que el sitio usa como respaldo del vídeo de portada cuando el navegador no aguanta el
+          rebobinado.
+          <em>Recreación generada con IA a partir de fotografías de criostatos reales.</em>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       2. Las modalidades
+       ================================================================== -->
+  <section class="capitulo capitulo--vitela" id="modalidades">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Seis maneras de sostener un cúbit</p>
+        <h2 class="imprime">No hay tecnología ganadora, y el número de cúbits no sirve para compararlas.</h2>
+        <p>
+          Conviven seis modalidades con compromisos distintos entre velocidad de puerta,
+          fidelidad, escala y refrigeración. Una advertencia:
+          <span class="magnitud">6.100</span> átomos neutros no «superan» a
+          <span class="magnitud">98</span> iones atrapados, porque difieren el tiempo de puerta,
+          la conectividad y la fidelidad. Tampoco conviene redondear: pasar de
+          <span class="magnitud">99 %</span> a <span class="magnitud">99,9 %</span> cambia por un
+          factor grande cuántos cúbits físicos hacen falta por cada cúbit lógico.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Atribución</b>
+          Helios es de Quantinuum, no de IonQ. Varios agregadores confunden a las dos empresas de
+          iones atrapados. IonQ tiene su propia línea, Forte y Tempo; para Tempo declara
+          objetivos de <span class="magnitud">100 cúbits</span> y
+          <span class="magnitud">99,9 %</span> de fidelidad, que son metas de producto y no
+          medidas publicadas.
+        </p>
+        <p class="nota">
+          <b>Cada dato con su fecha</b>
+          Los números de este capítulo caducan en meses. Por eso la tabla los fecha uno a uno, y
+          las metas corporativas se marcan como lo que son: promesas, no resultados.
+        </p>
+      </aside>
+    </div>
+    <div class="pliego">
+
+      <article class="mitad imprime">
+        <p class="folio">Modalidad 1</p>
+        <h3>Superconductores: el transmón</h3>
+        <p>
+          El cúbit es un circuito de aluminio sobre silicio con una unión Josephson, que aísla
+          dos niveles de energía. Trabajan IBM, Google, Rigetti e IQM; Oxford Quantum Circuits
+          usa una variante coaxial propia. Opera entre <span class="magnitud">10</span> y
+          <span class="magnitud">20 mK</span>. Tras las calibraciones de
+          <time datetime="2024">2024</time>, el error mediano
+          de puerta de dos cúbits en un dispositivo de clase Heron bajó de unos
+          <span class="magnitud">5×10⁻³</span> a unos <span class="magnitud">3×10⁻³</span>: cerca
+          de <span class="magnitud">99,7 %</span> de fidelidad. IBM no publica medianas de
+          <span class="magnitud">T1</span> ni <span class="magnitud">T2</span> para Heron; el
+          dato comparable es el del
+          <a href="https://blog.google/innovation-and-ai/technology/research/google-willow-quantum-chip/" rel="noopener">Willow</a>
+          de Google, con <span class="magnitud">T1</span> próximos a
+          <span class="magnitud">100 µs</span>. Ventaja: puertas de decenas de nanosegundos.
+          Limitación: conectividad entre vecinos y calidad desigual dentro del mismo chip.
+        </p>
+      </article>
+
+      <article class="mitad imprime">
+        <p class="folio">Modalidad 2</p>
+        <h3>Iones atrapados: los más precisos</h3>
+        <p>
+          El cúbit es un ion real, suspendido en vacío por campos eléctricos y manipulado con
+          láseres. El referente publicado es
+          <a href="https://arxiv.org/abs/2511.05465" rel="noopener">Helios</a>, de Quantinuum:
+          <span class="magnitud">98 cúbits</span> de bario-137 con conectividad de todos con
+          todos. También trabajan IonQ y Alpine Quantum Technologies. No hay dilución, pero
+          tampoco se prescinde del frío: la cámara se mantiene a unos
+          <span class="magnitud">15 K</span> y los iones se enfrían por láser. Fidelidades
+          publicadas: <span class="magnitud">99,9975 %</span> en un cúbit y
+          <span class="magnitud">99,921 %</span> en dos. La memoria es su punto fuerte: un ion de
+          iterbio-171 alcanzó <span class="magnitud">5.487 ± 668 s</span> de coherencia estimada.
+          Limitación: las puertas tardan de microsegundos a milisegundos.
+        </p>
+      </article>
+
+      <article class="mitad imprime">
+        <p class="folio">Modalidad 3</p>
+        <h3>Átomos neutros: escala con pinzas ópticas</h3>
+        <p>
+          Se atrapan de uno en uno con pinzas ópticas dentro de una cámara de ultraalto vacío
+          que, por fuera, está a temperatura ambiente; los átomos sí se enfrían por láser hasta
+          unos pocos microkelvin, y en <time datetime="2026-05">mayo de 2026</time> Infleqtion
+          reportó <span class="magnitud">17 µK</span>. Las puertas de dos cúbits excitan los
+          átomos a estados de Rydberg. Trabajan QuEra, Pasqal, Atom Computing e Infleqtion. La
+          USTC publicó <span class="magnitud">99,97 %</span> en un cúbit y
+          <span class="magnitud">99,84 %</span> en dos;
+          <a href="https://www.caltech.edu/about/news/caltech-team-sets-record-with-6100-qubit-array" rel="noopener">Caltech</a>
+          ordenó <span class="magnitud">6.100</span> átomos de cesio con unos
+          <span class="magnitud">13 s</span> de coherencia. Ventaja: escala, y los átomos pueden
+          moverse durante el cálculo. Limitación: se pierden, y el cálculo es de cien a mil veces
+          más lento.
+        </p>
+      </article>
+
+      <article class="mitad imprime">
+        <p class="folio">Modalidad 4</p>
+        <h3>Fotónica: luz que también necesita frío</h3>
+        <p>
+          Aquí el cúbit no es materia, sino luz. PsiQuantum codifica en cúbits <i>dual-rail</i>:
+          la información está en por cuál de dos guías de onda viaja el fotón. Xanadu trabaja con
+          luz comprimida y ha presentado Aurora; también están
+          Quandela, ORCA Computing y QuiX Quantum. La fotónica no elimina la criogenia: el chip
+          funciona a temperatura ambiente, pero los
+          detectores de nanohilo superconductor operan entre <span class="magnitud">2</span> y
+          <span class="magnitud">4 K</span>, y los de borde de transición bajan a unos
+          <span class="magnitud">50 mK</span>. Lo que se evita es la dilución y el helio-3. El
+          chipset Omega reporta <span class="magnitud">99,22 %</span> en la puerta de fusión.
+          Limitación central: la pérdida de fotones, que se traduce en más cúbits físicos por
+          cúbit lógico.
+        </p>
+      </article>
+
+      <article class="mitad imprime">
+        <p class="folio">Modalidad 5</p>
+        <h3>Espines en silicio: la apuesta CMOS</h3>
+        <p>
+          El cúbit es el espín de un solo electrón confinado en un punto cuántico de unos
+          <span class="magnitud">50 nanómetros</span>, fabricado en silicio. Si el sustrato se
+          enriquece en silicio-28, que no tiene espín nuclear, la coherencia pasa de
+          microsegundos a milisegundos. Trabajan imec con Diraq, Intel —chip Tunnel Falls, de
+          <span class="magnitud">12 cúbits</span>—, Quantum Motion y SemiQon. Opera entre
+          <span class="magnitud">10</span> y <span class="magnitud">100 mK</span>, con
+          demostraciones por encima de <span class="magnitud">1 K</span> que permitirían
+          crióstatos de solo helio-4. En <time datetime="2025-09-24">septiembre de 2025</time>
+          imec y Diraq publicaron celdas fabricadas en línea industrial de
+          <span class="magnitud">300 mm</span>, con más de <span class="magnitud">99 %</span> de
+          fidelidad en puertas de uno y dos cúbits. Limitación honesta: los mayores procesadores rondan los
+          <span class="magnitud">12 cúbits</span>.
+        </p>
+      </article>
+
+      <article class="mitad imprime">
+        <p class="folio">Modalidad 6</p>
+        <h3>La vía topológica: disputada</h3>
+        <p>
+          Guardaría la información en propiedades globales de la materia, donde el ruido local no
+          la borraría. Microsoft presentó Majorana 1 en
+          <time datetime="2025-02-19">febrero de 2025</time>: un dispositivo híbrido de arseniuro
+          de indio y aluminio, operado a temperaturas de milikelvin y con campos magnéticos en el
+          plano de aproximadamente <span class="magnitud">2 T</span>. Lo que demostró el artículo
+          es una medida interferométrica de paridad en un solo disparo, con
+          <span class="magnitud">1 %</span> de probabilidad de error. Los propios autores
+          escribieron que sus medidas no determinan por sí solas si los estados detectados son
+          topológicos, y los editores de Nature recurrieron a dos revisores adicionales. No hay evidencia
+          pública de coherencia ni de operaciones lógicas.
+        </p>
+      </article>
+
+      <div class="todo imprime" tabindex="0" role="region" aria-label="Tabla 1 (se desplaza en horizontal)">
+        <table>
+          <caption>Tabla 1 — Las seis modalidades, con datos publicados hasta septiembre de 2026</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modalidad</th>
+              <th scope="col">Temperatura de operación</th>
+              <th scope="col">Fidelidad de dos cúbits</th>
+              <th scope="col">Coherencia típica</th>
+              <th scope="col">Limitación principal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Superconductores</th>
+              <td data-etiqueta="Temperatura de operación"><span class="magnitud">10–20 mK</span>, con dilución</td>
+              <td data-etiqueta="Fidelidad de dos cúbits">≈ <span class="magnitud">99,7 %</span> (clase Heron, 2024)</td>
+              <td data-etiqueta="Coherencia típica"><span class="magnitud">T1</span> ≈ <span class="magnitud">100 µs</span> (Willow)</td>
+              <td data-etiqueta="Limitación principal">Conectividad entre vecinos</td>
+            </tr>
+            <tr>
+              <th scope="row">Iones atrapados</th>
+              <td data-etiqueta="Temperatura de operación">Cámara a ≈ <span class="magnitud">15 K</span>, sin dilución</td>
+              <td data-etiqueta="Fidelidad de dos cúbits"><span class="magnitud">99,921 %</span> (Helios, 2025)</td>
+              <td data-etiqueta="Coherencia típica">Hasta <span class="magnitud">5.487 s</span> en un ion aislado</td>
+              <td data-etiqueta="Limitación principal">Puertas de µs a ms</td>
+            </tr>
+            <tr>
+              <th scope="row">Átomos neutros</th>
+              <td data-etiqueta="Temperatura de operación">Cámara ambiente; átomos a ≈ <span class="magnitud">17 µK</span></td>
+              <td data-etiqueta="Fidelidad de dos cúbits"><span class="magnitud">99,84 %</span> (USTC, 2025)</td>
+              <td data-etiqueta="Coherencia típica">≈ <span class="magnitud">13 s</span> (Caltech, <span class="magnitud">6.100 átomos</span>)</td>
+              <td data-etiqueta="Limitación principal">Pérdida de átomos; de 100 a 1.000 veces más lento</td>
+            </tr>
+            <tr>
+              <th scope="row">Fotónica</th>
+              <td data-etiqueta="Temperatura de operación">Chip ambiente; detectores a <span class="magnitud">2–4 K</span> y ≈ <span class="magnitud">50 mK</span></td>
+              <td data-etiqueta="Fidelidad de dos cúbits"><span class="magnitud">99,22 %</span> (fusión, Omega, 2025)</td>
+              <td data-etiqueta="Coherencia típica">No comparable: el fotón no almacena</td>
+              <td data-etiqueta="Limitación principal">Pérdida de fotones</td>
+            </tr>
+            <tr>
+              <th scope="row">Espines en silicio</th>
+              <td data-etiqueta="Temperatura de operación"><span class="magnitud">10–100 mK</span>; demostraciones sobre <span class="magnitud">1 K</span></td>
+              <td data-etiqueta="Fidelidad de dos cúbits">&gt; <span class="magnitud">99 %</span> (imec y Diraq, 2025)</td>
+              <td data-etiqueta="Coherencia típica">Milisegundos con ²⁸Si enriquecido</td>
+              <td data-etiqueta="Limitación principal">Unos <span class="magnitud">12 cúbits</span> demostrados</td>
+            </tr>
+            <tr>
+              <th scope="row">Topológica</th>
+              <td data-etiqueta="Temperatura de operación">Milikelvin, campo de ≈ <span class="magnitud">2 T</span></td>
+              <td data-etiqueta="Fidelidad de dos cúbits">Sin dato publicado</td>
+              <td data-etiqueta="Coherencia típica">Sin dato publicado</td>
+              <td data-etiqueta="Limitación principal">Sin evidencia pública de cúbit operativo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/chip.webp"
+               alt="Macro de un chip superconductor montado sobre un portamuestras dorado, con las pistas de control saliendo hacia los conectores."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 12</b> Un procesador superconductor en su portamuestras. El oro no es adorno:
+          conduce bien el calor y no se oxida, y el montaje sirve a la vez de soporte mecánico y
+          de camino térmico hacia la placa de mezcla.
+          <em>Recreación generada con IA a partir de fotografías de chips publicadas por los
+          fabricantes.</em>
+        </figcaption>
+      </figure>
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/fotonica.webp"
+               alt="Chip fotónico de silicio con una fibra óptica pegada al canto de la oblea y guías de onda visibles en la superficie."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 13</b> Un chip fotónico con la fibra pegada al canto. Esa unión es uno de los
+          puntos donde se pierden fotones, y en esta modalidad cada punto porcentual de pérdida
+          se paga en cúbits físicos adicionales.
+          <em>Recreación generada con IA a partir de imágenes de fotónica integrada de silicio.</em>
+        </figcaption>
+      </figure>
+
+      <div class="columna-ancha">
+        <p class="rotulo">Cinco términos que conviene no confundir</p>
+        <dl class="glosario">
+          <div>
+            <dt>Transmón</dt>
+            <dd>Circuito superconductor con una unión Josephson que se comporta como un átomo
+              artificial con dos niveles útiles.</dd>
+          </div>
+          <div>
+            <dt>QCCD</dt>
+            <dd>Arquitectura de iones en la que las cadenas se transportan físicamente entre
+              zonas de memoria y de operación. Es lo que da conectividad de todos con todos.</dd>
+          </div>
+          <div>
+            <dt>SNSPD</dt>
+            <dd>Detector de fotón único de nanohilo superconductor. Opera entre
+              <span class="magnitud">2</span> y <span class="magnitud">4 K</span>: la fotónica
+              evita la dilución, no el frío.</dd>
+          </div>
+          <div>
+            <dt>Cúbit lógico</dt>
+            <dd>Cúbit codificado en varios físicos para que los errores se detecten y se
+              corrijan. No es intercambiable con «cúbit físico» en un titular.</dd>
+          </div>
+          <div>
+            <dt>Umbral</dt>
+            <dd>Punto a partir del cual agrandar el código de corrección reduce el error lógico
+              en vez de aumentarlo.</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       3. La cadena de iones (pieza interactiva B)
+       ================================================================== -->
+  <section class="capitulo" id="cadena-de-iones">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Cómo se lee un cúbit</p>
+        <h2 class="imprime">Siete iones, un láser y una cámara que cuenta fotones.</h2>
+        <p>
+          En una trampa de Paul los iones se sostienen en vacío mediante campos eléctricos
+          oscilantes. Se repelen entre sí y se ordenan solos en una cadena. En Helios esa cadena
+          vive sobre un anillo de almacenamiento rotatorio de <span class="magnitud">2,8 mm</span>
+          de diámetro.
+        </p>
+        <p>
+          Un láser sintonizado a una transición cerrada baña la cadena. Los iones que están en
+          |0⟩ dispersan fotones y se ven brillantes; los que están en |1⟩ no responden a esa
+          frecuencia y quedan oscuros. Así se lee un cúbit de ion atrapado: por fluorescencia,
+          con una cámara que cuenta luz.
+        </p>
+        <p>
+          En la pieza de abajo, los dos iones marcados con el corchete rojo están entrelazados:
+          salen siempre iguales, midas las veces que midas. Los otros cinco caen de forma
+          independiente. Esa correlación no es un acuerdo previo entre los dos iones —eso es lo
+          que descartan los experimentos de Bell— y tampoco sirve para enviar información.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Medir cuesta</b>
+          La iluminación proyecta el estado. Tras medir, la superposición ya no existe y la
+          cadena hay que volver a prepararla. Por eso un algoritmo se ejecuta miles de veces: lo
+          que se obtiene no es un resultado, es una distribución.
+        </p>
+        <p class="nota">
+          <b>Por qué los iones ganan en precisión</b>
+          No hay dos transmones idénticos, porque se fabrican. Dos iones de bario-137 sí lo son,
+          porque son átomos. Toda la calibración que un chip superconductor gasta en compensar
+          diferencias de fabricación, una trampa de iones se la ahorra.
+        </p>
+      </aside>
+    </div>
+    <div class="pliego">
+
+      <figure class="figura columna-ancha imprime">
+        <div class="escena escena--ancha" data-escena="iones"></div>
+        <div class="mandos">
+          <button class="mando mando--medir" type="button" data-accion="medir-iones" data-fantasma="Iluminar y medir">Iluminar y medir</button>
+          <button class="mando" type="button" data-accion="reiniciar-iones" data-fantasma="Apagar el láser">Apagar el láser</button>
+          <output class="magnitud" data-salida="iones-bits">— — — — — — —</output>
+          <span class="suave" data-salida="iones-detalle">Láser apagado: sin medir, no hay resultado.</span>
+        </div>
+        <figcaption>
+          <b>Fig. 14</b> Cadena de siete iones de bario en una trampa de Paul. Pulse «Iluminar y
+          medir»: los iones brillantes son |0⟩ y los oscuros, |1⟩. La lectura da la cadena de
+          bits resultante. Repita la medida y vigile la pareja del corchete rojo: los dos iones
+          entrelazados salen siempre iguales, aunque cada uno por separado salga al azar.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       4. Estado del arte y corrección de errores
+       ================================================================== -->
+  <section class="capitulo" id="estado-del-arte">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Cúbits físicos, cúbits lógicos</p>
+        <h2 class="imprime">Qué se ha demostrado de verdad entre 2023 y 2026.</h2>
+        <p>
+          Un cúbit lógico es un cúbit codificado en varios físicos para que los errores se
+          detecten y se corrijan. Hay dos regímenes. En <i>detección</i> se descarta la ejecución entera
+          cuando salta un fallo. En <i>corrección</i>, el fallo se repara y el
+          cálculo sigue. Confundirlos infla las cifras de cualquier titular.
+        </p>
+        <p>
+          En <time datetime="2024-12">diciembre de 2024</time> Google publicó la primera corrección de errores
+          por debajo del umbral en un procesador superconductor. Sobre
+          Willow codificaron un código de superficie de distancia 7 con
+          <span class="magnitud">101 cúbits</span> físicos y midieron un error lógico de
+          <span class="magnitud">0,143 % ± 0,003 %</span> por ciclo. La cifra decisiva es otra:
+          el factor de supresión
+          <a href="https://doi.org/10.1038/s41586-024-08449-y" rel="noopener">Λ = 2,14 ± 0,02</a>.
+          Al subir la distancia del código de 3 a 5, y de 5 a 7, el error lógico se redujo
+          aproximadamente a la mitad cada vez. Eso es estar por debajo del umbral: añadir cúbits
+          mejora el resultado en lugar de empeorarlo. Y hay un freno: sucesos correlacionados del orden
+          de uno por hora fijan un suelo de error.
+        </p>
+        <p>
+          En otra plataforma, Bluvstein y colaboradores usaron matrices reconfigurables de hasta
+          <span class="magnitud">448</span> átomos neutros y reportaron un rendimiento
+          <span class="magnitud">2,14(13)</span> veces por debajo del umbral. No es una
+          repetición del experimento de Google: la coincidencia entre ambos números es casual.
+        </p>
+        <p>
+          En iones, Helios sostiene <span class="magnitud">48 cúbits lógicos</span> con
+          corrección, o <span class="magnitud">94</span> globalmente entrelazados en modo de
+          detección, a partir de <span class="magnitud">98</span> físicos. En
+          <time datetime="2026-09-02">septiembre de 2026</time> el código C₄-Helix bajó a diez
+          iones por cúbit lógico. Microsoft y Atom Computing crearon
+          <span class="magnitud">28 cúbits lógicos</span> a partir de
+          <span class="magnitud">112</span> físicos, con un esquema que se apoya en detección y
+          no en corrección completa.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Seis preguntas ante un anuncio</b>
+          ¿Cuántos cúbits, y son físicos o lógicos? ¿La tarea sirve para algo o se eligió por ser
+          difícil de simular? ¿Contra qué supercomputador y qué algoritmo clásico se compara?
+          ¿Hasta qué escala se verificó de verdad? ¿Qué se hizo con los datos crudos? ¿De qué
+          fecha es el dato?
+        </p>
+        <p class="nota">
+          <b>El listón oficial</b>
+          El <time datetime="2026-09-17">17 de septiembre de 2026</time> el
+          <a href="https://www.energy.gov/science/articles/doe-launches-competition-accelerate-development-worlds-first-fault-tolerant" rel="noopener">Departamento de Energía de Estados Unidos</a>
+          abrió una competencia que fija un umbral de al menos
+          <span class="magnitud">100 cúbits lógicos</span>. Es la medida más clara de cuánto
+          queda: un gobierno da la meta por no alcanzada.
+        </p>
+      </aside>
+    </div>
+    <div class="pliego">
+
+      <figure class="figura figura--anotada columna-ancha imprime">
+        <div class="figura__marco">
+          <img src="../img/ingeniera.webp"
+               alt="Ingeniera ajustando el cableado en el interior de un criostato abierto, con las placas térmicas suspendidas a la altura de su cara."
+               width="1600" height="1066" loading="lazy" decoding="async">
+        </div>
+        <figcaption>
+          <b>Fig. 15</b> Un criostato abierto es una máquina de manos. Calibrar, apretar y volver
+          a cerrar toma días, y cada ciclo de enfriamiento cuesta otro tanto: por eso la
+          fiabilidad térmica pesa tanto como la fidelidad de las puertas.
+          <em>Recreación generada con IA a partir de fotografías de laboratorios de criogenia.</em>
+        </figcaption>
+      </figure>
+
+      <div class="columna">
+        <p class="rotulo">Qué significa y qué no «ventaja cuántica»</p>
+        <p>
+          John Preskill introdujo «supremacía cuántica» en 2012 con un listón modesto: hacer alguna tarea,
+          aunque fuese inútil, fuera del alcance práctico de lo clásico. «Ventaja cuántica» es el término que usa hoy la industria, y la definición
+          operativa que IBM publicó en <time datetime="2025-06">junio de 2025</time> exige dos
+          cosas a la vez: que la corrección de la salida pueda validarse con rigor, y que exista
+          una separación que ofrezca de forma demostrable mayor eficiencia, mejor relación
+          coste-beneficio o mayor precisión que lo alcanzable solo con computación clásica.
+        </p>
+        <p>
+          De ahí salen tres precisiones. La afirmación es siempre sobre una tarea concreta, nunca
+          sobre ser más rápido en general. Es empírica y no un teorema: caduca el día que alguien
+          publica un algoritmo clásico mejor. Y nada exige utilidad. El historial lo confirma:
+          los <span class="magnitud">10.000 años</span> que Google estimó en 2019 para simular
+          Sycamore bajaron a unos <span class="magnitud">2,5 días</span> en semanas, y en 2022 a
+          unas <span class="magnitud">15 horas</span> con <span class="magnitud">512 GPU</span>.
+        </p>
+        <p>
+          El paso de <time datetime="2025-10">octubre de 2025</time> es distinto.
+          Con el algoritmo Quantum Echoes, Google midió un correlador fuera de orden temporal
+          sobre <span class="magnitud">65</span> de sus <span class="magnitud">105 cúbits</span>
+          en unas <span class="magnitud">2 horas</span>, frente a
+          <span class="magnitud">3,2 años</span> por punto de datos estimados en Frontier. Lo
+          relevante no es el factor, sino que el resultado es un valor esperado, reproducible en
+          principio en otro procesador cuántico, y no una distribución imposible de comprobar.
+        </p>
+        <p>
+          Lo que no significa: que exista una demostración de ventaja sobre un problema de valor
+          comercial con aceptación general. IBM presentó en
+          <time datetime="2026-07-30">julio de 2026</time> tres trabajos bajo esa etiqueta, pero
+          solo uno lleva respaldo formal de complejidad computacional. En el registro abierto de
+          reclamos que IBM mantiene desde finales de 2025, métodos clásicos nuevos resolvieron en
+          <time datetime="2026-02">febrero de 2026</time>, en horas o segundos, tareas que en
+          <time datetime="2025-12">diciembre</time> se estimaban en meses. Tampoco hay máquina que amenace hoy a RSA: Gidney estimó en
+          <time datetime="2025-05">mayo de 2025</time> que factorizar un entero de 2048 bits
+          exigiría <a href="https://arxiv.org/abs/2505.15917" rel="noopener">menos de
+          <span class="magnitud">un millón de cúbits</span> físicos ruidosos</a>, entre tres y cuatro órdenes de magnitud por encima de
+          los procesadores existentes.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Promesas con fecha</b>
+          La hoja de ruta que IBM publicó en <time datetime="2025-06-10">junio de 2025</time>
+          encadena Kookaburra (2026), Cockatoo (2027) y Starling (2029), este último con
+          <span class="magnitud">200 cúbits lógicos</span> y
+          <span class="magnitud">100 millones</span> de puertas. IonQ declara
+          <span class="magnitud">2 millones</span> de cúbits para 2030. Son compromisos
+          comerciales de las propias empresas, no resultados verificados.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Separata: el antagonista del capítulo, en huecograbado a sangre,
+       y las dos piezas que siguen el número
+       ================================================================== -->
+  <section class="separata" id="el-antagonista">
+    <div class="pliego">
+      <div class="columna">
+        <p class="rotulo">Separata · El antagonista</p>
+        <h2 class="imprime">Acorralado, no eliminado.</h2>
+        <p>
+          El mismo cable que lleva el pulso de control lleva calor y ruido hasta la placa de
+          mezcla. En Willow, sucesos correlacionados del orden de uno por hora fijan un suelo que
+          la supresión exponencial no atraviesa. En las pinzas ópticas los átomos se pierden. En
+          fotónica se pierden los fotones. Ninguna de las seis modalidades ha eliminado el
+          problema: lo han acorralado, cada una por su lado, y ninguna todavía a la escala que
+          haría falta.
+        </p>
+      </div>
+
+      <aside class="margen">
+        <p class="nota">
+          <b>Sigue el número</b>
+          En el laboratorio, un simulador deja ver cómo el entorno se lleva la fase de un cúbit
+          sin que nadie mida. En aplicaciones, qué se ha demostrado de verdad con máquinas que
+          todavía la pierden.
+        </p>
+      </aside>
+    </div>
+    <div class="pliego">
+
+      <article class="mitad imprime">
+        <a class="pieza" href="laboratorio.html">
+          <p class="folio">Capítulo III</p>
+          <h3>Laboratorio</h3>
+          <p>Un simulador cuántico escrito desde cero. Aplique puertas, vea girar el vector en
+            la esfera de Bloch, mida y compruebe cómo la coherencia se gasta.</p>
+        </a>
+      </article>
+      <article class="mitad imprime">
+        <a class="pieza" href="aplicaciones.html">
+          <p class="folio">Capítulo IV</p>
+          <h3>Aplicaciones</h3>
+          <p>Qué se ha demostrado, qué es proyección comercial y qué hay que hacer ya con la
+            criptografía. Incluye lo que no ha funcionado.</p>
+        </a>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="pliego">
+    <div class="tercio">
+      <a class="marca" href="../index.html">
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <path d="M50 8V34M50 66V92M8 50H34M66 50H92" stroke="currentColor" stroke-width="3"/>
+        <circle class="marca__punto marca__punto--tinta" cx="44" cy="50" r="9" fill="currentColor"/>
+        <circle class="marca__punto marca__punto--rojo" cx="56" cy="50" r="9" fill="#be3a26" style="mix-blend-mode:multiply"/>
+      </svg>
+        <span><span class="marca__nombre">Coherencia</span></span>
+      </a>
+      <p class="suave" style="margin-top:1rem;font-size:.92rem">
+        Revista universitaria de divulgación sobre computación cuántica.
+        Facultad de Ingeniería de Sistemas Computacionales, Universidad Tecnológica de Panamá.
+      </p>
+      <div class="redes" style="margin-top:1.2rem">
+        <a href="https://github.com/AleBrito124356" rel="noopener" aria-label="GitHub del proyecto">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.9 3.9 6 2.5 6S0 4.9 0 3.5 1.1 1 2.5 1 4.98 2.1 4.98 3.5zM.2 8h4.6v15H.2V8zm7.4 0h4.4v2.1h.1c.6-1.1 2-2.3 4.2-2.3 4.5 0 5.3 2.9 5.3 6.7V23h-4.6v-7.5c0-1.8 0-4.1-2.5-4.1s-2.9 1.9-2.9 4V23H7.6V8z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 5.3A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.4A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.7-7.6a1.05 1.05 0 1 1-1.05-1.05A1.05 1.05 0 0 1 17.7 7.3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="tercio" aria-label="Índice del pie">
+      <h4>Capítulos</h4>
+      <ul>
+        <li><a href="fundamentos.html">Fundamentos</a></li>
+        <li><a href="hardware.html">La máquina</a></li>
+        <li><a href="laboratorio.html">Laboratorio</a></li>
+        <li><a href="aplicaciones.html">Aplicaciones</a></li>
+        <li><a href="acerca-de.html">Acerca de</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="tercio">
+      <h4>Para seguir leyendo</h4>
+      <ul>
+        <li><a href="https://quantum.cloud.ibm.com/docs" rel="noopener">Documentación de IBM Quantum</a> — cursos y acceso real a procesadores.</li>
+        <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST · Criptografía poscuántica</a> — los estándares de 2024.</li>
+      </ul>
+      <h4 style="margin-top:1.6rem">Redacción</h4>
+      <address>
+        Campus Dr. Víctor Levi Sasso<br>
+        Ciudad de Panamá<br>
+        <a href="mailto:coherencia@utp.ac.pa">coherencia@utp.ac.pa</a>
+      </address>
+    </div>
+
+    <div class="pie__creditos">
+      <span>© 2026 Coherencia · Alejandro Brito Olivera y Marcos Gaitán</span>
+      <span>Parcial N.º 1 · Ingeniería Web · Dra. Denis Cedeño · Grupo 1SF134</span>
+      <span>Publicación estudiantil sin vínculo oficial con la UTP</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos-fijos">
+  <button class="mando" type="button" data-audio aria-pressed="false">Sonido: no</button>
+  <button class="mando" type="button" data-bajo-consumo aria-pressed="false">Bajo consumo: no</button>
+</div>
+
+<script src="../js/cuantica.js"></script>
+<script src="../js/escena3d.js?v=2026-09-23"></script>
+<script src="../js/sitio.js" defer></script>
+<script src="../js/piezas.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<!--
+  Banco de pruebas de las escenas 3D (solo para revisión, no se publica).
+  Monta UNA escena a pantalla completa con el paquete real (js/escena3d.js)
+  y la deja en el estado que se pida por la dirección, para fotografiarla con
+  Edge sin interfaz (ver foto.sh):
+
+    escena.html?tipo=criostato&p=1
+    escena.html?tipo=iones&medir=1
+    escena.html?tipo=bloch&v=0.7071,0.7071,0
+    escena.html?tipo=interferencia&rendijas=1&pasos=900
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Banco de pruebas 3D</title>
+<link rel="stylesheet" href="../../css/estilo.css">
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--papel); }
+  #banco { position: fixed; inset: 0; aspect-ratio: auto; max-width: none; margin: 0; border: 0; }
+  #informe { position: fixed; left: 8px; bottom: 6px; font: 11px/1.3 monospace; color: #6e6c66; z-index: 5; }
+</style>
+</head>
+<body>
+<div id="banco" class="escena"></div>
+<p id="informe"></p>
+<script>
+  const q = new URLSearchParams(location.search);
+  const tipo = q.get("tipo") || "bloch";
+  document.getElementById("banco").dataset.escena = tipo;
+</script>
+<script>
+  // ?paquete=qa carga el paquete de prueba (qa/escena3d-qa.js) en vez del publicado
+  document.write('<script src="' + (q.get("paquete") === "qa" ? "escena3d-qa.js" : "../../js/escena3d.js") + '"><\/script>');
+</script>
+<script>
+  document.addEventListener("coherencia3d:listo", () => {
+    const informe = document.getElementById("informe");
+    const esc = Coherencia3D.instancia(tipo);
+    if (!esc) { informe.textContent = "NO SE PUDO CREAR LA ESCENA " + tipo; return; }
+    const pasos = parseInt(q.get("pasos") || "240", 10);
+    let t = parseFloat(q.get("t0") || "0");
+    const avanza = (n) => { for (let i = 0; i < n; i++) { t += 1 / 60; esc.actualiza(1 / 60, t); } };
+
+    try {
+      if (tipo === "criostato") {
+        esc.ponProgreso(parseFloat(q.get("p") || "0"));
+        avanza(pasos);
+      } else if (tipo === "iones") {
+        avanza(60);
+        if (q.get("medir") === "1") { esc.mide(); }
+        avanza(pasos);
+      } else if (tipo === "bloch") {
+        avanza(30);
+        const v = (q.get("v") || "0,0,1").split(",").map(Number);
+        esc.ponVector({ x: v[0], y: v[1], z: v[2] });
+        avanza(pasos);
+      } else if (tipo === "interferencia") {
+        if (q.get("sep")) esc.ponSeparacion(parseFloat(q.get("sep")));
+        if (q.get("onda")) esc.ponLongitudOnda(parseFloat(q.get("onda")));
+        if (q.get("rendijas")) esc.ponRendijas(parseInt(q.get("rendijas"), 10));
+        avanza(pasos);
+      }
+      esc.detiene?.();
+      esc.render();
+      const extra = tipo === "criostato" ? " · etapa " + (esc.etapa && esc.etapa.nombre) : "";
+      informe.textContent = tipo + " · " + innerWidth + "×" + innerHeight + " · " + pasos + " pasos" + extra;
+    } catch (e) {
+      informe.textContent = "ERROR: " + e.message;
+    }
+  });
+</script>
+</body>
+</html>
