@@ -1,4 +1,4 @@
-# Cómo funciona «Coherencia»
+# Coherencia — cómo funciona el código
 
 Guía rápida del código para quien entra al proyecto por primera vez. No explica
 cada línea: dice qué hace cada parte y dónde está.
